@@ -1,0 +1,61 @@
+import { Callout } from 'nextra/components'
+
+# Settings
+
+In this part, we will add our environmental variables and TypeScript configurations!
+
+## Setting up `tsconfig.json`
+
+Now we have to set up the TypeScript configuration for compiling our TypeScript code into JavaScript!
+
+```ts copy filename="tsconfig.json" showLineNumbers
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "strict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "./types"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
+```
+
+You can add more compiler options from [here](https://www.typescriptlang.org/docs/handbook/compiler-options-in-msbuild.html)
+
+## Setting up `.env`
+
+Now, this part is very crucial. Here we will set up our environmental variables, such as the `app ID`, `client ID`, etc.
+
+<Callout type="error">
+  Never include your `.env` variables to public, Make sure you have put this on your git ignore
+  file.
+</Callout>
+
+So here is the setup needed for our Discord app project!
+
+Fisrt install `dotenv`
+
+```bash copy
+npm i dotenv
+```
+
+Then add an `.env` file out of your `src` directory!
+
+```bash copy filename=".env" showLineNumbers
+   AUTH_TOKEN=YOUR-DISCORD-BOT-TOKEN
+   CLIENT_ID=YOUR-DISCORD-BOT-ID
+   DEVELOPER_IDS=YOUR-DISCORD-ID
+   SERVER_ID=YOUR-DEV-SERVER-ID
+   ERROR_CHANNEL_ID=YOUR-ERROR-CHANNEL-ID
+```
+
+Okay, now our basic configuration setup is done!

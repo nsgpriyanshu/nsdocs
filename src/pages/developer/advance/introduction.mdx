@@ -1,0 +1,62 @@
+import { FileTree } from 'nextra/components'
+
+# Getting Ended
+
+So yeah, this is the last part — just a little more work, and we're done. Let's get started!
+
+## Project Structure
+
+Our final structure should look like this:
+
+<FileTree>
+  <FileTree.Folder name="nsCore" defaultOpen>
+    <FileTree.Folder name="src" defaultOpen>
+      <FileTree.Folder name="configs">
+        <FileTree.File name="botConfig.ts" />
+        <FileTree.File name="metadata.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="constants">
+        <FileTree.File name="botConst.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="interfaces">
+        <FileTree.File name="Command.ts" />
+        <FileTree.File name="ExtendedClient.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="events">
+        <FileTree.File name="eventIndex.ts" />
+        <FileTree.Folder name="client">
+          <FileTree.File name="ready.ts" />
+          <FileTree.File name="messageCreate.ts" />
+          <FileTree.File name="interactionCreate.ts" />
+        </FileTree.Folder>
+      </FileTree.Folder>
+      <FileTree.Folder name="utils">
+        <FileTree.File name="logger.ts" />
+        <FileTree.File name="deploy.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="handlers">
+        <FileTree.File name="commandHandler.ts" />
+        <FileTree.File name="errorHandler.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="commands">
+        <FileTree.Folder name="messageCommands">
+          <FileTree.Folder name="general">
+            <FileTree.File name="ping.ts" />
+          </FileTree.Folder>
+        </FileTree.Folder>
+        <FileTree.Folder name="slashCommands">
+          <FileTree.Folder name="general">
+            <FileTree.File name="ping.ts" />
+          </FileTree.Folder>
+        </FileTree.Folder>
+      </FileTree.Folder>
+      <FileTree.File name="index.ts" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+## Before Clicking the `Run` Button
+
+Guys, we're finally done! Now, you just need to add the main entry file, `index.ts`, and you're ready to click the `run` button.
+
+I hope this guide has helped you build a production-level Discord bot. Remember, you can contribute to this guide, as it is open source. Thank you for using my guide. Happy coding and enjoy your journey with Discord bots!

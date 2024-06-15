@@ -1,0 +1,73 @@
+import { Steps } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Command Interface
+
+The `Command Interface` is a structure that defines how commands should be organized and managed within your Discord bot. By creating a command interface, you ensure that each command follows a consistent format, making it easier to manage and execute commands. This can include defining properties like the command name, description, execute function, and any required permissions.
+
+<Steps>
+
+### Project Structure
+
+As you know we already have created the `interfaces` folder so now just add `Command.ts` inside the `interfaces` folder.
+
+<FileTree>
+  <FileTree.Folder name="nsCore" defaultOpen>
+    <FileTree.Folder name="src" defaultOpen>
+      <FileTree.Folder name="interfaces">
+        <FileTree.File name="Command.ts" />
+        <FileTree.File name="ExtendedClient.ts" />
+      </FileTree.Folder>
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+### Create `CommandInterface.ts`
+
+<Callout type="info">
+  Defining a command interface helps ensure consistency and ease of management for all commands.
+</Callout>
+
+```ts copy showLineNumbers filename="src/interfaces/Command.ts"
+import {
+  ChatInputCommandInteraction,
+  Message,
+  PermissionResolvable,
+  SlashCommandSubcommandsOnlyBuilder,
+} from 'discord.js'
+import { SlashCommandBuilder } from '@discordjs/builders'
+import { ExtendedClient } from './ExtendedClient'
+
+export interface SlashCommand {
+  name: string
+  description?: string
+  data:
+    | SlashCommandBuilder
+    | Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
+    | SlashCommandSubcommandsOnlyBuilder
+  executeSlash: (interaction: ChatInputCommandInteraction, client: ExtendedClient) => Promise<void>
+  userPermissions?: PermissionResolvable[]
+  botPermissions?: PermissionResolvable[]
+  devOnly?: boolean
+}
+
+export interface MessageCommand {
+  name: string
+  description?: string
+  executeMessage: (message: Message, args: string[], client: ExtendedClient) => Promise<void>
+  userPermissions?: PermissionResolvable[]
+  botPermissions?: PermissionResolvable[]
+  devOnly?: boolean
+}
+
+export interface Command extends SlashCommand, MessageCommand {}
+```
+
+<Callout type="warning">
+  Ensure that all commands adhere to the defined interface for smooth operation.
+</Callout>
+
+</Steps>
+
+Alright, now let's move ahead!

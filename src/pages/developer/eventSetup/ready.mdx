@@ -1,0 +1,72 @@
+import { Steps } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Ready Event
+
+The `ready` event in Discord.js is a crucial event that signifies when the bot has successfully connected to Discord and is ready to start receiving and responding to events. This event is triggered once, immediately after the bot logs in and establishes a connection with Discord's servers.
+
+<Steps>
+
+### Project Structure
+
+First, create a folder named `events` inside the `src` folder. Then create a `client` folder inside the `events` folder and add a file named `ready.ts`.
+
+<FileTree>
+  <FileTree.Folder name="src" defaultOpen>
+    <FileTree.Folder name="events" defaultOpen>
+      <FileTree.Folder name="client" defaultOpen>
+        <FileTree.File name="ready.ts" />
+      </FileTree.Folder>
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+### Create `ready.ts`
+
+Now we will write the logic for the `ready` event.
+
+```ts copy showLineNumbers filename="src/events/client/ready.ts"
+import { logPastelPink } from 'nstypocolors'
+import { ExtendedClient } from '../../interfaces/ExtendedClient'
+import { ActivityType } from 'discord.js'
+import { BOT } from '../../configs/metadata'
+
+export const registerReadyEvent = (client: ExtendedClient) => {
+  client.once('ready', () => {
+    logPastelPink(`Successfully connected both Message & Slash clients ${client.user?.tag}!`)
+
+    client.user?.setPresence({
+      activities: [
+        {
+          name: `${BOT.PREFIX}help • ${client.user?.username}`,
+          type: ActivityType.Custom,
+        },
+      ],
+      status: 'online',
+    })
+  })
+}
+```
+
+<Callout type="info">
+  You can customize this as you want. For more information, please visit the
+  [Discord.js](https://discord.js.org/docs/packages/discord.js/14.15.3/Client:Class#ready) official
+  documentation about the `ready` event and its types.
+</Callout>
+
+### Required Dependencies
+
+For this, you may have noticed that we have used the color library `nstypocolors`. Install `nstypocolors` via [npm](https://www.npmjs.com/package/nstypocolors)
+
+```bash copy
+npm i nstypocolors
+```
+
+<Callout type="warning">
+  We are highly suggested you to use `nstypocolors` only, dont use any other color libraries.
+</Callout>
+
+</Steps>
+
+Alright, we have done it! Now let's move ahead.

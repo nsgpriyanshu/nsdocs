@@ -1,0 +1,36 @@
+import { FileTree } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Getting Started
+
+Let's start creating our `interfaces`!
+
+Interfaces in TypeScript define the structure of an object. They specify the types and the properties that an object should have. For a Discord bot, interfaces can help ensure that the objects we use, such as configurations, commands, and clients, adhere to the expected structure, which can prevent errors and improve code quality.
+
+## Project Structure
+
+<FileTree>
+  <FileTree.Folder name="nsCore" defaultOpen>
+    <FileTree.Folder name="src" defaultOpen>
+      <FileTree.Folder name="configs">
+        <FileTree.File name="botConfig.ts" />
+        <FileTree.File name="metadata.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="constants">
+        <FileTree.File name="botConst.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="interfaces"></FileTree.Folder>
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+## Necessary Interfaces
+
+For this project we will use only:
+
+- `ExtendedClient` interface
+- `Command` interface
+
+<Callout type="error">You can setup more `interfaces` as of your need.</Callout>
+
+Now we can go ahead!

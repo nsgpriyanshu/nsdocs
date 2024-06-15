@@ -1,0 +1,86 @@
+import { Steps } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Setting up Configurations
+
+In this section we will configure our necessary configurations. so lets begin.
+
+<Steps>
+
+### Project Structure
+
+First, create a folder named `configs` inside the `src` directory. Inside this `configs` folder, create a file named `botConfig.ts` and `metadata.ts`. This files will hold the configuration settings for your project.
+
+<FileTree>
+  <FileTree.Folder name="nsCore" defaultOpen>
+    <FileTree.Folder name="src" defaultOpen>
+      <FileTree.Folder name="configs">
+        <FileTree.File name="botConfig.ts" />
+        <FileTree.File name="metadata.ts" />
+      </FileTree.Folder>
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+### Adding `.env` Configurations
+
+Now, remember that we have created an `.env` file. We cannot implement this `.env` file directly into our project. Instead, we will use a configuration system to integrate these environment variables via our config file.
+
+<Callout type="info">
+  You can directly import your `.env` variables into your project, but it is a better approach to
+  use a configuration file. This provides a more reliable way to manage configurations and allows
+  you to define types, which is a main advantage of TypeScript.
+</Callout>
+
+In the `botConfig.ts` file, we will add our configurations:
+
+```ts copy showLineNumbers filename="src/configs/botConfig.ts"
+import dotenv from 'dotenv'
+
+dotenv.config()
+
+interface BotConfig {
+  BOT_TOKEN: string
+  BOT_ID: string
+  SERVER_ID: string
+  DEVELOPER_IDS: string[]
+  ERROR_CHANNEL: string
+  GATE_CHANNEL: string
+}
+
+const config: BotConfig = {
+  BOT_TOKEN: process.env.AUTH_TOKEN as string,
+  BOT_ID: process.env.CLIENT_ID as string,
+  SERVER_ID: process.env.SERVER_ID as string,
+  DEVELOPER_IDS: (process.env.DEVELOPER_IDS || '').split(','),
+  ERROR_CHANNEL: process.env.ERROR_CHANNEL_ID as string,
+  GATE_CHANNEL: process.env.JOIN_GATE_CHANNEL_ID as string,
+}
+
+export default config
+```
+
+This setup will load the environment variables from the `.env` file and make them available throughout your project.
+
+### Adding Metadata
+
+In the `metadata.ts` file, we will add our prefix and name:
+
+<Callout>Add your app `name` and app `prefix`.</Callout>
+
+```ts copy showLineNumbers filename="src/configs/metadata.ts" {2,3}
+export const BOT = {
+  PREFIX: 'ns.',
+  NAME: 'nsCore',
+}
+```
+
+<Callout type="info">
+  This file will help us to store our metadatas, which will be required in future also, you can more
+  metadatas as of your need.
+</Callout>
+
+</Steps>
+
+Done, successfully we have setted our configurations, lets move ahead.

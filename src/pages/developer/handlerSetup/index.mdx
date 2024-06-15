@@ -1,0 +1,51 @@
+import { Steps } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Introduction
+
+`Handlers` in a Discord bot are essential components that manage different aspects of the bot's functionality. They are responsible for organizing and processing specific types of events or actions, such as commands, errors, and other interactions. By using `handlers`, you can keep your code modular, clean, and maintainable. `Handlers` help in separating different concerns, making the bot easier to debug, extend, and manage.
+
+## Project Structure
+
+An overview of our project structure
+
+<FileTree>
+  <FileTree.Folder name="nsCore" defaultOpen>
+    <FileTree.Folder name="src" defaultOpen>
+      <FileTree.Folder name="configs">
+        <FileTree.File name="botConfig.ts" />
+        <FileTree.File name="metadata.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="constants">
+        <FileTree.File name="botConst.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="interfaces">
+        <FileTree.File name="Command.ts" />
+        <FileTree.File name="ExtendedClient.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="events">
+        <FileTree.File name="eventIndex.ts" />
+        <FileTree.Folder name="client">
+          <FileTree.File name="ready.ts" />
+          <FileTree.File name="messageCreate.ts" />
+          <FileTree.File name="interactionCreate.ts" />
+        </FileTree.Folder>
+      </FileTree.Folder>
+      <FileTree.Folder name="utils">
+        <FileTree.File name="logger.ts" />
+        <FileTree.File name="deploy.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="handlers" defaultOpen></FileTree.Folder>
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+## Types
+
+For this project, we are going to use:
+
+- `commandHandler` for handling commands
+- `errorHandler` for handling errors
+
+So, let's go!

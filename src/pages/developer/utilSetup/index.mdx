@@ -1,0 +1,40 @@
+import { Steps } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Getting Started
+
+Utilities, or `utils`, are helper functions and reusable code snippets that make development easier by providing common functionality that can be used throughout the project. These can include functions for logging, data processing, formatting, and other repetitive tasks.
+
+## Project Structure
+
+An overview of our project structure
+
+<FileTree>
+  <FileTree.Folder name="nsCore" defaultOpen>
+    <FileTree.Folder name="src" defaultOpen>
+      <FileTree.Folder name="configs">
+        <FileTree.File name="botConfig.ts" />
+        <FileTree.File name="metadata.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="constants">
+        <FileTree.File name="botConst.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="interfaces">
+        <FileTree.File name="Command.ts" />
+        <FileTree.File name="ExtendedClient.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="events">
+        <FileTree.File name="eventIndex.ts" />
+        <FileTree.Folder name="client">
+          <FileTree.File name="ready.ts" />
+          <FileTree.File name="messageCreate.ts" />
+          <FileTree.File name="interactionCreate.ts" />
+        </FileTree.Folder>
+      </FileTree.Folder>
+      <FileTree.Folder name="utils"></FileTree.Folder>
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+Alright, let's begin!

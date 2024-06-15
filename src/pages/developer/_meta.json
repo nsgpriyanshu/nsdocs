@@ -1,0 +1,13 @@
+{
+  "gettingStarted": "Getting Started",
+  "settings": "Settings",
+  "codeFormatters": "Code Formatting",
+  "ignoringFiles": "Ignoring Files",
+  "config&const": "Config. & Const. Setup",
+  "interfaceSetup": "Interfaces",
+  "eventSetup": "Events",
+  "utilSetup": "Utils",
+  "handlerSetup": "Handlers",
+  "commandSetup": "Commands",
+  "advance": "Advance"
+}

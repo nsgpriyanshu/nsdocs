@@ -1,0 +1,51 @@
+import { Steps } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Centralize Handler
+
+Now, we have to create a entralized function, to export and import our events, this makes a better and easier way to export events.
+
+<Steps>
+
+### Project Structure
+
+Add an `eventIndex.ts` file inside the `event` folder.
+
+<FileTree.Folder name="src" defaultOpen>
+  <FileTree.Folder name="events" defaultOpen>
+    <FileTree.File name="eventIndex.ts" />
+    <FileTree.Folder name="client">
+      <FileTree.File name="ready.ts" />
+      <FileTree.File name="messageCreate.ts" />
+      <FileTree.File name="interactionCreate.ts" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree.Folder>
+
+### Add `eventIndex.ts`
+
+This is our `centralize` handler code:
+
+```ts copy showLineNumbers filename="src/events/eventIndex.ts"
+import { registerReadyEvent } from './client/ready'
+import { eventHandlerInteraction } from './client/interactionCreate'
+import { eventHandlerMessage } from './client/messageCreate'
+import { ExtendedClient } from '../interfaces/ExtendedClient'
+
+export function eventHandlers(client: ExtendedClient) {
+  registerReadyEvent(client)
+  eventHandlerInteraction(client)
+  eventHandlerMessage(client)
+}
+```
+
+<Callout>You can add more functions like this to centralize event handling.</Callout>
+
+### Verification
+
+Ensure you have imported everything correctly.
+
+</Steps>
+
+Alright, lets move ahead,

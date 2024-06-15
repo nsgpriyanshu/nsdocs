@@ -1,0 +1,95 @@
+import { Steps } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+
+# Command Handler
+
+A `command handler` in a Discord bot is responsible for processing and executing commands received from users. It helps in organizing the command logic, making it easier to manage and extend. By using a `command handler`, you can separate the command definitions from the execution logic, ensuring that each command is handled appropriately based on the user's input.
+
+<Steps>
+
+### Project Structure
+
+Create a folder named `handlers` inside the `src` folder, and then create a file named `commandHandler.ts`.
+
+<FileTree>
+  <FileTree.Folder name="src" defaultOpen>
+    <FileTree.Folder name="handlers" defaultOpen>
+      <FileTree.File name="commandHandler.ts" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+### Create `commandHandler.ts`
+
+This file will contain the logic of the command handler. It supports both `message` and `interaction` commands.
+
+```ts copy showLineNumbers filename="src/handlers/commandHandler.ts"
+import { Collection } from 'discord.js'
+import { readdirSync, statSync } from 'fs'
+import { join } from 'path'
+import { Command } from '../interfaces/Command'
+import { ExtendedClient } from '../interfaces/ExtendedClient'
+import { logger } from '../utils/logger'
+
+export const commandHandler = (client: ExtendedClient) => {
+  client.slashCommands = new Collection()
+  client.messageCommands = new Collection()
+
+  const loadSlashCommands = (dir: string) => {
+    const files = readdirSync(dir)
+
+    for (const file of files) {
+      const filePath = join(dir, file)
+      const fileStat = statSync(filePath)
+
+      if (fileStat.isDirectory()) {
+        loadSlashCommands(filePath)
+      } else if (file.endsWith('.js') || file.endsWith('.ts')) {
+        const command: Command = require(filePath).default
+        if (typeof command.executeSlash === 'function') {
+          client.slashCommands.set(command.name, command)
+          logger.log(`Slash command loaded: ${command.name} from ${filePath}`)
+        }
+      }
+    }
+  }
+
+  const loadMessageCommands = (dir: string) => {
+    const files = readdirSync(dir)
+
+    for (const file of files) {
+      const filePath = join(dir, file)
+      const fileStat = statSync(filePath)
+
+      if (fileStat.isDirectory()) {
+        loadMessageCommands(filePath)
+      } else if (file.endsWith('.js') || file.endsWith('.ts')) {
+        const command: Command = require(filePath).default
+        if (typeof command.executeMessage === 'function') {
+          client.messageCommands.set(command.name, command)
+          logger.log(`Message command loaded: ${command.name} from ${filePath}`)
+        } else {
+          logger.error(
+            `Message command ${command.name} does not have executeMessage function defined`,
+          )
+        }
+      }
+    }
+  }
+
+  loadSlashCommands(join(__dirname, '../commands/slashCommands'))
+  loadMessageCommands(join(__dirname, '../commands/messageCommands'))
+
+  logger.sLog('All commands loaded')
+  client.slashCommands.forEach((command, name) => logger.log(`Loaded slash command: ${name}`))
+  client.messageCommands.forEach((command, name) => logger.log(`Loaded message command: ${name}`))
+}
+```
+
+### Verification
+
+Ensure that your `commands` are correctly imported from your [`command interface`](/developer/interfaceSetup/command.mdx).
+
+</Steps>
+
+Alright, now let's go further!

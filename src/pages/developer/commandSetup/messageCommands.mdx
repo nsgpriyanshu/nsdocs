@@ -1,0 +1,108 @@
+import { Steps } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Message Commands
+
+`Message` commands are traditional commands in Discord bots that users type directly into the chat. These commands are typically prefixed with a specific character (like `!`, `?`, or any custom prefix you choose). When the bot detects a message starting with this prefix, it processes the command and executes the corresponding function.` Message` commands are straightforward and easy to use, making them a popular choice for many bot functionalities.
+
+<Steps>
+
+### Project Structure
+
+First, create a folder named commands inside the src folder. Then, inside the commands folder, create another folder named messageCommands. Inside this messageCommands folder, create a folder named general. Finally, inside the general folder, add a file named `ping.ts`
+
+<Callout>
+  Our message command structure is organized into subdirectories, allowing for better code
+  management and customization.
+</Callout>
+
+<FileTree>
+  <FileTree.Folder name="src" defaultOpen>
+    <FileTree.Folder name="commands" defaultOpen>
+      <FileTree.Folder name="messageCommands" defaultOpen>
+        <FileTree.Folder name="general" defaultOpen>
+          <FileTree.File name="ping.ts" />
+        </FileTree.Folder>
+      </FileTree.Folder>
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+### Create Ping Command
+
+Let's create a basic `ping` command to demonstrate how message commands work. This command will respond with "Pong!" when a user types `!ping`.
+
+```ts copy showLineNumbers filename="src/commands/messageCommands/general/hello.ts"
+import { EmbedBuilder, Message } from 'discord.js'
+import { COLORS, EMOJIS } from '../../../constants/botConst'
+import { MessageCommand } from '../../../interfaces/Command'
+
+const ping: MessageCommand = {
+  name: 'ping',
+  description: 'Replies with Ping!',
+  async executeMessage(message: Message) {
+    const pingEmbed = new EmbedBuilder()
+      .setColor(COLORS.green)
+      .setTitle('ping Command')
+      .setDescription(`${EMOJIS.success} Ping pong ping`)
+
+    await message.channel.send({ embeds: [pingEmbed] })
+  },
+  userPermissions: ['SendMessages'],
+  botPermissions: ['SendMessages'],
+  devOnly: false,
+}
+
+export default ping
+```
+
+<Callout type="error">
+  For example purposes, I have used this `!` prefix. However, in reality, this configuration comes
+  into effect whenever the `prefix` is enabled. Remember, we have already set up our `prefix` inside
+  the [`messageCreate`](/developer/eventSetup/messageCreate.mdx) event file inside the `events`
+  folder, so now all these components are interconnected. We have imported constants from the
+  `constants` folder and interfaces from the `interfaces` folder. Ensure that all the imports are
+  correct and properly configured.
+</Callout>
+
+### Message Command Structure
+
+Now here are the example of the command structure make sure all of your message command will follow this structure.
+
+```ts copy showLineNumbers filename="src/commands/messageCommands/"
+import { EmbedBuilder, Message } from 'discord.js'
+import { COLORS, EMOJIS } from '../../../constants/botConst'
+import { MessageCommand } from '../../../interfaces/Command'
+
+const string: MessageCommand = {
+  name: string,
+  description: string,
+  async executeMessage(message: Message) {
+    const stringEmbed = new EmbedBuilder()
+      .setColor(COLORS.name)
+      .setTitle(string)
+      .setDescription(string)
+
+    await message.channel.send({ embeds: [string] })
+  },
+  userPermissions: [''],
+  botPermissions: [''],
+  devOnly: false / true,
+}
+
+export default string
+```
+
+<Callout type="info">
+  Now, in the blank spaces, you can add whatever you want. Feel free to modify this command
+  structure to suit your needs.
+</Callout>
+
+### Developer Command
+
+The Developer Command is a type of command that is restricted to developers only. To enable a command as a Developer Command, you simply need to set the `devOnly` property to `true`.
+
+</Steps>
+
+Alright, now let's go further!

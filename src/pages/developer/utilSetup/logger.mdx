@@ -1,0 +1,46 @@
+import { Steps } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Logger Function
+
+A `logger` function is used to record various types of messages and events that occur during the execution of an application. This can include error messages, informational messages, warnings, and debugging information. The primary advantage of using a `logger` function is to provide an easy way to track and monitor the application's behavior and performance. It helps in debugging, analyzing issues, and maintaining the application more effectively.
+
+<Steps>
+
+### Project Structure
+
+First, create a folder named `utils`, and inside this folder, create a file named `logger.ts`.
+
+<FileTree>
+  <FileTree.Folder name="src" defaultOpen>
+    <FileTree.Folder name="utils" defaultOpen>
+      <FileTree.File name="logger.ts" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+### Creating `logger.ts`
+
+Now, here is the logic for `logger.ts`:
+
+<Callout type="warning">Highly suggested to use `nstypocolors` only!</Callout>
+
+```ts copy showLineNumbers filename="src/utils/logger.ts"
+import { logPastelGreen, logPastelLavender, logPastelRed, logPastelYellow } from 'nstypocolors'
+
+export const logger = {
+  log: (message: string) => logPastelGreen(`[LOG] ${message}`),
+  sLog: (message: string) => logPastelLavender(`[SUCCESS] ${message}`),
+  warn: (message: string) => logPastelYellow(`[WARN] ${message}`),
+  error: (message: string) => logPastelRed(`[ERROR] ${message}`),
+}
+```
+
+<Callout type="info">
+  You can add more logging functions like this to enhance your application's functionality.
+</Callout>
+
+That's it! Now go ahead.
+
+</Steps>

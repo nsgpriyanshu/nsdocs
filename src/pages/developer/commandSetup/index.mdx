@@ -1,0 +1,56 @@
+import { FileTree } from 'nextra/components'
+
+# Getting Started
+
+In a Discord bot, commands are instructions given by users to the bot to perform specific actions or tasks. These commands can be typed directly into the chat by users, triggering the bot to execute a predefined function. Commands are a fundamental part of bot interaction, enabling users to control the bot and retrieve information or perform actions within a server. There are primarily two types of commands: `message` commands and `slash` commands.
+
+## Project Structure
+
+To organize your commands efficiently, we'll set up a structured project directory. This helps in maintaining a clean codebase and makes it easier to manage different types of commands.
+
+<FileTree>
+  <FileTree.Folder name="nsCore" defaultOpen>
+    <FileTree.Folder name="src" defaultOpen>
+      <FileTree.Folder name="configs">
+        <FileTree.File name="botConfig.ts" />
+        <FileTree.File name="metadata.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="constants">
+        <FileTree.File name="botConst.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="interfaces">
+        <FileTree.File name="Command.ts" />
+        <FileTree.File name="ExtendedClient.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="events">
+        <FileTree.File name="eventIndex.ts" />
+        <FileTree.Folder name="client">
+          <FileTree.File name="ready.ts" />
+          <FileTree.File name="messageCreate.ts" />
+          <FileTree.File name="interactionCreate.ts" />
+        </FileTree.Folder>
+      </FileTree.Folder>
+      <FileTree.Folder name="utils">
+        <FileTree.File name="logger.ts" />
+        <FileTree.File name="deploy.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="handlers">
+        <FileTree.File name="commandHandler.ts" />
+        <FileTree.File name="errorHandler.ts" />
+      </FileTree.Folder>
+      <FileTree.Folder name="commands">
+        <FileTree.Folder name="messageCommands" />
+        <FileTree.Folder name="slashCommands" />
+      </FileTree.Folder>
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+## Command Types
+
+Our app supports both types of commands:
+
+- `Message Commands`: These are traditional commands that users type in chat, usually prefixed with a character like `!` or `?`. For example, `!help` or `!ping`.
+- `Slash Commands`: These are the newer type of commands introduced by Discord. Users can type `/` followed by the command name, and Discord will present an interface to help users complete the command. Its also known as `Interaction Command`
+
+Now let's move ahead!

@@ -1,0 +1,73 @@
+import { Callout } from 'nextra/components'
+
+# Ignoring Files
+
+It's time to create the necessary ignore files to prevent certain files from being uploaded to GitHub!
+
+## Git Ignore
+
+Let's create a `.gitignore` file:
+
+```bash copy filename=".gitignore" showLineNumbers {28}
+# Node.js
+node_modules/
+dist/
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# Testing and coverage
+coverage/
+*.test.js
+
+# IDE-specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Environment variables
+.env
+
+# Miscellaneous
+!.gitignore
+```
+
+<Callout type="error">Don't forget to include your `.env` file.</Callout>
+
+## Prettier Ignore
+
+Let's create a `.prettierignore` file:
+
+```bash copy filename=".prettierignore" showLineNumbers
+# Ignore artifacts:
+build
+coverage
+node_modules
+.next
+```
+
+## Eslint Ignore
+
+Also, its better to keep an `.eslintignore` file:
+
+```bash copy filename=".eslintignore" showLineNumbers
+# Ignore artifacts:
+build/
+coverage/
+node_modules/
+
+# Ignore specific files:
+dist/
+```
+
+Alright, we have successfully created our ignore files. Now we can go ahead!

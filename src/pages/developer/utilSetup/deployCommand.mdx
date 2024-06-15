@@ -1,0 +1,103 @@
+import { Steps } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Deploy Function
+
+The `deploy` function in a Discord bot is crucial for registering and updating slash commands with Discord's API. This function ensures that the bot's commands are correctly deployed to either a specific server (guild) or globally across all servers. By using a `deploy` function, you can dynamically manage and update the bot's commands without manually configuring each command.
+
+<Steps>
+
+### Project Structure
+
+Now, simply add a `deploy.ts` file inside the `utils` folder.
+
+<FileTree>
+  <FileTree.Folder name="src" defaultOpen>
+    <FileTree.Folder name="utils" defaultOpen>
+      <FileTree.File name="logger.ts" />
+      <FileTree.File name="deploy.ts" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+### Creating `deploy.ts`
+
+Here is the logic for the `deploy` function:
+
+```ts copy showLineNumbers filename="src/utils/deployCommand.ts"
+import { REST, Routes, SlashCommandBuilder } from 'discord.js'
+import { readdirSync, statSync } from 'fs'
+import { join, extname } from 'path'
+import { logger } from './logger'
+import config from '../configs/botConfig'
+
+interface SlashCommandJSON {
+  name: string
+  description: string
+  options?: Array<any>
+}
+
+const includeDirectories = ['commands/slashCommands/general', 'commands/slashCommands/info']
+
+const loadSlashCommands = (dirs: string[]): Promise<SlashCommandJSON[]> => {
+  return new Promise((resolve, reject) => {
+    const commands: SlashCommandJSON[] = []
+
+    const loadCommandsFromDir = async (dir: string) => {
+      const files = readdirSync(dir)
+
+      for (const file of files) {
+        const filePath = join(dir, file)
+        const fileStat = statSync(filePath)
+
+        if (fileStat.isDirectory()) {
+          await loadCommandsFromDir(filePath)
+        } else if (extname(file) === '.ts' || extname(file) === '.js') {
+          const commandModule = await import(filePath)
+          const command = commandModule.default
+          if (command && command.data instanceof SlashCommandBuilder) {
+            commands.push(command.data.toJSON())
+          }
+        }
+      }
+    }
+
+    Promise.all(dirs.map(dir => loadCommandsFromDir(dir)))
+      .then(() => resolve(commands))
+      .catch(reject)
+  })
+}
+
+const absoluteIncludeDirectories = includeDirectories.map(dir => join(__dirname, '../', dir))
+
+loadSlashCommands(absoluteIncludeDirectories)
+  .then(commands => {
+    const rest = new REST({ version: '10' }).setToken(config.BOT_TOKEN!)
+    logger.log('Started refreshing application (/) commands.')
+
+    return rest.put(Routes.applicationCommands(config.BOT_ID!), { body: commands })
+  })
+  .then(() => {
+    logger.log('Successfully reloaded application (/) commands.')
+  })
+  .catch(error => {
+    if (error instanceof Error) {
+      logger.error(`Error registering commands: ${error.message}`)
+    } else {
+      logger.error('Unknown error occurred while registering commands.')
+    }
+  })
+```
+
+<Callout type="warning">
+  In case of any error, please contact with me in my [discord server](https://discord.gg/HvEjEpbDR6)
+</Callout>
+
+### Ensuring `.env`
+
+Ensure that your `CLIENT_ID` and `SERVER_ID` are correctly set in your [`.env`](../../../developer/settings) file.
+
+Finally, we have successfully completed our utility functions.
+
+</Steps>

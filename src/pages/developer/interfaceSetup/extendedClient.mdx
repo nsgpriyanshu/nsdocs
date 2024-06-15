@@ -1,0 +1,42 @@
+import { Steps } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Extended Client
+
+The `Extended Client` refers to an enhanced version of the standard Discord client provided by the `discord.js` library. By extending the base client, we can add custom properties and methods that are specific to our bot's needs. This could include additional configurations, utility functions, or other custom features that the standard client does not provide.
+
+<Steps>
+
+### Project Structure
+
+First, create a folder named `interfaces` inside the `src` directory. Inside this `interfaces` folder, create a file named `ExtendedClient.ts`. This files will hold the constants for your project.
+
+<FileTree>
+  <FileTree.Folder name="nsCore" defaultOpen>
+    <FileTree.Folder name="src" defaultOpen>
+      <FileTree.Folder name="interfaces">
+        <FileTree.File name="ExtendedClient.ts" />
+      </FileTree.Folder>
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+### Create `ExtendedClient.ts`
+
+<Callout type="info">You can extend your client as you want!</Callout>
+
+```ts copy showLineNumbers filename="src/interfaces/ExtendedClient.ts"
+import { Client, Collection } from 'discord.js'
+import { Command } from './Command'
+
+export interface ExtendedClient extends Client {
+  events: Collection<string, (...args: any[]) => void>
+  messageCommands: Collection<string, Command>
+  slashCommands: Collection<string, Command>
+}
+```
+
+</Steps>
+
+Alright, now let's move ahead!

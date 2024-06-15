@@ -1,0 +1,181 @@
+import { Callout } from 'nextra/components'
+import { Tabs, Tab } from 'nextra/components'
+
+## Code Formatting
+
+Now let's set up our code formatting styles by using some popular libraries!
+
+## Installing `Prettier`
+
+This is a very popular code formatting library. Here are the required configurations for our Discord app project!
+
+```bash copy
+npm install --save-dev --save-exact prettier
+```
+
+Then, create an empty config file to let editors and other tools know you are using [Prettier](https://prettier.io/docs/en/):
+
+```bash copy
+node --eval "fs.writeFileSync('.prettierrc','{}\n')"
+```
+
+Now, add this configurations:
+
+```ts copy filename=".prettierrc" showLineNumbers
+{
+  "printWidth": 100,
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "tabWidth": 2,
+  "useTabs": false,
+  "arrowParens": "avoid"
+}
+```
+
+<Callout type="info">You can add more formatting configurations like this!</Callout>
+
+## Installing `Eslint`
+
+[ESLint](https://eslint.org/) is also a very good library, so we will use this library too! Here are the ESLint configurations as per Discord.js!
+
+```bash copy
+npm install --save-dev eslint
+```
+
+Now, create `.eslintrc` and add your rules:
+
+<Tabs items={['nsCore config.', 'discord.js config.']}>
+  <Tab>
+      **nsCore config.**
+     ```ts copy showLineNumbers filename=".eslintrc"
+     {
+       "env": {
+         "browser": false,
+          "node": true,
+          "es2021": true
+       },
+        "parser": "@typescript-eslint/parser",
+       "parserOptions": {
+         "ecmaVersion": 12,
+         "sourceType": "module"
+        },
+        "plugins": ["@typescript-eslint"],
+        "extends": [
+          "eslint:recommended",
+        ],
+       "rules": {
+         "no-console": "off"
+        }
+      }
+      ```
+  </Tab>
+  <Tab>
+      **discord.js config.**
+      ```ts copy showLineNumbers filename=".eslintrc" {11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47}
+     {
+	"extends": "eslint:recommended",
+	"env": {
+		"node": true,
+		"es6": true
+	},
+	"parserOptions": {
+		"ecmaVersion": 2021
+	},
+	"rules": {
+		"arrow-spacing": ["warn", { "before": true, "after": true }],
+		"brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
+		"comma-dangle": ["error", "always-multiline"],
+		"comma-spacing": "error",
+		"comma-style": "error",
+		"curly": ["error", "multi-line", "consistent"],
+		"dot-location": ["error", "property"],
+		"handle-callback-err": "off",
+		"indent": ["error", "tab"],
+		"keyword-spacing": "error",
+		"max-nested-callbacks": ["error", { "max": 4 }],
+		"max-statements-per-line": ["error", { "max": 2 }],
+		"no-console": "off",
+		"no-empty-function": "error",
+		"no-floating-decimal": "error",
+		"no-inline-comments": "error",
+		"no-lonely-if": "error",
+		"no-multi-spaces": "error",
+		"no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1, "maxBOF": 0 }],
+		"no-shadow": ["error", { "allow": ["err", "resolve", "reject"] }],
+		"no-trailing-spaces": ["error"],
+		"no-var": "error",
+		"object-curly-spacing": ["error", "always"],
+		"prefer-const": "error",
+		"quotes": ["error", "single"],
+		"semi": ["error", "always"],
+		"space-before-blocks": "error",
+		"space-before-function-paren": ["error", {
+			"anonymous": "never",
+			"named": "never",
+			"asyncArrow": "always"
+		}],
+		"space-in-parens": "error",
+		"space-infix-ops": "error",
+		"space-unary-ops": "error",
+		"spaced-comment": "error",
+		"yoda": "error"
+	}
+}
+      ```
+  </Tab>
+</Tabs>
+
+## Plugings
+
+Since we are using ESLint with Prettier, it's beneficial to use a plugin for better integration. To set up plugins, install the necessary dependencies first:
+
+```bash copy
+npm i eslint-plugin-prettier
+```
+
+Add the Prettier plugin to your ESLint configuration in `.eslintrc`:
+
+```ts copy filename=".eslintrc" showLineNumbers
+{
+  "env": {
+    "browser": false,
+    "node": true,
+    "es2021": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:node/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "no-console": "off",
+    "node/no-unsupported-features/es-syntax": [
+      "error",
+      {
+        "ignores": ["modules"]
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-ts-comment": "off"
+  }
+}
+```
+
+<Callout type="info">
+  You can find a list of all of ESLint's rules on their
+  [website](https://eslint.org/docs/latest/rules/).
+</Callout>
+
+This configuration extends the core vitals for the app and includes the recommended settings for Prettier, ensuring that ESLint and Prettier work together seamlessly.
+
+Alright, we're all set! Now we can proceed further.

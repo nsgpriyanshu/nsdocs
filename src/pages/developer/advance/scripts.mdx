@@ -1,0 +1,30 @@
+import { Callout } from 'nextra/components'
+
+# Scripts
+
+Before moving to the `index.ts` file, ensure that you have configured your scripts properly in the `package.json` file.
+
+## Creating `scripts`
+
+Now, in the `package.json` file, add these scripts:
+
+```ts copy showLineNumbers filename="/package.json"
+"scripts": {
+    "test": "npx jest",
+    "clean": "rimraf dist types",
+    "build": "npx tsc",
+    "format:check": "npx prettier . --check",
+    "format:write": "npx prettier . --write",
+    "deploy": "node dist/utils/deployCommands.js",
+    "start": "node dist/index.js",
+    "execute": "npm run clean && npm run build && npm run format:write && npm run start",
+    "cleanStart": "npm run clean && npm run build && npm run start",
+    "noCleanStart": "npm run build && npm run start",
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix"
+  },
+```
+
+<Callout type="info">You can add more scripts as needed.</Callout>
+
+Alright, let's move to the last part.

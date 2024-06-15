@@ -1,0 +1,105 @@
+import { Steps } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Slash Commands
+
+`Slash` commands, also known as `interaction` commands, are a newer feature introduced by Discord that provide a more streamlined and user-friendly way for users to interact with bots. Unlike message commands, `slash` commands are invoked by typing `/` followed by the command name directly into the chat input box.
+
+<Steps>
+
+### Project Structure
+
+Now that we've already created the `commands` folder, let's add a folder named `slashCommands` inside it. Then, within the `slashCommands` folder, add another folder named `general`. Finally, inside the `general` folder, add `ping.ts`.
+
+<Callout>
+  Our slash command structure is organized similarly to message commands, allowing for efficient
+  code management and customization.
+</Callout>
+
+<FileTree>
+  <FileTree.Folder name="src" defaultOpen>
+    <FileTree.Folder name="commands" defaultOpen>
+      <FileTree.Folder name="slashCommands" defaultOpen>
+        <FileTree.Folder name="general" defaultOpen>
+          <FileTree.File name="ping.ts" />
+        </FileTree.Folder>
+      </FileTree.Folder>
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+### Create Ping Command
+
+Let's create a basic `ping` slash command to demonstrate how slash commands work. This command will respond with "Pong!" when invoked by the user.
+
+```ts copy showLineNumbers filename="src/commands/slashCommands/general/ping.ts"
+import { CommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js'
+import { COLORS, EMOJIS } from '../../../constants/botConst'
+import { SlashCommand } from '../../../interfaces/Command'
+
+const Ping: SlashCommand = {
+  name: 'ping',
+  description: 'Replies with pong!',
+  data: new SlashCommandBuilder().setName('pong').setDescription('Replies with pong!'),
+  async executeSlash(interaction: CommandInteraction) {
+    const pEmbed = new EmbedBuilder()
+      .setColor(COLORS.green)
+      .setTitle('ping Command')
+      .setDescription(`${EMOJIS.success} pong there, I am Ping`)
+
+    await interaction.reply({ embeds: [PingEmbed] })
+  },
+  userPermissions: ['SendMessages'],
+  botPermissions: ['SendMessages'],
+  devOnly: false,
+}
+
+export default Ping
+```
+
+<Callout>
+  Slash command with 100% potential is under development this structure is come with 90% potential
+  only. We are trying our best to acquire the 10% potential also.
+</Callout>
+
+### Slash Command Structure
+
+Here is an example of the structure of a slash command:
+
+```ts copy showLineNumbers filename="src/commands/slashCommands/"
+import { CommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js'
+import { COLORS, EMOJIS } from '../../../constants/botConst'
+import { SlashCommand } from '../../../interfaces/Command'
+
+const string: SlashCommand = {
+  name: string,
+  description: string',
+  data: new SlashCommandBuilder().setName(string).setDescription(string),
+  async executeSlash(interaction: CommandInteraction) {
+    const stringEmbed = new EmbedBuilder()
+      .setColor(COLORS.name)
+      .setTitle(string)
+      .setDescription(string)
+
+    await interaction.reply({ embeds: [string] })
+  },
+  userPermissions: [''],
+  botPermissions: [''],
+  devOnly: false/true,
+}
+
+export default string
+```
+
+<Callout type="warning">
+  We did not include any type of `developer` commands in `Slash Commands`. However, our command
+  handler and `event` handler are well-structured and capable of handling both regular and
+  `developer` commands. If you want to include a `developer` command in `Slash Commands`, you simply
+  need to set the `devOnly` property to `true`. There's no need to add anything extra because our
+  handlers are perfectly equipped to handle it.
+</Callout>
+
+</Steps>
+
+Alright! Go go ahead.

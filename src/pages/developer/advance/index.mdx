@@ -1,0 +1,78 @@
+import { Steps } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Creating the Core
+
+The `index.ts` file is the heart of your bot. It serves as the entry point for your application, initializing and configuring the bot to connect to Discord and start responding to `events` and `commands`.
+
+<Steps>
+
+### Project Structure
+
+Now, inside the `src` directory, add a file named `index.ts`.
+
+<FileTree>
+  <FileTree.Folder name="src" defaultOpen>
+    <FileTree.File name="index.ts" />
+  </FileTree.Folder>
+</FileTree>
+
+### Creating `index.ts`
+
+This is the main file, or we can say the core file, of the bot.
+
+```ts copy showLineNumbers filename="src/index.ts"
+import { Client, Collection, GatewayIntentBits } from 'discord.js'
+import { ExtendedClient } from './interfaces/ExtendedClient'
+import { logBrightPink } from 'nstypocolors'
+import config from './configs/botConfig'
+
+import { commandHandler } from './handlers/commandHandler'
+import { eventHandlers } from './events/eventIndex'
+
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
+}) as ExtendedClient
+
+client.slashCommands = new Collection()
+client.messageCommands = new Collection()
+client.events = new Collection()
+
+commandHandler(client)
+eventHandlers(client)
+
+client
+  .login(config.BOT_TOKEN)
+  .then(() => logBrightPink('Successfully connected all the commands and the bot is online'))
+  .catch((err: string) => console.error('Failed to login: ' + err))
+```
+
+<Callout>
+  Feel free to customize this setup to suit your needs. You can add additional intents,
+  configurations, or other settings to enhance the functionality of your bot.
+</Callout>
+
+### Verification
+
+Ensure that you have imported everything correctly and that you have defined your `client` properly.
+
+### Run
+
+Now open your terminal and enter:
+
+```bash copy
+npm run execute
+```
+
+Congratualations, finally your app (bot) is online.
+
+</Steps>
+
+## Thank You
+
+Dont forget to give a `star` in github.
