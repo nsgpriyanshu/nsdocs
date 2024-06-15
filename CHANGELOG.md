@@ -12,11 +12,13 @@ All notable changes to this project will be documented in this file.
 
 - Github workflows for production deployment
 - .commitlintrc.json for commit messages
+- CODEOWNERS file for automatic code review assignments
 
 ### Chnaged
 
 - README.md
 - next.config.js
+- theme.config.tsx
 
 ### Fixed
 

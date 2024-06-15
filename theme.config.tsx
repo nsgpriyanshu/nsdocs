@@ -1,15 +1,28 @@
 import React from 'react'
-import { DocsThemeConfig } from 'nextra-theme-docs'
+import { useRouter } from 'next/router'
+import { useConfig, DocsThemeConfig } from 'nextra-theme-docs'
 
 const config: DocsThemeConfig = {
   useNextSeoProps() {
     return {
       titleTemplate: '%s – nsDocs',
+      defaultTitle: 'nsDocs',
+      description: 'Comprehensive documentation for nsDocs',
+      twitter: {
+        handle: '@nsgpriyanshu',
+        site: '@nsgpriyanshu',
+        cardType: 'summary_large_image',
+      },
+      openGraph: {
+        type: 'website',
+        url: 'https://nsgpriyanshu.github.io/nsdocs',
+        site_name: 'nsDocs',
+      },
     }
   },
   logo: (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <img src="/nscorebot.png" alt="nsCore" style={{ height: '2rem', marginRight: '0.5rem' }} />
+      <img src="./nscorebot.png" alt="nsCore" style={{ height: '2rem', marginRight: '0.5rem' }} />
       <span style={{ fontWeight: 700 }}>nsDocs</span>
     </div>
   ),
@@ -22,6 +35,27 @@ const config: DocsThemeConfig = {
   docsRepositoryBase: 'https://github.com/nsgpriyanshu/nsdocs',
   footer: {
     text: 'Developed by ŊʂƓ ᴾᴿᴵᵞᴬᴺˢᴴᵁ ',
+  },
+  sidebar: {
+    toggleButton: true,
+  },
+  head: () => {
+    const { asPath, defaultLocale, locale } = useRouter()
+    const { frontMatter } = useConfig()
+    const url =
+      'https://nsgpriyanshu.github.io/nsdocs' +
+      (defaultLocale === locale ? asPath : `/${locale}${asPath}`)
+
+    return (
+      <>
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={frontMatter.title || 'nsDocs'} />
+        <meta
+          property="og:description"
+          content={frontMatter.description || 'A production level discord app guide'}
+        />
+      </>
+    )
   },
 }
 
