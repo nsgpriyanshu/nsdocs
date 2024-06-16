@@ -7,7 +7,7 @@ const config: DocsThemeConfig = {
     return {
       titleTemplate: '%s – nsDocs',
       defaultTitle: 'nsDocs',
-      description: 'Comprehensive documentation for nsDocs',
+      description: 'A comprehensive, production-level guide for developing and managing a Discord app effectively.',
       twitter: {
         handle: '@nsgpriyanshu',
         site: '@nsgpriyanshu',

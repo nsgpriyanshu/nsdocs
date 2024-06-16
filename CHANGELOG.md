@@ -6,6 +6,25 @@ All notable changes to this project will be documented in this file.
 
 - Initial release of the package
 
+## [0.1.4] 2024-06-16
+
+### Added
+
+- ISSUE_TEMPLATES
+- commitlintrc package
+- PULL_REQUEST.md template
+
+### Chnaged
+
+- theme.config.tsx
+- CODE_OF_CONDUCT.md *(Inside github repo)
+- CONTRIBUTING.md *(Inside github repo)
+- src/pages/developer/advance/index.mdx: Added power op app (bot) example
+
+### Fixed
+
+- Some minor bugs
+
 ## [0.1.3] 2024-06-15
 
 ### Added

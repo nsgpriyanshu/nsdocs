@@ -8,6 +8,10 @@
 [![Discord](https://img.shields.io/discord/855781247480496130.svg?color=5865F2&logo=discord&logoColor=white)](https://discord.gg/7SAcEv7MDd)
 [![GitHub contributors](https://img.shields.io/github/contributors/nsgpriyanshu/nsdocs.svg?color=ff3b30)](https://github.com/nsgpriyanshu/nsdocs/graphs/contributors)
 ![Last Commit](https://img.shields.io/github/last-commit/nsgpriyanshu/nsdocs.svg)
+[![Production Deployment](https://github.com/nsgpriyanshu/nsdocs/actions/workflows/deployment.yml/badge.svg)](https://github.com/nsgpriyanshu/nsdocs/actions/workflows/deployment.yml)
+[![CodeQL](https://github.com/nsgpriyanshu/nsdocs/actions/workflows/codeql.yml/badge.svg)](https://github.com/nsgpriyanshu/nsdocs/actions/workflows/codeql.yml)
+[![Dependency Review](https://github.com/nsgpriyanshu/nsdocs/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/nsgpriyanshu/nsdocs/actions/workflows/dependency-review.yml)
+[![Dependabot Updates](https://github.com/nsgpriyanshu/nsdocs/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/nsgpriyanshu/nsdocs/actions/workflows/dependabot/dependabot-updates)
 
 </div>
 

@@ -1,8 +1,8 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
-labels: ''
+title: '[feature] '
+labels: 'enhancement'
 assignees: ''
 
 ---
@@ -18,3 +18,6 @@ A clear and concise description of any alternative solutions or features you've 
 
 **Additional context**
 Add any other context or screenshots about the feature request here.
+
+**Contact Information**
+For more details or discussion, feel free to join our [Discord server](https://discord.gg/3Rg6tN5A7Q).

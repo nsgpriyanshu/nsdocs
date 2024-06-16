@@ -1,11 +1,12 @@
 ---
 name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
+about: Report any bugs or issues you encounter to help us improve the documentation and functionality
+title: '[bug] '
+labels: 'bug'
 assignees: ''
 
 ---
+Thank you for filing an issue! If you are here to ask a question, use Discord instead: [Join now](https://discord.gg/3Rg6tN5A7Q)
 
 **Describe the bug**
 A clear and concise description of what the bug is.
