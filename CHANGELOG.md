@@ -6,6 +6,20 @@ All notable changes to this project will be documented in this file.
 
 - Initial release of the package
 
+## [0.1.5] 2024-06-17
+
+### Added
+
+- None
+
+### Chnaged
+
+- favicon.ico
+
+### Fixed
+
+- None
+
 ## [0.1.4] 2024-06-16
 
 ### Added
