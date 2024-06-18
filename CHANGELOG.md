@@ -6,6 +6,21 @@ All notable changes to this project will be documented in this file.
 
 - Initial release of the package
 
+## [0.1.6] 2024-06-18
+
+### Added
+
+- .svg formate (Removed)
+
+### Chnaged
+
+- public/
+- README.md
+
+### Fixed
+
+- None
+
 ## [0.1.5] 2024-06-17
 
 ### Added

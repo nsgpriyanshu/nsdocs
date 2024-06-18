@@ -22,7 +22,7 @@ const config: DocsThemeConfig = {
   },
   logo: (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <img src="./nsdfavicon.png" alt="nsCore" style={{ height: '2rem', marginRight: '0.5rem' }} />
+      <img src="./logo.png" alt="nsCore" style={{ height: '2rem', marginRight: '0.5rem' }} />
       <span style={{ fontWeight: 700 }}>nsDocs</span>
     </div>
   ),
@@ -54,7 +54,7 @@ const config: DocsThemeConfig = {
           property="og:description"
           content={frontMatter.description || 'A production level discord app guide'}
         />
-        <link rel="icon" href="./favicon.ico" type="image/x-icon"/>
+        <link rel="icon" href="./public/favicon.ico" type="image/x-icon"/>
       </>
     )
   },
