@@ -6,6 +6,20 @@ All notable changes to this project will be documented in this file.
 
 - Initial release of the package
 
+## [0.1.7] 2024-06-24
+
+### Added
+
+- error handler code base
+
+### Chnaged
+
+- introducing -> introducing nsDocs
+
+### Fixed
+
+- None
+
 ## [0.1.6] 2024-06-18
 
 ### Added

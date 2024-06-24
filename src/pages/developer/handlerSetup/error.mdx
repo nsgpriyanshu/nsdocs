@@ -25,7 +25,65 @@ Add `errorHandler.ts` inside the `handlers` folder.
 
 This file will contain the logic of the `error handler`, ensuring that any errors encountered during the bot's execution are properly managed and logged.
 
-<Callout type="warning">Docs for this part is under construction.</Callout>
+```ts copy showLineNumbers filename="src/handlers/errorHandler.ts"
+import { Client, EmbedBuilder, TextChannel } from 'discord.js'
+import config from '../configs/botConfig'
+import { COLORS, EMOJIS } from '../constants/botConst'
+
+const errorHandler = (client: Client) => {
+  const errorChannelId = config.ERROR_CHANNEL
+
+  const sendErrorEmbed = async (title: string, description: string) => {
+    const errorChannel = client.channels.cache.get(errorChannelId) as TextChannel
+    if (errorChannel) {
+      const errorEmbed = new EmbedBuilder()
+        .setTitle(title)
+        .setDescription(description)
+        .setColor(COLORS.red)
+        .setTimestamp()
+
+      await errorChannel.send({ embeds: [errorEmbed] })
+    }
+  }
+
+  process.on('unhandledRejection', (reason, p) => {
+    console.log('[ERROR-HANDLING] :: Unhandled Rejection/Catch')
+    console.log(reason, p)
+
+    sendErrorEmbed(
+      `${EMOJIS.failed} New Error (Error type 1)`,
+      `An error just occurred in the bot console! **\n\nERROR:\n\n** \`\`\`${reason}\n\n${p}\`\`\``,
+    )
+  })
+
+  process.on('uncaughtException', (err, origin) => {
+    console.log('[ERROR-HANDLING] :: Unhandled Exception/Catch')
+    console.log(err, origin)
+
+    sendErrorEmbed(
+      `${EMOJIS.failed} New Error (Error type 2)`,
+      `An error just occurred in the bot console! **\n\nERROR:\n\n** \`\`\`${err}\n\n${origin}\`\`\``,
+    )
+  })
+
+  process.on('uncaughtExceptionMonitor', (err, origin) => {
+    console.log('[ERROR-HANDLING] :: Unhandled Exception/Catch (MONITOR)')
+    console.log(err, origin)
+
+    sendErrorEmbed(
+      `${EMOJIS.failed} New Error (Error type 3)`,
+      `An error just occurred in the bot console! **\n\nERROR:\n\n** \`\`\`${err}\n\n${origin}\`\`\``,
+    )
+  })
+}
+
+export default errorHandler
+```
+
+<Callout type="warning">
+  Please ensure to include your `error` channel ID in your
+  [`.env`](/developer/settings#setting-up-env) file (preferred) or `config.ts` file.
+</Callout>
 
 </Steps>
 
