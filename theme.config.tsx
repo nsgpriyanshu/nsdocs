@@ -1,13 +1,15 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import { useConfig, DocsThemeConfig } from 'nextra-theme-docs'
+import { useConfig, DocsThemeConfig, Link } from 'nextra-theme-docs'
 
 const config: DocsThemeConfig = {
   useNextSeoProps() {
+    const { frontMatter } = useConfig()
     return {
       titleTemplate: '%s – nsDocs',
       defaultTitle: 'nsDocs',
-      description: 'A comprehensive, production-level guide for developing and managing a Discord app effectively.',
+      description:
+        frontMatter.description || 'A comprehensive, production-level guide for developing and managing a Discord app effectively.',
       twitter: {
         handle: '@nsgpriyanshu',
         site: '@nsgpriyanshu',
@@ -17,12 +19,14 @@ const config: DocsThemeConfig = {
         type: 'website',
         url: 'https://nsgpriyanshu.github.io/nsdocs',
         site_name: 'nsDocs',
+        title: frontMatter.title || 'nsDocs',
+        description: frontMatter.description || 'A comprehensive, production-level guide for developing and managing a Discord app effectively.'
       },
     }
   },
   logo: (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <img src="./logo.png" alt="nsCore" style={{ height: '2rem', marginRight: '0.5rem' }} />
+      <img src="/logo.png" alt="nsCore" style={{ height: '2rem', marginRight: '0.5rem' }} />
       <span style={{ fontWeight: 700 }}>nsDocs</span>
     </div>
   ),
@@ -54,7 +58,11 @@ const config: DocsThemeConfig = {
           property="og:description"
           content={frontMatter.description || 'A production level discord app guide'}
         />
-        <link rel="icon" href="./public/favicon.ico" type="image/x-icon"/>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <Link rel='canonical' href='https://nsgpriyanshu.github.io/nsdocs'/>
+        <meta property='robots' content='index, follow'/>
+        <meta property='keywords' content='Discord, discord app, discord bot, guide, discodjs, bot, nscore'/>
+        <meta property='author' content='nsgpriyanshu'/>
       </>
     )
   },

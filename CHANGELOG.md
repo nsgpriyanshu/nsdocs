@@ -6,6 +6,21 @@ All notable changes to this project will be documented in this file.
 
 - Initial release of the package
 
+## [0.1.8] 2024-07-03
+
+### Added
+
+- robots.ts
+- sitemap.ts
+
+### Chnaged
+
+- theme.config.tsx: optimized seo
+
+### Fixed
+
+- None
+
 ## [0.1.7] 2024-06-24
 
 ### Added
