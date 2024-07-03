@@ -1,4 +1,5 @@
 const withNextra = require('nextra')({
+  pageExtensions: ['mdx', 'md', 'jsx', 'js', 'tsx', 'ts'],
   theme: 'nextra-theme-docs',
   themeConfig: './theme.config.tsx',
 })

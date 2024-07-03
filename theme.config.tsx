@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import { useConfig, DocsThemeConfig, Link } from 'nextra-theme-docs'
+import { useConfig, DocsThemeConfig } from 'nextra-theme-docs'
 
 const config: DocsThemeConfig = {
   useNextSeoProps() {
@@ -9,7 +9,8 @@ const config: DocsThemeConfig = {
       titleTemplate: '%s – nsDocs',
       defaultTitle: 'nsDocs',
       description:
-        frontMatter.description || 'A comprehensive, production-level guide for developing and managing a Discord app effectively.',
+        frontMatter.description ||
+        'A comprehensive, production-level guide for developing and managing a Discord app effectively.',
       twitter: {
         handle: '@nsgpriyanshu',
         site: '@nsgpriyanshu',
@@ -20,13 +21,15 @@ const config: DocsThemeConfig = {
         url: 'https://nsgpriyanshu.github.io/nsdocs',
         site_name: 'nsDocs',
         title: frontMatter.title || 'nsDocs',
-        description: frontMatter.description || 'A comprehensive, production-level guide for developing and managing a Discord app effectively.'
+        description:
+          frontMatter.description ||
+          'A comprehensive, production-level guide for developing and managing a Discord app effectively.',
       },
     }
   },
   logo: (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <img src="/logo.png" alt="nsCore" style={{ height: '2rem', marginRight: '0.5rem' }} />
+      <img src="./logo.png" alt="nsCore" style={{ height: '2rem', marginRight: '0.5rem' }} />
       <span style={{ fontWeight: 700 }}>nsDocs</span>
     </div>
   ),
@@ -38,7 +41,7 @@ const config: DocsThemeConfig = {
   },
   docsRepositoryBase: 'https://github.com/nsgpriyanshu/nsdocs',
   footer: {
-    text: 'Developed by ŊʂƓ ᴾᴿᴵᵞᴬᴺˢᴴᵁ ',
+    text: 'Developed by ŊʂƓ ᴾᴿᴵᵞᴬᴺˢᴴᵁ',
   },
   sidebar: {
     toggleButton: true,
@@ -58,14 +61,26 @@ const config: DocsThemeConfig = {
           property="og:description"
           content={frontMatter.description || 'A production level discord app guide'}
         />
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <Link rel='canonical' href='https://nsgpriyanshu.github.io/nsdocs'/>
-        <meta property='robots' content='index, follow'/>
-        <meta property='keywords' content='Discord, discord app, discord bot, guide, discodjs, bot, nscore'/>
-        <meta property='author' content='nsgpriyanshu'/>
+        <meta property="og:image" content="/og-image.png" />
+        <meta property="og:site_name" content="nsDocs" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@nsgpriyanshu" />
+        <meta name="twitter:creator" content="@nsgpriyanshu" />
+        <meta name="twitter:title" content={frontMatter.title || 'nsDocs'} />
+        <meta
+          name="twitter:description"
+          content={frontMatter.description || 'A production level discord app guide'}
+        />
+        <meta name="twitter:image" content="/twitter-image.png" />
+        <meta name="keywords" content="Discord, app, guide, production-level, nsDocs" />
+        <meta name="author" content="ŊʂƓ ᴾᴿᴵᵞᴬᴺˢᴴᵁ" />
+        <meta property="robots" content="index, follow" />
+        <link rel="canonical" href="https://nsgpriyanshu.github.io/nsdocs" />
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
       </>
     )
   },
 }
 
 export default config
+

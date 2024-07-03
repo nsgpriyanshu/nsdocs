@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://nsgpriyanshu.github.io/nsdocs/pages/sitemap.xml',
+    sitemap: 'https://nsgpriyanshu.github.io/nsdocs/pages/api/sitemap.xml',
   }
 }

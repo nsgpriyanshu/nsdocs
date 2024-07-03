@@ -6,6 +6,22 @@ All notable changes to this project will be documented in this file.
 
 - Initial release of the package
 
+## [0.1.9] 2024-07-03
+
+### Added
+
+- api folder for sitemap and robots
+- 404.js: error
+
+### Chnaged
+
+- sitemaps and robots moved to api folder
+- next.config.js: added page extension
+
+### Fixed
+
+- None
+
 ## [0.1.8] 2024-07-03
 
 ### Added
