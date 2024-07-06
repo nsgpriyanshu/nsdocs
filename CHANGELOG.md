@@ -6,6 +6,20 @@ All notable changes to this project will be documented in this file.
 
 - Initial release of the package
 
+## [0.1.10] 2024-07-07
+
+### Added
+
+- preview image for seo
+
+### Chnaged
+
+- none
+
+### Fixed
+
+- og image problem
+
 ## [0.1.9] 2024-07-03
 
 ### Added

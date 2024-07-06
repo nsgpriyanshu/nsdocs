@@ -61,7 +61,7 @@ const config: DocsThemeConfig = {
           property="og:description"
           content={frontMatter.description || 'A production level discord app guide'}
         />
-        <meta property="og:image" content="/og-image.png" />
+        <meta property="og:image" content="./preview.png" />
         <meta property="og:site_name" content="nsDocs" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@nsgpriyanshu" />
@@ -71,7 +71,7 @@ const config: DocsThemeConfig = {
           name="twitter:description"
           content={frontMatter.description || 'A production level discord app guide'}
         />
-        <meta name="twitter:image" content="/twitter-image.png" />
+        <meta name="twitter:image" content="./preview.png" />
         <meta name="keywords" content="Discord, app, guide, production-level, nsDocs" />
         <meta name="author" content="ŊʂƓ ᴾᴿᴵᵞᴬᴺˢᴴᵁ" />
         <meta property="robots" content="index, follow" />
@@ -83,4 +83,3 @@ const config: DocsThemeConfig = {
 }
 
 export default config
-
