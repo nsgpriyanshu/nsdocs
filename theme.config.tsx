@@ -56,27 +56,27 @@ const config: DocsThemeConfig = {
     return (
       <>
         <meta property="og:url" content={url} />
-        <meta property="og:title" content={frontMatter.title || 'nsDocs'} />
-        <meta
-          property="og:description"
-          content={frontMatter.description || 'A production level discord app guide'}
-        />
-        <meta property="og:image" content="./preview.png" />
-        <meta property="og:site_name" content="nsDocs" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@nsgpriyanshu" />
-        <meta name="twitter:creator" content="@nsgpriyanshu" />
-        <meta name="twitter:title" content={frontMatter.title || 'nsDocs'} />
-        <meta
-          name="twitter:description"
-          content={frontMatter.description || 'A production level discord app guide'}
-        />
-        <meta name="twitter:image" content="./preview.png" />
-        <meta name="keywords" content="Discord, app, guide, production-level, nsDocs" />
-        <meta name="author" content="ŊʂƓ ᴾᴿᴵᵞᴬᴺˢᴴᵁ" />
-        <meta property="robots" content="index, follow" />
-        <link rel="canonical" href="https://nsgpriyanshu.github.io/nsdocs" />
-        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+      <meta property="og:title" content={frontMatter.title || 'nsDocs'} />
+      <meta
+        property="og:description"
+        content={frontMatter.description || 'A production level discord app guide'}
+      />
+      <meta property="og:image" content="https://nsgpriyanshu.github.io/nsdocs/preview.png" />
+      <meta property="og:site_name" content="nsDocs" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@nsgpriyanshu" />
+      <meta name="twitter:creator" content="@nsgpriyanshu" />
+      <meta name="twitter:title" content={frontMatter.title || 'nsDocs'} />
+      <meta
+        name="twitter:description"
+        content={frontMatter.description || 'A production level discord app guide'}
+      />
+      <meta name="twitter:image" content="https://nsgpriyanshu.github.io/nsdocs/preview.png" />
+      <meta name="keywords" content="Discord, app, guide, production-level, nsDocs" />
+      <meta name="author" content="ŊʂƓ ᴾᴿᴵᵞᴬᴺˢᴴᵁ" />
+      <meta property="robots" content="index, follow" />
+      <link rel="canonical" href="https://nsgpriyanshu.github.io/nsdocs" />
+      <link rel="icon" href="https://nsgpriyanshu.github.io/nsdocs/favicon.ico" type="image/x-icon" />
       </>
     )
   },
