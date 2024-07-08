@@ -6,7 +6,21 @@ All notable changes to this project will be documented in this file.
 
 - Initial release of the package
 
-## [0.1.10] 2024-07-07
+## [0.1.11] 2024-07-08
+
+### Added
+
+- none
+
+### Chnaged
+
+- none
+
+### Fixed
+
+- og image spelling problem
+
+## [0.1.10] 2024-07-06
 
 ### Added
 
