@@ -6,6 +6,21 @@ All notable changes to this project will be documented in this file.
 
 - Initial release of the package
 
+## [0.1.12] 2024-07-22
+
+### Added
+
+- auto-merge.yml: workflow
+
+### Chnaged
+
+- CHANGELOG.md: now its according to angular commit convention
+- preview image for twitter
+
+### Bug Fixes
+
+- updated the dependencies
+
 ## [0.1.11] 2024-07-08
 
 ### Added
@@ -16,7 +31,7 @@ All notable changes to this project will be documented in this file.
 
 - none
 
-### Fixed
+### Bug Fixes
 
 - og image spelling problem
 
@@ -30,7 +45,7 @@ All notable changes to this project will be documented in this file.
 
 - none
 
-### Fixed
+### Bug Fixes
 
 - og image problem
 
@@ -46,7 +61,7 @@ All notable changes to this project will be documented in this file.
 - sitemaps and robots moved to api folder
 - next.config.js: added page extension
 
-### Fixed
+### Bug Fixes
 
 - None
 
@@ -61,7 +76,7 @@ All notable changes to this project will be documented in this file.
 
 - theme.config.tsx: optimized seo
 
-### Fixed
+### Bug Fixes
 
 - None
 
@@ -75,7 +90,7 @@ All notable changes to this project will be documented in this file.
 
 - introducing -> introducing nsDocs
 
-### Fixed
+### Bug Fixes
 
 - None
 
@@ -90,7 +105,7 @@ All notable changes to this project will be documented in this file.
 - public/
 - README.md
 
-### Fixed
+### Bug Fixes
 
 - None
 
@@ -104,7 +119,7 @@ All notable changes to this project will be documented in this file.
 
 - favicon.ico
 
-### Fixed
+### Bug Fixes
 
 - None
 
@@ -115,15 +130,16 @@ All notable changes to this project will be documented in this file.
 - ISSUE_TEMPLATES
 - commitlintrc package
 - PULL_REQUEST.md template
+- favicon (Bug fixes in github)
 
 ### Chnaged
 
 - theme.config.tsx
-- CODE_OF_CONDUCT.md *(Inside github repo)
-- CONTRIBUTING.md *(Inside github repo)
+- CODE_OF_CONDUCT.md \*(Inside github repo)
+- CONTRIBUTING.md \*(Inside github repo)
 - src/pages/developer/advance/index.mdx: Added power op app (bot) example
 
-### Fixed
+### Bug Fixes
 
 - Some minor bugs
 
@@ -141,7 +157,7 @@ All notable changes to this project will be documented in this file.
 - next.config.js
 - theme.config.tsx
 
-### Fixed
+### Bug Fixes
 
 - Some minor bugs
 
@@ -156,7 +172,7 @@ All notable changes to this project will be documented in this file.
 - package-lock.json
 - README.md
 
-### Fixed
+### Bug Fixes
 
 - Some minor bugs
 
@@ -173,6 +189,6 @@ All notable changes to this project will be documented in this file.
 - package.json
 - scripts
 
-### Fixed
+### Bug Fixes
 
 - Some minor bugs
