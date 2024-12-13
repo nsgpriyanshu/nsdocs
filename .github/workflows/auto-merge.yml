@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run prettier 
+      - name: Run prettier
         run: npm run format:write
 
       - name: Auto-merge Dependabot updates

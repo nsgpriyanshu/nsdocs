@@ -1,7 +1,0 @@
-{
-  "index": "Introduction",
-  "ready": "Ready Event",
-  "messageCreate": "Message Create Event",
-  "interactionCreate": "Interaction Create Event",
-  "centralize": "Centralize Handler"
-}
