@@ -1,15 +1,17 @@
 import { RootProvider } from 'fumadocs-ui/provider/next'
+import { Geist } from 'next/font/google'
+import type { ReactNode } from 'react'
 import './global.css'
-import { Inter } from 'next/font/google'
 
-const inter = Inter({
+const geistSans = Geist({
   subsets: ['latin'],
+  variable: '--font-sans',
 })
 
-export default function Layout({ children }: LayoutProps<'/'>) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={inter.className} suppressHydrationWarning>
-      <body className="flex flex-col min-h-screen">
+    <html lang="en" className={`${geistSans.variable} antialiased`} suppressHydrationWarning>
+      <body className="min-h-screen font-sans">
         <RootProvider>{children}</RootProvider>
       </body>
     </html>

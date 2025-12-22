@@ -1,3 +1,29 @@
 @import 'tailwindcss';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
+
+/* ============================= */
+/* Accent Color Definitions */
+/* ============================= */
+
+:root {
+  --nscore-color: hsl(0 84% 60%);
+  --nstypocolors-color: hsla(60, 94%, 80%, 0.855);
+}
+
+.dark {
+  --nscore-color: hsl(0 90% 70%);
+  --nstypocolors-color: hsla(60, 94%, 80%, 0.855);
+}
+
+/* ============================= */
+/* Docs Accent Switching */
+/* ============================= */
+
+.docs-nscore {
+  --color-fd-primary: hsl(var(--nscore-color));
+}
+
+.docs-nstypocolors {
+  --color-fd-primary: hsl(var(--nstypocolors-color));
+}

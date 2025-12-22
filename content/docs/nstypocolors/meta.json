@@ -1,0 +1,7 @@
+{
+  "title": "nsTypoColors",
+  "description": "Documentation for nsTypoColors - A beautiful color package for typescript projects.",
+  "icon": "Package",
+  "root": true,
+  "pages": ["---Introduction---", "index", "---Functions---", "getting-started"]
+}
