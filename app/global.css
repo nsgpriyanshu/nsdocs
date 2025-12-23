@@ -2,28 +2,30 @@
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 
-/* ============================= */
-/* Accent Color Definitions */
-/* ============================= */
+@theme {
+  --font-sans: var(--font-geist-sans);
+}
+
+@layer base {
+  * {
+    font-family: var(--font-geist-san);
+    text-rendering: optimizeLegibility;
+
+    scrollbar-width: thin;
+  }
+}
+
+@utility scrollbar-hidden {
+  scrollbar-width: none;
+}
 
 :root {
-  --nscore-color: hsl(0 84% 60%);
-  --nstypocolors-color: hsla(60, 94%, 80%, 0.855);
+  --nscore-color: hsl(153, 48%, 41%);
+  --nstypocolors-color: hsl(0, 74%, 57%);
 }
 
+/* optional dark overrides */
 .dark {
-  --nscore-color: hsl(0 90% 70%);
-  --nstypocolors-color: hsla(60, 94%, 80%, 0.855);
-}
-
-/* ============================= */
-/* Docs Accent Switching */
-/* ============================= */
-
-.docs-nscore {
-  --color-fd-primary: hsl(var(--nscore-color));
-}
-
-.docs-nstypocolors {
-  --color-fd-primary: hsl(var(--nstypocolors-color));
+  --nscore-color: hsl(153, 55%, 55%);
+  --nstypocolors-color: hsl(0, 80%, 65%);
 }
