@@ -24,8 +24,10 @@
   --nstypocolors-color: hsl(0, 74%, 57%);
 }
 
-/* optional dark overrides */
-.dark {
-  --nscore-color: hsl(153, 55%, 55%);
-  --nstypocolors-color: hsl(0, 80%, 65%);
+.nscore {
+  --color-fd-primary: var(--nscore-color);
+}
+
+.nstypocolors {
+  --color-fd-primary: var(--nstypocolors-color);
 }

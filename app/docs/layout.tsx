@@ -16,17 +16,14 @@ export default function DocsLayoutRoot({ children }: { children: ReactNode }) {
             const meta = source.getNodeMeta(node)
             if (!meta || !node.icon) return option
 
-            // SAME logic used by fumadocs / discord.js
+            // category selection color based on path src/styles/base.css
             const color = `var(--${meta.path.split('/')[0]}-color, var(--color-fd-foreground))`
 
             return {
               ...option,
               icon: (
                 <div
-                  className="size-full rounded-lg text-(--tab-color)
-                             max-md:border max-md:bg-(--tab-color)/10
-                             max-md:p-1.5
-                             [&_svg]:size-full"
+                  className="size-full rounded-lg text-(--tab-color) max-md:border max-md:bg-(--tab-color)/10 max-md:p-1.5 [&_svg]:size-full"
                   style={
                     {
                       '--tab-color': color,
