@@ -1,27 +1,54 @@
 ---
 title: Configuration
-description: Set up the for the bot
+description: Configure environment variables and core metadata for the bot
 ---
 
-# Setting up Configurations
+## Setting Up Configuration
 
-In this section we will configure our necessary configurations. so lets begin.
+In this section, we will set up all required configuration files for the bot.  
+A proper configuration layer keeps sensitive values secure, improves type safety, and makes the project easier to maintain as it grows.
 
-### Project Structure
+---
 
-First, create a folder named `configs` inside the `src` directory. Inside this `configs` folder, create a file named `botConfig.ts` and `metadata.ts`. This files will hold the configuration settings for your project.
+## Project Structure
 
-### Adding `.env` Configurations
-
-Now, remember that we have created an `.env` file. We cannot implement this `.env` file directly into our project. Instead, we will use a configuration system to integrate these environment variables via our config file.
+Create a `configs` directory inside the `src` folder. This directory will contain all configuration-related files used across the application.
 
 <Callout type="info">
-  You can directly import your `.env` variables into your project, but it is a better approach to
-  use a configuration file. This provides a more reliable way to manage configurations and allows
-  you to define types, which is a main advantage of TypeScript.
+  {' '}
+  If you run the PowerShell command from the previous step, this folder should already exist.{' '}
 </Callout>
 
-In the `botConfig.ts` file, we will add our configurations:
+Inside `src/configs`, create the following files:
+
+- `botConfig.ts` – Handles environment-based configuration
+- `metadata.ts` – Stores static bot metadata such as name and prefix
+
+```txt
+src/
+└─ configs/
+   ├─ botConfig.ts
+   └─ metadata.ts
+```
+
+---
+
+## Environment Variable Configuration (`.env`)
+
+Environment variables should **not** be accessed directly throughout the codebase.
+Instead, we load and validate them through a dedicated configuration file.
+
+<Callout type="info">
+  Using a config file provides stronger type safety, centralized control, and cleaner imports. This
+  is a recommended practice when working with TypeScript.
+</Callout>
+<Callout type="error">
+  Never commit your `.env` file to version control. Always add it to `.gitignore`.
+</Callout>
+
+### botConfig.ts
+
+Add the following implementation to `src/configs/botConfig.ts`:
 
 ```ts copy showLineNumbers filename="src/configs/botConfig.ts"
 import dotenv from 'dotenv'
@@ -35,6 +62,7 @@ interface BotConfig {
   DEVELOPER_IDS: string[]
   ERROR_CHANNEL: string
   GATE_CHANNEL: string
+  WELCOME_CHANNEL: string
 }
 
 const config: BotConfig = {
@@ -44,29 +72,49 @@ const config: BotConfig = {
   DEVELOPER_IDS: (process.env.DEVELOPER_IDS || '').split(','),
   ERROR_CHANNEL: process.env.ERROR_CHANNEL_ID as string,
   GATE_CHANNEL: process.env.JOIN_GATE_CHANNEL_ID as string,
+  WELCOME_CHANNEL: process.env.WELCOME_GATE_CHANNEL_ID as string,
 }
 
 export default config
 ```
 
-This setup will load the environment variables from the `.env` file and make them available throughout your project.
+This file:
 
-### Adding Metadata
+- Loads environment variables using `dotenv`
+- Enforces strict typing via an interface
+- Exposes a single, reusable configuration object
 
-In the `metadata.ts` file, we will add our prefix and name:
+---
 
-<Callout type="info">Add your app `name` and app `prefix`.</Callout>
+## Application Metadata
 
-```ts copy showLineNumbers filename="src/configs/metadata.ts" {2,3}
+Metadata such as the bot name and prefix should be stored separately from environment variables.
+These values are not sensitive and are often reused in multiple places.
+
+### metadata.ts
+
+Create `src/configs/metadata.ts` and add the following:
+
+```ts copy showLineNumbers filename="src/configs/metadata.ts"
 export const BOT = {
-  PREFIX: 'ns.',
-  NAME: 'nsCore',
+  PREFIX: 'your-prefix-here',
+  NAME: 'your-bot-name-here',
 }
 ```
 
 <Callout type="info">
-  This file will help us to store our metadatas, which will be required in future also, you can more
-  metadatas as of your need.
+  This file can be extended later to include additional metadata such as version, author name, or
+  support links.
 </Callout>
 
-Done, successfully we have setted our configurations, lets move ahead.
+---
+
+## Summary
+
+At this point, you have:
+
+- Centralized all environment variables
+- Enforced type safety for configuration values
+- Separated runtime configuration from static metadata
+
+Your project is now properly configured and ready to move on to the next setup step.

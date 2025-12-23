@@ -1,4 +1,4 @@
 {
   "title": "Getting Started",
-  "pages": ["index", "project-setup", "configuration", "code-quality", "ignoring-files"]
+  "pages": ["prerequisites", "project-setup", "configuration", "code-quality", "ignoring-files"]
 }

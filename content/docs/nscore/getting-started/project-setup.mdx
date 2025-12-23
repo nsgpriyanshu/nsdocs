@@ -1,17 +1,26 @@
 ---
 title: Project Setup
-description: Initialize a TypeScript-based Discord bot project
+description: Initialize the project for Discord app development using TypeScript
 ---
 
-## Initializing a Node.js Project
+## Overview
 
-Start by creating a `package.json` file. This file manages dependencies, scripts, and metadata.
+This guide walks you through setting up a **clean, scalable Node.js + TypeScript project**
+for building a Discord application. The structure and conventions follow modern best
+practices and are suitable for long-term maintenance.
+
+---
+
+## Initializing the Project
+
+Start by creating a new Node.js project. This will generate a `package.json` file
+to manage dependencies, scripts, and project metadata.
 
 ```bash copy
 npm init -y
 ```
 
-This command generates a default `package.json` in the project root.
+After running this command, a default `package.json` will be created in the root directory.
 
 ---
 
@@ -23,32 +32,44 @@ Install TypeScript as a development dependency:
 npm install -D typescript
 ```
 
-TypeScript will be used to add static typing and improve code reliability.
+TypeScript adds static typing, improves editor support, and helps prevent runtime errors.
 
 ---
 
 ## Creating a TypeScript Configuration
 
-Initialize a TypeScript configuration file:
+Initialize the TypeScript configuration file:
 
 ```bash copy
 npx tsc --init
 ```
 
-This command creates a `tsconfig.json` file, which controls how TypeScript compiles the project.
+This command creates a `tsconfig.json` file, which controls how your TypeScript code
+is compiled into JavaScript.
 
 ---
 
 ## Recommended Project Structure
 
-A simple and scalable folder structure is recommended:
+Below is a **clean, scalable, and professional** directory structure tailored for a
+TypeScript-based Discord bot.
 
 ```txt
 project-root/
 ├─ src/
-│  ├─ index.ts
 │  ├─ commands/
+│  │  ├─ messageCommands/
+│  │  │  └─ general/
+│  │  └─ slashCommands/
+│  │     └─ general/
+│  ├─ configs/
+│  ├─ constants/
+│  │  └─ images/
 │  ├─ events/
+│  │  ├─ client/
+│  │  └─ server/
+│  ├─ handlers/
+│  ├─ interfaces/
 │  └─ utils/
 ├─ dist/
 ├─ package.json
@@ -56,37 +77,81 @@ project-root/
 └─ node_modules/
 ```
 
-- `src/` contains all source files.
-- `dist/` will contain compiled JavaScript output.
-- `index.ts` acts as the application entry point.
+<Callout type="info">
+
+Run the following **PowerShell command from your project root**:
+
+```powershell
+mkdir src\commands\messageCommands\general `
+     src\commands\slashCommands\general `
+     src\configs `
+     src\constants\images `
+     src\events\client `
+     src\events\server `
+     src\handlers `
+     src\interfaces `
+     src\utils
+```
+
+This will generate the entire folder structure correctly in one step.
+
+</Callout>
+
+### Folder Purpose Overview
+
+- **commands/**
+  - `messageCommands/general` – Prefix-based or message commands
+  - `slashCommands/general` – Slash command implementations
+
+- **configs/** – Bot configuration files (env loaders, settings, etc.)
+- **constants/** – Static values and reusable constants
+- **events/**
+  - `client` – Discord client events (ready, interactionCreate, etc.)
+  - `server` – Process-level or external service events
+
+- **handlers/** – Command, event, and interaction loaders
+- **interfaces/** – TypeScript interfaces and types
+- **utils/** – Helper and utility functions
+
+### Next Recommended Steps
+
+- Add an `index.ts` entry file inside `src/`
 
 ---
 
-## Updating TypeScript Configuration
+## Updating `tsconfig.json`
 
-Open `tsconfig.json` and ensure the following options are set:
+Open `tsconfig.json` and ensure the following configuration is set:
 
 ```json
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "CommonJS",
-    "rootDir": "src",
-    "outDir": "dist",
+    "target": "es2017",
+    "module": "commonjs",
     "strict": true,
+    "resolveJsonModule": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "./types"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
 ```
 
-These settings provide a balance between safety and compatibility.
+These options provide a good balance between type safety, performance, and compatibility
+with the Discord.js ecosystem.
 
 ---
 
 ## Adding Build Scripts
 
-Update the `scripts` section in `package.json`:
+Update the `scripts` section in your `package.json` file:
 
 ```json
 {
@@ -97,24 +162,24 @@ Update the `scripts` section in `package.json`:
 }
 ```
 
-- `build` compiles TypeScript to JavaScript
-- `start` runs the compiled bot
+- **build** – Compiles TypeScript into JavaScript
+- **start** – Runs the compiled application
 
 ---
 
 ## Verifying the Setup
 
-Create a simple entry file at `src/index.ts`:
+Create a basic entry file at `src/index.ts`:
 
 ```ts
 console.log('Project setup complete')
 ```
 
-Build and run the project:
+Compile and run the project:
 
 ```bash copy
 npm run build
 npm start
 ```
 
-If the message appears in the terminal, the setup is complete.
+If the message appears in your terminal, the project setup is complete.

@@ -1,11 +1,16 @@
 ---
 title: Code Quality
-description: Configure Prettier and ESLint for consistent code formatting
+description: Configure Prettier and ESLint for consistent, maintainable code
+---
+
+## Code Formatting with Prettier
+
+Prettier is an opinionated code formatter that enforces a consistent coding style across the entire project.  
+It removes formatting inconsistencies and keeps the codebase clean, readable, and easy to maintain.
+
 ---
 
 ## Installing Prettier
-
-Prettier is a widely used code formatter that enforces a consistent style across the project.
 
 Install Prettier as a development dependency:
 
@@ -13,15 +18,21 @@ Install Prettier as a development dependency:
 npm install --save-dev --save-exact prettier
 ```
 
-Create a configuration file so editors and tools can detect Prettier:
+Using `--save-exact` ensures everyone on the project uses the same Prettier version.
+
+---
+
+## Creating a Prettier Configuration
+
+Create a `.prettierrc` file in the project root:
 
 ```bash copy
 node --eval "fs.writeFileSync('.prettierrc','{}\\n')"
 ```
 
-Add the following configuration to `.prettierrc`:
+Update `.prettierrc` with the following configuration:
 
-```json filename=".prettierrc" showLineNumbers
+```json showLineNumbers filename=".prettierrc"
 {
   "printWidth": 100,
   "semi": false,
@@ -32,3 +43,111 @@ Add the following configuration to `.prettierrc`:
   "arrowParens": "avoid"
 }
 ```
+
+This setup enforces a modern, clean, and readable formatting style across the project.
+
+---
+
+## Linting with ESLint
+
+ESLint helps identify problematic patterns, potential bugs, and enforces best practices in your codebase.
+When combined with Prettier, it provides both correctness and consistency.
+
+---
+
+## Installing ESLint
+
+Install ESLint and the required TypeScript dependencies:
+
+```bash copy
+npm install -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+```
+
+---
+
+## Initializing ESLint
+
+Initialize ESLint in your project:
+
+```bash copy
+npx eslint --init
+```
+
+When prompted, choose:
+
+- **How would you like to use ESLint?** → To check syntax and find problems
+- **What type of modules?** → CommonJS
+- **Which framework?** → None
+- **Does your project use TypeScript?** → Yes
+- **Where does your code run?** → Node
+- **Config format** → JavaScript
+
+---
+
+## ESLint Configuration
+
+Update your ESLint configuration file with the following setup:
+
+```js showLineNumbers filename=".eslintrc.cjs"
+module.exports = {
+  root: true,
+  env: {
+    node: true,
+    es2020: true,
+  },
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: './tsconfig.json',
+    sourceType: 'module',
+  },
+  plugins: ['@typescript-eslint'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'prettier',
+  ],
+  rules: {
+    '@typescript-eslint/no-unused-vars': ['warn'],
+    '@typescript-eslint/no-explicit-any': 'warn',
+  },
+}
+```
+
+This configuration:
+
+- Enables strict TypeScript-aware linting
+- Prevents common runtime and logic errors
+- Integrates seamlessly with Prettier
+
+---
+
+## Adding Scripts
+
+Update the `scripts` section in your `package.json`:
+
+```json
+{
+  "scripts": {
+    "format:check": "npx prettier . --check",
+    "format:write": "npx prettier . --write",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix"
+  }
+}
+```
+
+- `lint` checks for issues
+- `lint:fix` automatically fixes safe problems
+
+---
+
+## Result
+
+With **Prettier + ESLint** configured:
+
+- Code remains consistent across the entire project
+- Common mistakes are caught early
+- The codebase stays clean, professional, and scalable
+
+Your development environment is now ready for production-quality TypeScript development.

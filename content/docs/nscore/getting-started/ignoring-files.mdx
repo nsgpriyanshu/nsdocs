@@ -1,22 +1,22 @@
 ---
 title: Ignoring Files
-description: Configure ignore files to prevent unnecessary files from being tracked
+description: Configure ignore files to keep the repository clean and secure
 ---
 
-# Ignoring Files
+## Overview
 
-This section explains how to configure ignore files to ensure unnecessary or sensitive files are not committed to version control or processed by formatting tools.
+This section explains how to configure ignore files to prevent unnecessary, generated, or sensitive files from being tracked by version control or processed by development tools.
 
-Proper ignore rules keep the repository clean and secure.
+Proper ignore rules help maintain a clean repository, improve performance, and reduce the risk of exposing sensitive data.
 
 ---
 
 ## Git Ignore
 
-Create a `.gitignore` file in the project root:
+Create a `.gitignore` file in the project root. This file tells Git which files and folders should not be tracked.
 
-```txt filename=".gitignore" showLineNumbers
-# Node.js
+```txt showLineNumbers filename=".gitignore"
+# Dependencies
 node_modules/
 dist/
 
@@ -30,7 +30,7 @@ dist/
 coverage/
 *.test.js
 
-# IDE-specific files
+# IDE and editor files
 .vscode/
 .idea/
 *.sublime-project
@@ -49,48 +49,58 @@ desktop.ini
 !.gitignore
 ```
 
+This setup ensures that build outputs, local configurations, and sensitive files remain excluded from version control.
+
 ---
 
 ## Prettier Ignore
 
-Create a `.prettierignore` file to exclude files and folders from formatting:
+To prevent Prettier from formatting generated or external files, create a `.prettierignore` file in the project root:
 
-```txt filename=".prettierignore" showLineNumbers
-# Ignore artifacts
+```txt showLineNumbers filename=".prettierignore"
+# Build artifacts
+dist
 build
 coverage
+
+# Dependencies
 node_modules
+
+# Framework output
 .next
 ```
 
-This prevents Prettier from processing generated or external files.
+This keeps formatting focused only on source files that matter.
 
 ---
 
 ## ESLint Ignore
 
-It is also recommended to create an `.eslintignore` file:
+It is also recommended to exclude non-source files from ESLint checks. Create an `.eslintignore` file:
 
-```txt filename=".eslintignore" showLineNumbers
-# Ignore artifacts
-build/
-coverage/
+```txt showLineNumbers filename=".eslintignore"
+# Dependencies
 node_modules/
 
-# Ignore compiled output
+# Build output
 dist/
+build/
+
+# Coverage reports
+coverage/
 ```
 
-This ensures ESLint only checks relevant source files.
+This ensures ESLint runs faster and only analyzes relevant code.
 
 ---
 
 ## Summary
 
-With ignore files properly configured:
+With ignore files correctly configured:
 
-- Sensitive files remain untracked
-- Generated files stay out of version control
-- Linting and formatting tools run more efficiently
+- Sensitive data remains untracked
+- Generated and compiled files stay out of the repository
+- Linting and formatting tools run efficiently
+- The codebase remains clean and professional
 
-You can now continue development with a cleaner and safer repository.
+Your project is now properly set up to avoid unnecessary clutter and risks during development.

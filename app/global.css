@@ -20,8 +20,8 @@
 }
 
 :root {
-  --nscore-color: hsl(153, 48%, 41%);
-  --nstypocolors-color: hsl(0, 74%, 57%);
+  --nscore-color: hsl(3, 100%, 59%);
+  --nstypocolors-color: #ff00ba;
 }
 
 .nscore {
