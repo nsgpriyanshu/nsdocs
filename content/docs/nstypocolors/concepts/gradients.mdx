@@ -1,0 +1,137 @@
+---
+title: Gradients
+description: Use expressive gradient presets for meaningful and aesthetic terminal output.
+---
+
+# Gradients
+
+Gradients in **nstypocolors** are designed to be **intentional**, not decorative.
+
+They help convey meaning at a glance — success, failure, warnings, or important information — without overwhelming the terminal.
+
+Unlike rainbow spam, these gradients are:
+
+- Carefully curated
+- Readable on dark terminals
+- Safe for short and long messages
+
+## Basic Usage
+
+Import the gradient presets you need:
+
+```ts
+import { logSuccess, logError, logInfo, logWarn, logBuild } from 'nstypocolors'
+```
+
+Each function applies a smooth, multi-step gradient across the message.
+
+```ts
+logSuccess('Operation completed successfully')
+logError('Failed to connect to database')
+logInfo('Fetching user data...')
+logWarn('Disk usage is high')
+logBuild('Building project...')
+```
+
+## Available Gradient Presets
+
+### Success
+
+A **green-blended success gradient**, ideal for confirmations and completed tasks.
+
+```ts
+logSuccess('Deployment completed')
+```
+
+Use for:
+
+- Successful operations
+- Completed tasks
+- Positive outcomes
+
+---
+
+### Error
+
+A **red → orange gradient** for failures and critical issues.
+
+```ts
+logError('Runtime error occurred')
+```
+
+Use for:
+
+- Errors
+- Crashes
+- Failed operations
+
+---
+
+### Info
+
+A **blue → cyan gradient** for neutral informational messages.
+
+```ts
+logInfo('Connecting to server...')
+```
+
+Use for:
+
+- Status updates
+- Background operations
+- Informational logs
+
+---
+
+### Warn
+
+A **yellow → orange gradient** to indicate caution or potential problems.
+
+```ts
+logWarn('Deprecated API usage detected')
+```
+
+Use for:
+
+- Warnings
+- Non-fatal issues
+- Attention-required messages
+
+---
+
+### Build
+
+A **purple-based gradient**, designed for build systems and developer workflows.
+
+```ts
+logBuild('Compiling source files...')
+```
+
+Use for:
+
+- Build steps
+- Tooling output
+- CI / CD logs
+
+---
+
+## Small Messages Work Too
+
+Gradients are safe for very short strings:
+
+```ts
+logSuccess('OK')
+logError('No')
+logWarn('!')
+logBuild('Hi')
+```
+
+The color mapping automatically adapts to message length.
+
+## When to Use Gradients
+
+- Use **colors** for simple, predictable output
+- Use **gradients** for expressive, high-signal logs
+- Avoid mixing multiple gradients in the same block
+
+Gradients should enhance clarity, not distract.

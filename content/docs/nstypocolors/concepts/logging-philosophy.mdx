@@ -1,0 +1,156 @@
+---
+title: Logging Guide
+description: Learn how to use nstypocolors effectively for real-world logging scenarios.
+---
+
+# Logging Guide
+
+This guide shows how to use **nstypocolors** in real-world scenarios to create clean, readable, and expressive terminal logs.
+
+The goal is not to color everything — but to make important information stand out **intentionally**.
+
+---
+
+## Core Principle
+
+> Color is a signal, not decoration.
+
+Use color to:
+
+- Highlight success or failure
+- Separate informational output
+- Improve scan-ability
+- Reduce cognitive load
+
+Avoid:
+
+- Coloring every log line
+- Overusing rainbow effects
+- Mixing too many styles together
+
+---
+
+## Basic Logging
+
+For simple scripts and utilities:
+
+```ts
+import { logGreen, logRed } from 'nstypocolors'
+
+logGreen('Server started successfully')
+logRed('Failed to connect to database')
+```
+
+This works best when:
+
+- Logs are short
+- Meaning is obvious
+- Consistency matters
+
+---
+
+## Status-Based Logging (Recommended)
+
+For applications, CLIs, or bots, use **semantic gradients**.
+
+```ts
+import { logSuccess, logError, logInfo, logWarn } from 'nstypocolors'
+
+logSuccess('Build completed')
+logInfo('Listening on port 3000')
+logWarn('High memory usage detected')
+logError('Unhandled exception occurred')
+```
+
+### Why This Works
+
+- Each state has a visual identity
+- Messages stay readable
+- No need to remember colors
+- Scales well as the project grows
+
+---
+
+## Short vs Long Messages
+
+Gradients in nstypocolors are designed to work with **any length**:
+
+```ts
+logSuccess('OK')
+logSuccess('Deployment completed successfully')
+```
+
+Even single words are handled gracefully.
+
+---
+
+## CLI Logging
+
+For scripts or shell usage:
+
+```bash
+nstc "Deployment successful" --success
+nstc "Fetching data from server..." --info
+nstc "Unauthorized access detected" --warn
+nstc "Process crashed" --error
+```
+
+Use the CLI when:
+
+- Writing bash scripts
+- Automating workflows
+- Testing output quickly
+
+---
+
+## Combining with Console Logs
+
+You can mix nstypocolors with standard logs:
+
+```ts
+console.log('Starting process...')
+logInfo('Loading configuration')
+logSuccess('Ready')
+```
+
+This keeps neutral output neutral, and highlights what matters.
+
+---
+
+## What to Avoid
+
+❌ Don’t do this:
+
+```ts
+logRainbow('Every')
+logRainbow('Single')
+logRainbow('Line')
+```
+
+❌ Avoid mixing multiple styles in one message
+
+❌ Avoid gradients for stack traces
+
+---
+
+## Recommended Patterns
+
+| Scenario                | Recommended  |
+| ----------------------- | ------------ |
+| Startup complete        | `logSuccess` |
+| User action             | `logInfo`    |
+| Potential issue         | `logWarn`    |
+| Failure                 | `logError`   |
+| Celebration / highlight | `logBuild`   |
+
+---
+
+## Final Thought
+
+Good logs should:
+
+- Be readable at a glance
+- Communicate state clearly
+- Stay consistent over time
+
+**nstypocolors** helps you achieve this without configuration, complexity, or noise.

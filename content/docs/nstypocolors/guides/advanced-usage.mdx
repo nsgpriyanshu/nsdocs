@@ -1,0 +1,168 @@
+---
+title: Advanced Usage
+description: Advanced patterns and techniques for using nstypocolors in complex applications and CLIs.
+---
+
+# Advanced Usage
+
+This guide covers advanced usage patterns for **nstypocolors** when building larger applications, production-grade CLIs, or developer tools.
+
+---
+
+## Conditional Logging
+
+In real-world applications, you often want to control when colored logs appear.
+
+```ts
+const isVerbose = process.argv.includes('--verbose')
+
+if (isVerbose) {
+  logInfo('Verbose mode enabled')
+}
+```
+
+This keeps default output clean while allowing richer feedback when needed.
+
+---
+
+## Environment-Based Logging
+
+You may want different behavior in development and production.
+
+```ts
+if (process.env.NODE_ENV === 'development') {
+  logBuild('Running in development mode')
+}
+```
+
+Avoid excessive gradients in production logs unless they are user-facing.
+
+---
+
+## Using Gradients as Section Headers
+
+Gradients work best as **visual separators**, not continuous output.
+
+```ts
+logBuild('Starting Deployment')
+console.log('Checking environment...')
+console.log('Uploading assets...')
+```
+
+This pattern improves readability in long-running tasks.
+
+---
+
+## Layered Output Strategy
+
+A recommended strategy for larger tools:
+
+1. **Gradient logs** → High-level state changes
+2. **Plain logs** → Details and progress
+3. **Error logs** → Immediate attention
+
+```ts
+logBuild('Initializing')
+console.log('Loading configuration')
+logSuccess('Initialization complete')
+```
+
+---
+
+## Graceful Failures
+
+Use colored logs before exiting, but avoid stack traces unless necessary.
+
+```ts
+if (!token) {
+  logError('Missing authentication token')
+  process.exit(1)
+}
+```
+
+Clear messages are more valuable than verbose ones.
+
+---
+
+## Small Messages & Edge Cases
+
+nstypocolors handles very short messages safely, but you should still design intentfully.
+
+```ts
+logSuccess('OK')
+logWarn('!')
+```
+
+Short messages are best reserved for confirmations or alerts.
+
+---
+
+## Using nstypocolors in Libraries
+
+If you’re building a library used by others:
+
+- Avoid logging by default
+- Expose an option to enable colored output
+- Respect user preferences
+
+```ts
+export function run({ silent = false }) {
+  if (!silent) {
+    logInfo('Running task')
+  }
+}
+```
+
+---
+
+## CLI Flags Integration
+
+Combine nstypocolors with common CLI flags:
+
+- `--quiet`
+- `--verbose`
+- `--no-color`
+
+```ts
+if (flags.noColor) {
+  console.log('Operation completed')
+} else {
+  logSuccess('Operation completed')
+}
+```
+
+---
+
+## Cross-Platform Considerations
+
+nstypocolors uses ANSI escape codes, which work in most modern terminals.
+
+**Best practices:**
+
+- Test on Windows Terminal
+- Avoid assuming fixed-width fonts
+- Don’t rely on color alone to convey meaning
+
+Always pair color with clear wording.
+
+---
+
+## Future-Proofing Your Logs
+
+Design logs so they still make sense if:
+
+- Colors are disabled
+- Output is redirected to a file
+- Terminal doesn’t support gradients
+
+Well-written text matters more than styling.
+
+---
+
+## Final Thoughts
+
+Advanced usage of nstypocolors is about **restraint and intention**.
+
+Use gradients to mark moments.
+Use color to communicate state.
+Let content do the rest.

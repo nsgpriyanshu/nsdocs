@@ -1,0 +1,174 @@
+---
+title: Troubleshooting
+description: Common issues and solutions when using nstypocolors in real-world projects.
+---
+
+# Troubleshooting
+
+This guide helps you diagnose and fix common issues when using **nstypocolors** in applications and CLIs.
+
+---
+
+## Colors Not Appearing
+
+### Possible Causes
+
+- Terminal does not support ANSI colors
+- Output is being redirected to a file
+- Color output is disabled by the environment
+
+### Solutions
+
+- Use a modern terminal (Windows Terminal, iTerm, Kitty, Alacritty)
+- Avoid piping output when expecting colors
+- Test with a simple script:
+
+```ts
+logSuccess('Color test')
+```
+
+If this does not show color, the issue is terminal-related.
+
+---
+
+## Gradients Look Incorrect or Noisy
+
+### Possible Causes
+
+- Overusing gradients for long output
+- Logging large blocks of text with gradients
+
+### Recommended Fix
+
+Use gradients only for **headers or state changes**:
+
+```ts
+logBuild('Starting process')
+console.log('Step 1 completed')
+```
+
+Gradients are not designed for paragraphs.
+
+---
+
+## Colors Break When Redirecting Output
+
+Example:
+
+```bash
+my-cli > output.txt
+```
+
+ANSI escape codes will be written into the file.
+
+### Solutions
+
+- Detect redirected output and disable colors
+- Provide a `--no-color` flag in your CLI
+
+```ts
+if (process.stdout.isTTY) {
+  logInfo('TTY detected')
+} else {
+  console.log('Non-TTY output')
+}
+```
+
+---
+
+## Windows-Specific Issues
+
+Older Windows shells may not render colors correctly.
+
+### Fixes
+
+- Use **Windows Terminal**
+- Update Node.js to a recent LTS version
+- Avoid legacy CMD when possible
+
+---
+
+## Very Short Messages Look Plain
+
+For messages with 1–2 characters, gradients may appear subtle.
+
+This is expected behavior.
+
+```ts
+logSuccess('OK')
+logWarn('!')
+```
+
+Short messages should rely on wording, not color complexity.
+
+---
+
+## Unexpected Line Breaks
+
+If your output appears spaced incorrectly:
+
+### Cause
+
+- Manual `\n` usage
+- Logging wrappers adding newlines
+
+### Fix
+
+Avoid extra newlines when chaining logs.
+
+```ts
+logInfo('Step started')
+logSuccess('Step completed')
+```
+
+---
+
+## Mixing Colored and Plain Logs
+
+If output feels inconsistent:
+
+### Recommendation
+
+Use a layered strategy:
+
+- Gradient → major state
+- Plain → details
+- Error → failures
+
+This keeps logs readable and intentional.
+
+---
+
+## Performance Concerns
+
+nstypocolors is lightweight, but excessive logging can still impact performance.
+
+### Tips
+
+- Avoid logging inside tight loops
+- Disable verbose logs in production
+- Use flags like `--verbose` when needed
+
+---
+
+## When Things Still Don’t Work
+
+If you’re stuck:
+
+- Verify Node.js version
+- Test in a clean environment
+- Reduce to a minimal reproduction
+
+If the issue persists, consider opening an issue with:
+
+- Node version
+- Terminal name
+- Sample output
+
+---
+
+## Final Note
+
+Most issues with colored output are **environment-related**, not code-related.
+
+When in doubt, prioritize **clear text first**, and let color enhance—not replace—meaning.

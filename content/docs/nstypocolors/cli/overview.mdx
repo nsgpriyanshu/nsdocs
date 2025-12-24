@@ -1,0 +1,98 @@
+---
+title: Overview
+description: An overview of the nstypocolors command-line interface and its design philosophy.
+---
+
+# CLI Overview
+
+The **nstypocolors CLI**, exposed through the `nstc` command, allows you to print clean, readable, and expressive colored output directly from your terminal.
+
+It is designed to be:
+
+- Minimal
+- Fast
+- Zero-config
+- Script-friendly
+
+The CLI complements the library usage and works especially well for automation, tooling, and developer workflows.
+
+## What the CLI Is For
+
+The CLI is ideal when you want:
+
+- Better looking logs without adding code
+- Colored output in shell scripts
+- Readable build / deploy messages
+- Simple terminal experiments
+- Consistent visual language across tools
+
+Examples:
+
+- CI pipelines
+- Local scripts
+- npm lifecycle scripts
+- Developer utilities
+
+## How It Works
+
+The CLI is a thin wrapper around the core **nstypocolors** logging functions.
+
+Internally, it:
+
+1. Parses the message
+2. Applies the selected color or gradient
+3. Outputs styled text using ANSI escape codes
+
+No configuration files, no runtime state.
+
+## Command Structure
+
+```bash
+nstc "<message>" <option>
+```
+
+- The message is always required
+- The option is optional
+- If no option is provided, a default gradient is applied
+
+Example:
+
+```bash
+nstc "Build completed successfully"
+```
+
+## Color vs Gradient
+
+The CLI supports two types of styling:
+
+### Solid Colors
+
+- Predictable
+- Best for warnings, errors, and simple logs
+
+### Gradients
+
+- Expressive
+- Ideal for status messages and highlights
+- Designed to stay readable (not noisy)
+
+Both can be used interchangeably depending on context.
+
+## Philosophy
+
+The CLI follows these principles:
+
+- **No magic** — what you see is what you typed
+- **No persistence** — every command is stateless
+- **No surprises** — colors never change implicitly
+- **Readable first** — aesthetics never sacrifice clarity
+
+## When Not to Use It
+
+You may prefer the library API instead if:
+
+- You need structured logging
+- You are building a long-running application
+- You want programmatic control
+
+In those cases, import and use the functions directly in TypeScript.

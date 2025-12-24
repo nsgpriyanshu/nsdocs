@@ -1,0 +1,113 @@
+---
+title: Colors
+description: Use simple and readable color logging utilities in nstypocolors.
+---
+
+# Colors
+
+nstypocolors provides a set of **simple, explicit color functions** for logging styled text to the terminal.
+
+These functions are designed to be:
+
+- Easy to read in code
+- Predictable in output
+- Safe for beginners
+
+No chaining. No magic. One function = one color.
+
+## Basic Usage
+
+Import the color functions you need:
+
+```ts
+import { logGreen, logRed, logBlue } from 'nstypocolors'
+
+logGreen('Server started successfully')
+logRed('Something went wrong')
+logBlue('Fetching data...')
+```
+
+Each function prints directly to `stdout` using ANSI color codes.
+
+## Primary Colors
+
+Commonly used colors for general logging:
+
+```ts
+logRed('Error message')
+logGreen('Success message')
+logBlue('Information')
+logYellow('Warning')
+logPink('Highlight')
+logMagenta('Debug info')
+logCyan('Network log')
+logWhite('Plain output')
+logBlack('Muted output')
+```
+
+## Bright Colors
+
+Brighter variants for higher emphasis:
+
+```ts
+logBrightRed('Critical error')
+logBrightGreen('Build passed')
+logBrightYellow('Attention required')
+logBrightBlue('Processing request')
+logBrightPink('Important note')
+logBrightMagenta('Verbose log')
+logBrightCyan('Connected')
+logBrightWhite('Output')
+```
+
+Use bright colors sparingly for important messages.
+
+## Pastel Colors
+
+Soft, aesthetic colors for friendly or UI-like output:
+
+```ts
+logPastelRed('Soft error')
+logPastelPink('Notice')
+logPastelBlue('Loading')
+logPastelGreen('Ready')
+logPastelYellow('Heads up')
+logPastelOrange('Reminder')
+logPastelLavender('Info panel')
+logPastelCoral('Alert')
+logPastelMint('Success')
+```
+
+Pastel colors are ideal for:
+
+- CLIs
+- Help menus
+- Developer tools
+- Demo output
+
+## Background Pastel Colors
+
+Background-highlighted text for banners or labels:
+
+```ts
+logBackPastelRed('ERROR')
+logBackPastelGreen('SUCCESS')
+logBackPastelBlue('INFO')
+logBackPastelYellow('WARNING')
+logBackPastelLavender('NOTE')
+logBackPastelMint('OK')
+```
+
+These are useful for:
+
+- Status labels
+- Section headers
+- One-word highlights
+
+## When to Use Colors
+
+- **Colors** → single-tone, predictable logs
+- **Gradients** → expressive or high-impact messages
+- **CLI flags** → quick styling from the terminal
+
+For multi-color output, see the **Gradients** section next.

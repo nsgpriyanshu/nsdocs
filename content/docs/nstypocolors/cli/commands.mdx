@@ -1,0 +1,121 @@
+---
+title: CLI Usage
+description: Use nstypocolors directly from the terminal with the nstc command-line interface.
+---
+
+# CLI Usage
+
+**nstypocolors** includes a lightweight CLI called **`nstc`**, allowing you to print colored and gradient text directly from your terminal.
+
+This is useful for:
+
+- Scripts
+- Build logs
+- CI output
+- Local tooling
+- Quick experiments
+
+The CLI is intentionally simple and requires no configuration.
+
+## Installation
+
+If installed globally:
+
+```bash
+npm install -g nstypocolors
+```
+
+Or use it directly with `npx`:
+
+```bash
+npx nstypocolors "Hello World" --green
+```
+
+## Basic Syntax
+
+```bash
+nstc "<message>" <option>
+```
+
+- `<message>` — Text you want to print
+- `<option>` — Color or gradient flag
+
+If no option is provided, the default gradient is used.
+
+```bash
+nstc "nstypocolors CLI running successfully!"
+```
+
+## Color Examples
+
+### Solid Colors
+
+```bash
+nstc "Success message" --green
+nstc "Error message" --red
+nstc "Info message" --blue
+nstc "Warning message" --yellow
+```
+
+### Bright Colors
+
+```bash
+nstc "Bright success" --bright-green
+nstc "Bright warning" --bright-yellow
+nstc "Bright error" --bright-red
+```
+
+### Pastel Colors
+
+```bash
+nstc "Soft UI message" --pastel-blue
+nstc "Aesthetic output" --pastel-lavender
+nstc "Friendly notice" --pastel-mint
+```
+
+### Background Pastel Colors
+
+```bash
+nstc "Highlighted warning" --back-pastel-yellow
+nstc "Important notice" --back-pastel-red
+```
+
+## Gradient Presets
+
+Gradients are available directly from the CLI.
+
+```bash
+nstc "Build completed successfully" --success
+nstc "Fetching data from server..." --info
+nstc "Caution: disk space low" --warn
+nstc "Fatal error occurred" --error
+nstc "Compiling project..." --build
+```
+
+### Rainbow Output
+
+```bash
+nstc "VIBGIOUR" --rainbow
+```
+
+Best used sparingly.
+
+## Help Menu
+
+To view all available flags:
+
+```bash
+nstc --help
+```
+
+This displays:
+
+- All color options
+- Gradient presets
+- Usage examples
+
+## Notes
+
+- The CLI works offline after installation
+- ANSI colors require a compatible terminal
+- Windows Terminal, PowerShell, and Linux shells are supported

@@ -1,7 +1,20 @@
 {
   "title": "nsTypoColors",
-  "description": "Documentation for nsTypoColors - A beautiful color package for typescript projects.",
+  "description": "A minimal and expressive color & gradient logging library for modern TypeScript and CLI workflows.",
   "icon": "Package",
   "root": true,
-  "pages": ["---Introduction---", "index", "---Functions---", "getting-started"]
+  "pages": [
+    "---Introduction---",
+    "index",
+    "installation",
+    "quick-start",
+    "---Concepts---",
+    "concepts",
+    "---CLI---",
+    "cli",
+    "---Guides---",
+    "guides",
+    "---Other---",
+    "faq"
+  ]
 }
