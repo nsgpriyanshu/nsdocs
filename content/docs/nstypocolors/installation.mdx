@@ -1,82 +1,102 @@
 ---
 title: Installation
-description: Install nstypocolors using npm and start using it in your TypeScript or Node.js projects.
+description: Install nstypocolors and start using it in your Node.js or TypeScript projects.
 icon: Download
 ---
 
-# Installation
+nstypocolors can be used as a **library**, a **CLI tool**, or both, depending on your workflow.
 
-nstypocolors can be used as a **library**, a **CLI tool**, or both.
+## Install as a Project Dependency
 
-## Install as a Dependency
+---
 
-For most projects, install it locally:
+For most projects, install nstypocolors locally:
 
-```bash
+```bash copy
 npm install nstypocolors
 ```
 
-or with pnpm / yarn:
+Using pnpm or yarn:
 
-```bash
+```bash copy
 pnpm add nstypocolors
 ```
 
-```bash
+```bash copy
 yarn add nstypocolors
 ```
 
-This includes:
+This installation includes:
 
-- Full TypeScript typings
-- Color utilities
-- Gradient presets
-- CLI support
+* Full TypeScript typings
+* Color and gradient utilities
+* Built-in gradient presets
+* Optional CLI support
+
+<Callout type="info">
+Installing nstypocolors locally is recommended for libraries, bots, and applications.
+</Callout>
 
 ## Global CLI Installation
 
-To use the `nstc` command anywhere in your terminal:
+---
 
-```bash
+If you want to use the CLI globally via the `nstc` command:
+
+```bash copy
 npm install -g nstypocolors
 ```
 
-Verify installation:
+Verify the installation:
 
-```bash
+```bash copy
 nstc --help
 ```
 
+This allows you to use nstypocolors directly from your terminal without importing it into a project.
+
 ## Node.js Requirements
 
-- **Node.js ≥ 16**
-- Works best with modern terminals supporting ANSI colors
+---
+
+* **Node.js ≥ 20**
+* A modern terminal with ANSI color support is recommended
+
+<Callout type="warning">
+Older Node.js versions may work, but they are not officially supported.
+</Callout>
 
 ## Stable vs Beta Releases
 
+---
+
 By default, npm installs the **latest stable version**.
 
-If you want to try a beta release:
+To try beta releases:
 
-```bash
+```bash copy
 npm install nstypocolors@beta
 ```
 
 Beta versions may include:
 
-- New gradients
-- Experimental CLI features
-- Breaking changes
+* New gradients
+* Experimental CLI features
+* Breaking API changes
 
-Use beta releases only if you’re comfortable testing newer features.
+<Callout type="error">
+Beta releases are intended for testing only. Use them in production at your own risk.
+</Callout>
 
-## What’s Installed
+## What Gets Installed
 
-When installed, you get:
+---
 
-- Tree-shakable color functions
-- Gradient logging utilities
-- Optional CLI (`nstc`)
-- Zero runtime configuration
+After installation, you get:
 
-No setup files. No config needed.
+* Tree-shakable color functions
+* Gradient logging utilities
+* Optional CLI (`nstc`)
+* Zero configuration required
+
+No setup files. No configuration. Just import and use.

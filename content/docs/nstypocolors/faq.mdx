@@ -1,8 +1,137 @@
 ---
 title: FAQ
-description: Coming soon...
+description: Frequently asked questions about nstypocolors, its design, and usage.
 ---
 
-# FAQ
+---
 
-Coming soon...
+## What problem does nstypocolors solve?
+
+nstypocolors makes terminal output **readable, expressive, and intentional** without configuration or complexity.
+
+It helps you:
+
+* Avoid unreadable plain logs
+* Avoid noisy rainbow spam
+* Communicate log meaning at a glance
+
+---
+
+## Is nstypocolors a replacement for logging frameworks?
+
+No.
+
+nstypocolors focuses on **presentation**, not logging infrastructure.
+
+You should still use your preferred logging system for:
+
+* Log levels
+* File output
+* Structured data
+* Persistence
+
+nstypocolors simply makes important messages **look better** in the terminal.
+
+---
+
+## Does it work with plain Node.js?
+
+Yes.
+
+nstypocolors works out of the box with:
+
+* Node.js
+* TypeScript
+* Bun
+* Deno (ANSI-supported environments)
+
+No configuration required.
+
+---
+
+## Can I use it in production?
+
+Yes, but intentionally.
+
+nstypocolors is best suited for:
+
+* Developer-facing logs
+* CLI tools
+* Build output
+* Internal services
+
+For high-volume production logging, use it selectively for **important signals**, not every log line.
+
+---
+
+## Does it support Windows terminals?
+
+Yes.
+
+It works in:
+
+* Windows Terminal
+* PowerShell
+* Command Prompt
+* Linux and macOS shells
+
+ANSI color support is required (modern terminals are supported).
+
+---
+
+## Are gradients expensive or slow?
+
+No.
+
+Gradients are lightweight and:
+
+* Computed per message
+* Stateless
+* No runtime cache
+* No global state
+
+Performance impact is negligible for normal usage.
+
+---
+
+## Can I disable colors?
+
+If your environment does not support ANSI colors, output will gracefully fall back to plain text.
+
+You can also avoid importing gradient functions and use neutral logging where needed.
+
+---
+
+## Why no chained color APIs?
+
+This is intentional.
+
+nstypocolors avoids chaining because:
+
+* It hurts readability
+* It increases cognitive load
+* It encourages over-styling
+
+One function = one meaning.
+
+---
+
+## Where should I report issues or request features?
+
+Use the GitHub repository:
+
+* Bug reports
+* Feature requests
+* Documentation fixes
+
+Community feedback helps keep the library focused and minimal.
+
+---
+
+## Final Note
+
+If you’re unsure whether to use color or gradients, ask this:
+
+> Does this log need attention?
+
+If the answer is **yes**, nstypocolors is a good fit.

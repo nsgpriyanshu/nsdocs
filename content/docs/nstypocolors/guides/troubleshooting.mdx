@@ -3,55 +3,87 @@ title: Troubleshooting
 description: Common issues and solutions when using nstypocolors in real-world projects.
 ---
 
-# Troubleshooting
-
-This guide helps you diagnose and fix common issues when using **nstypocolors** in applications and CLIs.
-
----
+This guide helps you diagnose and resolve common issues when using **nstypocolors** in applications and CLIs.
 
 ## Colors Not Appearing
 
-### Possible Causes
+---
 
-- Terminal does not support ANSI colors
-- Output is being redirected to a file
+### Possible causes
+
+- The terminal does not support ANSI colors
+- Output is being redirected to a file or pipe
 - Color output is disabled by the environment
 
 ### Solutions
 
-- Use a modern terminal (Windows Terminal, iTerm, Kitty, Alacritty)
+- Use a modern terminal (Windows Terminal, iTerm2, Kitty, Alacritty)
 - Avoid piping output when expecting colors
-- Test with a simple script:
+- Test with a minimal script
+
+<Tabs items={['TypeScript', 'JavaScript']}>
+<Tab>
 
 ```ts
+import { logSuccess } from 'nstypocolors'
+
 logSuccess('Color test')
 ```
 
-If this does not show color, the issue is terminal-related.
+</Tab>
+<Tab>
 
----
+```js
+const { logSuccess } = require('nstypocolors')
+
+logSuccess('Color test')
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+If this message does not appear colored, the issue is almost always terminal-related.
+</Callout>
 
 ## Gradients Look Incorrect or Noisy
 
-### Possible Causes
+---
 
-- Overusing gradients for long output
-- Logging large blocks of text with gradients
+### Possible causes
 
-### Recommended Fix
+* Overusing gradients for long output
+* Applying gradients to paragraphs or detailed logs
 
-Use gradients only for **headers or state changes**:
+### Recommended fix
+
+Use gradients only as **visual anchors**, such as headers or state changes.
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 logBuild('Starting process')
 console.log('Step 1 completed')
 ```
 
-Gradients are not designed for paragraphs.
+</Tab>
+<Tab>
 
----
+```js
+logBuild('Starting process')
+console.log('Step 1 completed')
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="tip">
+Gradients are designed for emphasis, not continuous text.
+</Callout>
 
 ## Colors Break When Redirecting Output
+
+---
 
 Example:
 
@@ -59,12 +91,14 @@ Example:
 my-cli > output.txt
 ```
 
-ANSI escape codes will be written into the file.
+When redirected, ANSI escape codes are written into the file.
 
 ### Solutions
 
-- Detect redirected output and disable colors
-- Provide a `--no-color` flag in your CLI
+* Detect non-TTY output and disable colors
+* Provide a `--no-color` flag in your CLI
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 if (process.stdout.isTTY) {
@@ -74,101 +108,137 @@ if (process.stdout.isTTY) {
 }
 ```
 
----
+</Tab>
+<Tab>
+
+```js
+if (process.stdout.isTTY) {
+  logInfo('TTY detected')
+} else {
+  console.log('Non-TTY output')
+}
+```
+
+</Tab>
+</Tabs>
 
 ## Windows-Specific Issues
 
-Older Windows shells may not render colors correctly.
-
-### Fixes
-
-- Use **Windows Terminal**
-- Update Node.js to a recent LTS version
-- Avoid legacy CMD when possible
-
 ---
+
+Older Windows shells may not render ANSI colors correctly.
+
+### Recommended fixes
+
+* Use **Windows Terminal**
+* Update Node.js to a recent LTS version
+* Avoid legacy Command Prompt when possible
+
+<Callout type="warning">
+PowerShell and Windows Terminal provide significantly better ANSI support than legacy CMD.
+</Callout>
 
 ## Very Short Messages Look Plain
 
-For messages with 1–2 characters, gradients may appear subtle.
+---
 
-This is expected behavior.
+Gradients may appear subtle for very short strings. This is expected behavior.
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 logSuccess('OK')
 logWarn('!')
 ```
 
-Short messages should rely on wording, not color complexity.
+</Tab>
+<Tab>
 
----
+```js
+logSuccess('OK')
+logWarn('!')
+```
+
+</Tab>
+</Tabs>
+
+Short messages should rely on wording rather than visual complexity.
 
 ## Unexpected Line Breaks
 
-If your output appears spaced incorrectly:
+---
 
-### Cause
+### Common causes
 
-- Manual `\n` usage
-- Logging wrappers adding newlines
+* Manual `\n` usage
+* Logging wrappers adding extra newlines
 
 ### Fix
 
-Avoid extra newlines when chaining logs.
+Avoid chaining logs with manual spacing.
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 logInfo('Step started')
 logSuccess('Step completed')
 ```
 
----
+</Tab>
+<Tab>
+
+```js
+logInfo('Step started')
+logSuccess('Step completed')
+```
+
+</Tab>
+</Tabs>
 
 ## Mixing Colored and Plain Logs
 
-If output feels inconsistent:
-
-### Recommendation
-
-Use a layered strategy:
-
-- Gradient → major state
-- Plain → details
-- Error → failures
-
-This keeps logs readable and intentional.
-
 ---
+
+If output feels inconsistent, apply a layered strategy:
+
+* Gradient → major state changes
+* Plain text → details and progress
+* Error colors → failures only
+
+This approach keeps logs readable and intentional.
 
 ## Performance Concerns
 
+---
+
 nstypocolors is lightweight, but excessive logging can still impact performance.
 
-### Tips
+### Best practices
 
-- Avoid logging inside tight loops
-- Disable verbose logs in production
-- Use flags like `--verbose` when needed
-
----
+* Avoid logging inside tight loops
+* Disable verbose output in production
+* Enable detailed logs via flags like `--verbose`
 
 ## When Things Still Don’t Work
 
-If you’re stuck:
-
-- Verify Node.js version
-- Test in a clean environment
-- Reduce to a minimal reproduction
-
-If the issue persists, consider opening an issue with:
-
-- Node version
-- Terminal name
-- Sample output
-
 ---
+
+If issues persist:
+
+* Verify your Node.js version
+* Test in a clean environment
+* Reduce the problem to a minimal reproduction
+
+When opening an issue, include:
+
+* Node.js version
+* Terminal name
+* Sample output
 
 ## Final Note
 
+---
+
 Most issues with colored output are **environment-related**, not code-related.
 
-When in doubt, prioritize **clear text first**, and let color enhance—not replace—meaning.
+Always prioritize **clear, meaningful text**—and let color enhance, not replace, communication.

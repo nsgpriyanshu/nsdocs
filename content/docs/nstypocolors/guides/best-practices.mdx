@@ -3,37 +3,54 @@ title: Best Practices
 description: Recommended patterns and tips for using nstypocolors effectively in real-world projects.
 ---
 
-# Best Practices
-
-This guide covers recommended ways to use **nstypocolors** so your logs stay readable, intentional, and professional—especially in CLIs and developer-facing tools.
-
----
+This guide outlines **recommended patterns** for using nstypocolors so your logs remain readable, intentional, and professional—especially in CLIs and developer-facing tools.
 
 ## Use Gradients Sparingly
 
-Gradients are visually powerful, but overusing them can reduce clarity.
+---
+
+Gradients are visually powerful, but overuse can reduce clarity and impact.
 
 **Recommended uses:**
+- Startup banners  
+- Build and success messages  
+- Important state transitions  
 
-- Startup banners
-- Build / success messages
-- Important status transitions
+**Avoid gradients for:**
+- Every log line  
+- Large blocks of text  
+- Debug-level output  
 
-**Avoid using gradients for:**
-
-- Every log line
-- Large blocks of text
-- Debug-level output
+<Tabs items={['TypeScript', 'JavaScript']}>
+<Tab>
 
 ```ts
+import { logBuild } from 'nstypocolors'
+
 logBuild('Build completed successfully')
 ```
 
----
+</Tab>
+<Tab>
+
+```js
+const { logBuild } = require('nstypocolors')
+
+logBuild('Build completed successfully')
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="tip">
+Gradients work best when they signal a moment, not when they fill the entire output.
+</Callout>
 
 ## Match Colors to Meaning
 
-Each preset is designed to convey intent. Stick to these meanings consistently:
+---
+
+Each preset conveys a specific intent. Use them consistently.
 
 | Purpose        | Function     |
 | -------------- | ------------ |
@@ -44,13 +61,13 @@ Each preset is designed to convey intent. Stick to these meanings consistently:
 | Build / phase  | `logBuild`   |
 | Neutral output | `logDefault` |
 
-Consistency improves developer experience more than creativity.
-
----
+Consistency improves developer experience more than creative styling.
 
 ## Prefer Presets Over Custom Colors
 
-nstypocolors is opinionated by design. Presets exist to avoid noisy or unreadable output.
+---
+
+nstypocolors is opinionated by design. Presets exist to prevent noisy or unreadable output.
 
 Instead of:
 
@@ -60,15 +77,31 @@ applyColor(text, someCustomAnsi)
 
 Prefer:
 
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
+
 ```ts
+import { logInfo } from 'nstypocolors'
+
 logInfo('Server started on port 3000')
 ```
 
-This keeps logs predictable across environments.
+</Tab>
+<Tab>
 
----
+```js
+const { logInfo } = require('nstypocolors')
+
+logInfo('Server started on port 3000')
+```
+
+</Tab>
+</Tabs>
+
+This keeps logs predictable across terminals and platforms.
 
 ## Keep Messages Short and Intentional
+
+---
 
 Gradients look best on **short to medium-length messages**.
 
@@ -84,16 +117,18 @@ logSuccess('Deployment successful')
 logSuccess('The deployment process finished successfully without any issues detected')
 ```
 
-If the message is long, use a gradient header followed by plain text.
-
----
+If a message is long, use a gradient header followed by plain text.
 
 ## Combine with Plain Logs
 
-A good pattern is:
+---
+
+A reliable pattern is:
 
 1. Gradient for status
 2. Plain text for details
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 logBuild('Starting build')
@@ -101,17 +136,31 @@ console.log('→ Compiling source files')
 console.log('→ Optimizing assets')
 ```
 
-This improves scanning and keeps output clean.
+</Tab>
+<Tab>
 
----
+```js
+logBuild('Starting build')
+console.log('→ Compiling source files')
+console.log('→ Optimizing assets')
+```
+
+</Tab>
+</Tabs>
+
+This improves scanning and keeps output calm and readable.
 
 ## CLI-Specific Tips
 
+---
+
 When building CLIs:
 
-- Use `logBuild` for phases (init, build, deploy)
-- Use `logWarn` for recoverable issues
-- Use `logError` before exiting with non-zero codes
+* Use `logBuild` for phases (init, build, deploy)
+* Use `logWarn` for recoverable issues
+* Use `logError` before exiting with non-zero codes
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 if (!configExists) {
@@ -120,48 +169,66 @@ if (!configExists) {
 }
 ```
 
----
+</Tab>
+<Tab>
+
+```js
+if (!configExists) {
+  logError('Missing configuration file')
+  process.exit(1)
+}
+```
+
+</Tab>
+</Tabs>
 
 ## Avoid Colors in Machine Output
 
+---
+
 If output is meant to be parsed (JSON, pipes, redirects), avoid colored logs entirely.
 
-A common pattern is:
+A common approach:
 
-- Colors for humans
-- Plain output for machines
+* Colors for humans
+* Plain output for machines
 
-You can keep colored logs on `stderr` and plain output on `stdout` if needed.
+You may also send colored logs to `stderr` and structured output to `stdout`.
 
----
+<Callout type="warning">
+Never rely on color alone when output is consumed by scripts or CI systems.
+</Callout>
 
 ## Test Small Messages
 
-nstypocolors is safe for short strings, but you should still test:
+---
+
+nstypocolors safely handles very short strings, but always test edge cases.
 
 ```ts
 logSuccess('OK')
 logWarn('!')
 ```
 
-This ensures your CLI output remains stable in edge cases.
-
----
+Short messages should be reserved for confirmations or alerts.
 
 ## Keep Logs Accessible
 
+---
+
 Remember:
 
-- Not all terminals render colors equally
-- Some users may be color-sensitive
+* Not all terminals render colors equally
+* Some users may be color-sensitive
 
-nstypocolors uses **soft, readable palettes** by default—don’t stack multiple styles or effects on top.
-
----
+nstypocolors uses **soft, readable palettes** by default—avoid stacking extra styles or effects.
 
 ## Final Thought
 
-The goal of nstypocolors is not to make logs louder—
-it’s to make them **clear, expressive, and intentional**.
+---
 
-Use colors to guide attention, not to distract.
+nstypocolors is not about louder logs.
+It’s about **clear, expressive, and intentional communication**.
+
+Use color to guide attention.
+Let meaning lead, and styling follow.

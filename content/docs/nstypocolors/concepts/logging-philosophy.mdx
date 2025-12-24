@@ -3,36 +3,39 @@ title: Logging Guide
 description: Learn how to use nstypocolors effectively for real-world logging scenarios.
 ---
 
-# Logging Guide
-
-This guide shows how to use **nstypocolors** in real-world scenarios to create clean, readable, and expressive terminal logs.
+This guide explains how to use **nstypocolors** in real-world scenarios to produce clean, readable, and expressive terminal logs.
 
 The goal is not to color everything — but to make important information stand out **intentionally**.
 
----
+<Callout type="info">
+Color is a signal, not decoration. Use it to guide attention, not to overwhelm.
+</Callout>
 
 ## Core Principle
 
-> Color is a signal, not decoration.
+---
 
 Use color to:
 
-- Highlight success or failure
-- Separate informational output
-- Improve scan-ability
-- Reduce cognitive load
+- Highlight success or failure  
+- Separate informational output  
+- Improve scan-ability  
+- Reduce cognitive load  
 
 Avoid:
 
-- Coloring every log line
-- Overusing rainbow effects
-- Mixing too many styles together
-
----
+- Coloring every log line  
+- Overusing gradients  
+- Mixing too many styles together  
 
 ## Basic Logging
 
-For simple scripts and utilities:
+---
+
+For small scripts or simple utilities, plain color functions work best.
+
+<Tabs items={['TypeScript', 'JavaScript']}>
+<Tab>
 
 ```ts
 import { logGreen, logRed } from 'nstypocolors'
@@ -41,17 +44,32 @@ logGreen('Server started successfully')
 logRed('Failed to connect to database')
 ```
 
-This works best when:
+</Tab>
+<Tab>
 
-- Logs are short
-- Meaning is obvious
-- Consistency matters
+```js
+const { logGreen, logRed } = require('nstypocolors')
 
----
+logGreen('Server started successfully')
+logRed('Failed to connect to database')
+```
+
+</Tab>
+</Tabs>
+
+This approach is ideal when:
+
+* Logs are short
+* Meaning is obvious
+* Consistency matters
 
 ## Status-Based Logging (Recommended)
 
-For applications, CLIs, or bots, use **semantic gradients**.
+---
+
+For applications, CLIs, or bots, prefer **semantic gradient presets**.
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 import { logSuccess, logError, logInfo, logWarn } from 'nstypocolors'
@@ -62,31 +80,63 @@ logWarn('High memory usage detected')
 logError('Unhandled exception occurred')
 ```
 
+</Tab>
+<Tab>
+
+```js
+const { logSuccess, logError, logInfo, logWarn } = require('nstypocolors')
+
+logSuccess('Build completed')
+logInfo('Listening on port 3000')
+logWarn('High memory usage detected')
+logError('Unhandled exception occurred')
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="tip">
+Semantic presets scale better than manual colors as projects grow.
+</Callout>
+
 ### Why This Works
 
-- Each state has a visual identity
-- Messages stay readable
-- No need to remember colors
-- Scales well as the project grows
-
----
+* Each state has a visual identity
+* Messages remain readable
+* No need to remember color codes
+* Easy to maintain over time
 
 ## Short vs Long Messages
 
-Gradients in nstypocolors are designed to work with **any length**:
+---
+
+Gradients in nstypocolors adapt automatically to message length.
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 logSuccess('OK')
 logSuccess('Deployment completed successfully')
 ```
 
-Even single words are handled gracefully.
+</Tab>
+<Tab>
+
+```js
+logSuccess('OK')
+logSuccess('Deployment completed successfully')
+```
+
+</Tab>
+</Tabs>
+
+Both short confirmations and longer messages remain visually balanced.
+
+{/* ## CLI Logging
 
 ---
 
-## CLI Logging
-
-For scripts or shell usage:
+nstypocolors also provides a CLI for quick terminal output.
 
 ```bash
 nstc "Deployment successful" --success
@@ -97,15 +147,17 @@ nstc "Process crashed" --error
 
 Use the CLI when:
 
-- Writing bash scripts
-- Automating workflows
-- Testing output quickly
+* Writing shell scripts
+* Automating workflows
+* Testing output quickly */}
+
+## Combining with Plain Logs
 
 ---
 
-## Combining with Console Logs
+A recommended pattern is mixing colored and plain logs.
 
-You can mix nstypocolors with standard logs:
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 console.log('Starting process...')
@@ -113,13 +165,33 @@ logInfo('Loading configuration')
 logSuccess('Ready')
 ```
 
-This keeps neutral output neutral, and highlights what matters.
+</Tab>
+<Tab>
 
----
+```js
+console.log('Starting process...')
+logInfo('Loading configuration')
+logSuccess('Ready')
+```
+
+</Tab>
+</Tabs>
+
+This keeps neutral information neutral while highlighting key states.
 
 ## What to Avoid
 
-❌ Don’t do this:
+---
+
+<Callout type="warning">
+Avoid using color or gradients without intent.
+</Callout>
+
+- Coloring every line
+- Mixing multiple styles in one message
+- Using gradients for stack traces or debug dumps
+
+Example of what **not** to do:
 
 ```ts
 logRainbow('Every')
@@ -127,30 +199,26 @@ logRainbow('Single')
 logRainbow('Line')
 ```
 
-❌ Avoid mixing multiple styles in one message
-
-❌ Avoid gradients for stack traces
-
----
-
 ## Recommended Patterns
 
-| Scenario                | Recommended  |
-| ----------------------- | ------------ |
-| Startup complete        | `logSuccess` |
-| User action             | `logInfo`    |
-| Potential issue         | `logWarn`    |
-| Failure                 | `logError`   |
-| Celebration / highlight | `logBuild`   |
-
 ---
+
+| Scenario          | Recommended  |
+| ----------------- | ------------ |
+| Startup complete  | `logSuccess` |
+| User action       | `logInfo`    |
+| Potential issue   | `logWarn`    |
+| Failure           | `logError`   |
+| Highlight / phase | `logBuild`   |
 
 ## Final Thought
 
+---
+
 Good logs should:
 
-- Be readable at a glance
-- Communicate state clearly
-- Stay consistent over time
+* Be readable at a glance
+* Communicate state clearly
+* Remain consistent over time
 
-**nstypocolors** helps you achieve this without configuration, complexity, or noise.
+**nstypocolors** helps you achieve this with zero configuration, minimal API surface, and intentional design.

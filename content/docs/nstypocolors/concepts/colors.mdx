@@ -3,21 +3,27 @@ title: Colors
 description: Use simple and readable color logging utilities in nstypocolors.
 ---
 
-# Colors
+nstypocolors provides a set of **explicit, single-purpose color functions** for logging styled text to the terminal.
 
-nstypocolors provides a set of **simple, explicit color functions** for logging styled text to the terminal.
-
-These functions are designed to be:
+These utilities are intentionally designed to be:
 
 - Easy to read in code
 - Predictable in output
-- Safe for beginners
+- Beginner-friendly
+- Free from chaining or hidden behavior
 
-No chaining. No magic. One function = one color.
+<Callout type="info">
+One function equals one color. No magic, no configuration.
+</Callout>
 
 ## Basic Usage
 
-Import the color functions you need:
+---
+
+Import only the color functions you need and log directly.
+
+<Tabs items={['TypeScript', 'JavaScript']}>
+<Tab>
 
 ```ts
 import { logGreen, logRed, logBlue } from 'nstypocolors'
@@ -27,11 +33,29 @@ logRed('Something went wrong')
 logBlue('Fetching data...')
 ```
 
+</Tab>
+<Tab>
+
+```js
+const { logGreen, logRed, logBlue } = require('nstypocolors')
+
+logGreen('Server started successfully')
+logRed('Something went wrong')
+logBlue('Fetching data...')
+```
+
+</Tab>
+</Tabs>
+
 Each function prints directly to `stdout` using ANSI color codes.
 
 ## Primary Colors
 
-Commonly used colors for general logging:
+---
+
+These are the most commonly used colors for general logging.
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 logRed('Error message')
@@ -45,9 +69,35 @@ logWhite('Plain output')
 logBlack('Muted output')
 ```
 
+</Tab>
+<Tab>
+
+```js
+logRed('Error message')
+logGreen('Success message')
+logBlue('Information')
+logYellow('Warning')
+logPink('Highlight')
+logMagenta('Debug info')
+logCyan('Network log')
+logWhite('Plain output')
+logBlack('Muted output')
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="tip">
+Stick to consistent meanings for colors to improve readability across logs.
+</Callout>
+
 ## Bright Colors
 
-Brighter variants for higher emphasis:
+---
+
+Bright variants are intended for **high-attention messages**.
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 logBrightRed('Critical error')
@@ -60,11 +110,34 @@ logBrightCyan('Connected')
 logBrightWhite('Output')
 ```
 
-Use bright colors sparingly for important messages.
+</Tab>
+<Tab>
+
+```js
+logBrightRed('Critical error')
+logBrightGreen('Build passed')
+logBrightYellow('Attention required')
+logBrightBlue('Processing request')
+logBrightPink('Important note')
+logBrightMagenta('Verbose log')
+logBrightCyan('Connected')
+logBrightWhite('Output')
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="warning">
+Avoid using bright colors for every log line—they lose impact quickly.
+</Callout>
 
 ## Pastel Colors
 
-Soft, aesthetic colors for friendly or UI-like output:
+---
+
+Pastel colors are soft, aesthetic, and easy on the eyes—ideal for user-facing tools.
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 logPastelRed('Soft error')
@@ -78,16 +151,38 @@ logPastelCoral('Alert')
 logPastelMint('Success')
 ```
 
-Pastel colors are ideal for:
+</Tab>
+<Tab>
 
-- CLIs
-- Help menus
-- Developer tools
-- Demo output
+```js
+logPastelRed('Soft error')
+logPastelPink('Notice')
+logPastelBlue('Loading')
+logPastelGreen('Ready')
+logPastelYellow('Heads up')
+logPastelOrange('Reminder')
+logPastelLavender('Info panel')
+logPastelCoral('Alert')
+logPastelMint('Success')
+```
+
+</Tab>
+</Tabs>
+
+Pastel colors work especially well for:
+
+* CLI help screens
+* Developer tools
+* Demo output
+* Friendly user feedback
 
 ## Background Pastel Colors
 
-Background-highlighted text for banners or labels:
+---
+
+Background-highlighted variants are useful for **labels and banners**.
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 logBackPastelRed('ERROR')
@@ -98,16 +193,36 @@ logBackPastelLavender('NOTE')
 logBackPastelMint('OK')
 ```
 
-These are useful for:
+</Tab>
+<Tab>
 
-- Status labels
-- Section headers
-- One-word highlights
+```js
+logBackPastelRed('ERROR')
+logBackPastelGreen('SUCCESS')
+logBackPastelBlue('INFO')
+logBackPastelYellow('WARNING')
+logBackPastelLavender('NOTE')
+logBackPastelMint('OK')
+```
 
-## When to Use Colors
+</Tab>
+</Tabs>
 
-- **Colors** → single-tone, predictable logs
-- **Gradients** → expressive or high-impact messages
-- **CLI flags** → quick styling from the terminal
+These are ideal for:
 
-For multi-color output, see the **Gradients** section next.
+* Status tags
+* Section headers
+* One-word emphasis
+
+## Choosing the Right Style
+
+---
+
+* **Colors** → predictable, single-tone logs
+* **Bright colors** → critical attention
+* **Pastels** → friendly or UI-like output
+* **Gradients** → expressive headers or milestones
+
+<Callout type="info">
+For expressive, multi-tone output, continue to the **Gradients** section next.
+</Callout>

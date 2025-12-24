@@ -1,16 +1,19 @@
 ---
 title: Quick Start
 description: Get started with nstypocolors in seconds using simple color and gradient logging.
-icon: Rocket
+icon: Album
 ---
 
-# Quick Start
-
 nstypocolors is designed to work out of the box with **zero configuration**.
+Install it, import what you need, and start logging immediately.
 
 ## Basic Usage
 
-Import the color functions you need and log messages directly:
+---
+
+Import color helpers and log messages directly to the terminal.
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 import { logGreen, logRed } from 'nstypocolors'
@@ -19,11 +22,32 @@ logGreen('Server started successfully')
 logRed('Failed to connect to database')
 ```
 
-Each function prints directly to the terminal with clean, readable colors.
+</Tab>
+<Tab>
+
+```js
+const { logGreen, logRed } = require('nstypocolors')
+
+logGreen('Server started successfully')
+logRed('Failed to connect to database')
+```
+
+</Tab>
+</Tabs>
+
+Each function prints immediately with clean, readable output—no setup required.
+
+<Callout type="info">
+All logging functions are side-effect based. You don’t need to wrap or return anything.
+</Callout>
 
 ## Gradient Presets
 
-nstypocolors includes built-in gradient presets for structured logs:
+---
+
+Built-in gradient presets help keep logs structured and expressive.
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 import { logSuccess, logInfo, logWarn, logError } from 'nstypocolors'
@@ -34,26 +58,60 @@ logWarn('Deprecated API usage detected')
 logError('Unhandled exception occurred')
 ```
 
-These gradients adapt automatically to message length and work for both short and long text.
+</Tab>
+<Tab>
+
+```js
+const {
+  logSuccess,
+  logInfo,
+  logWarn,
+  logError,
+} = require('nstypocolors')
+
+logSuccess('Build completed successfully')
+logInfo('Fetching user data...')
+logWarn('Deprecated API usage detected')
+logError('Unhandled exception occurred')
+```
+
+</Tab>
+</Tabs>
+
+Gradients automatically adapt to message length and remain readable even for long logs.
 
 ## Using with TypeScript
 
-Type definitions are included by default. No additional configuration is required.
+---
+
+nstypocolors ships with **built-in type definitions**.
+
+<Tabs items={['TypeScript']}> <Tab>
 
 ```ts
 logSuccess(`Connected as ${client.user?.tag}`)
 ```
 
+</Tab>
+</Tabs>
+
+No `tsconfig` changes. No extra packages.
 Works seamlessly in:
 
-- Node.js scripts
-- CLI tools
-- Discord bots
-- Backend services
+* Node.js scripts
+* CLI tools
+* Discord bots
+* Backend services
+
+<Callout type="success">
+If you’re using TypeScript, you’re already fully supported—nothing else to configure.
+</Callout>
 
 ## CLI Usage
 
-If installed globally, you can use the `nstc` command:
+---
+
+If installed globally, you can use the `nstc` command directly from your terminal.
 
 ```bash
 nstc "Build successful" --success
@@ -62,12 +120,19 @@ nstc "Potential issue detected" --warn
 nstc "Process failed" --error
 ```
 
-This is useful for quick terminal output or shell scripts.
+This is ideal for:
+
+* Shell scripts
+* Quick debugging output
 
 ## Next Steps
 
-- Explore available **colors and gradients**
-- Learn about **CLI commands**
-- See **real-world usage examples**
+---
 
-nstypocolors stays minimal by design—use only what you need.
+From here, you can:
+
+* Explore available **colors and gradients**
+* Learn about **CLI commands**
+* See **real-world usage examples**
+
+nstypocolors stays minimal by design—use only what you need, when you need it.

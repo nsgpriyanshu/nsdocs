@@ -1,18 +1,67 @@
 ---
 title: Introduction
-description: nstypocolors is a minimal and expressive color & gradient logging library built for modern TypeScript developers.
 icon: Info
 ---
 
-# Introduction
+**nstypocolors** is a minimal and expressive color & gradient logging library designed for modern Node.js and TypeScript projects.
 
-**nstypocolors** is a minimal and expressive color & gradient logging library built for modern TypeScript developers.
+It helps you produce **intentional, readable, and aesthetic terminal output** without unnecessary configuration or visual noise.
 
-It focuses on:
+## Why nstypocolors?
 
-- Readable terminal output
-- Aesthetic gradients (not noisy rainbows)
-- Zero configuration
-- Optional CLI support
+---
 
-Whether you're building a CLI, a Discord bot, or a Node.js script, nstypocolors helps your logs look intentional.
+The library focuses on a few core principles:
+
+- Clean and readable terminal logs  
+- Carefully designed gradients (no noisy rainbows)  
+- Zero-configuration setup  
+- Lightweight and dependency-free  
+- Optional CLI support for quick usage  
+
+Whether you are building a CLI tool, a Discord bot, or a backend script, **nstypocolors** keeps your logs expressive while staying professional.
+
+<Callout type="info">
+nstypocolors is built with TypeScript first, but it works just as smoothly in plain JavaScript projects.
+</Callout>
+
+## Basic Usage
+
+---
+
+Below is a simple example showing how nstypocolors looks in both JavaScript and TypeScript.
+
+<Tabs items={['TypeScript', 'JavaScript']}>
+  <Tab value="TypeScript">
+    ```ts
+    import { logGreen } from 'nstypocolors'
+
+    logGreen('Connected successfully')
+    logGreen('Build complete')
+    ```
+  </Tab>
+
+  <Tab value="JavaScript">
+    ```js
+    const { logGreen } = require('nstypocolors')
+
+    logGreen('Connected successfully')
+    logGreen('Build complete')
+    ```
+  </Tab>
+</Tabs>
+
+## When Should You Use It?
+
+---
+
+nstypocolors is a great fit if you:
+
+- Want visually clear logs without heavy formatting libraries  
+- Need subtle gradients for emphasis, not decoration  
+- Prefer tools that work out-of-the-box  
+- Care about clean developer experience  
+
+<Callout type="success">
+If you believe logs should be readable first and beautiful second, nstypocolors is built for you.
+</Callout>

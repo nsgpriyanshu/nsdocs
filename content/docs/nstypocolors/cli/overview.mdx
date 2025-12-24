@@ -1,37 +1,42 @@
 ---
-title: Overview
-description: An overview of the nstypocolors command-line interface and its design philosophy.
+title: CLI Overview
 ---
 
-# CLI Overview
-
-The **nstypocolors CLI**, exposed through the `nstc` command, allows you to print clean, readable, and expressive colored output directly from your terminal.
+The **nstypocolors CLI**, exposed through the `nstc` command, lets you print clean, readable, and expressive colored output directly from your terminal.
 
 It is designed to be:
 
-- Minimal
-- Fast
-- Zero-config
-- Script-friendly
+* Minimal
+* Fast
+* Zero-config
+* Script-friendly
 
-The CLI complements the library usage and works especially well for automation, tooling, and developer workflows.
+The CLI complements the library API and works especially well for automation, tooling, and developer workflows.
+
+<Callout type="info">
+A fully featured and production level cli commands are still in the works. This overview covers the core concepts and usage patterns. Some of the features may not be available yet.
+</Callout>
+
+---
 
 ## What the CLI Is For
 
 The CLI is ideal when you want:
 
-- Better looking logs without adding code
-- Colored output in shell scripts
-- Readable build / deploy messages
-- Simple terminal experiments
-- Consistent visual language across tools
+* Better-looking logs without writing code
+* Colored output in shell scripts
+* Clear build or deploy messages
+* Quick terminal experiments
+* A consistent visual language across tools
 
-Examples:
+Common use cases include:
 
-- CI pipelines
-- Local scripts
-- npm lifecycle scripts
-- Developer utilities
+* CI pipelines
+* Local scripts
+* npm lifecycle scripts
+* Developer utilities
+
+---
 
 ## How It Works
 
@@ -43,7 +48,9 @@ Internally, it:
 2. Applies the selected color or gradient
 3. Outputs styled text using ANSI escape codes
 
-No configuration files, no runtime state.
+There are no configuration files and no runtime state.
+
+---
 
 ## Command Structure
 
@@ -51,9 +58,9 @@ No configuration files, no runtime state.
 nstc "<message>" <option>
 ```
 
-- The message is always required
-- The option is optional
-- If no option is provided, a default gradient is applied
+* The message is always required
+* The option is optional
+* If no option is provided, a default gradient is applied
 
 Example:
 
@@ -61,38 +68,44 @@ Example:
 nstc "Build completed successfully"
 ```
 
+---
+
 ## Color vs Gradient
 
-The CLI supports two types of styling:
+The CLI supports two styling approaches.
 
 ### Solid Colors
 
-- Predictable
-- Best for warnings, errors, and simple logs
+* Predictable and explicit
+* Best for warnings, errors, and short messages
 
 ### Gradients
 
-- Expressive
-- Ideal for status messages and highlights
-- Designed to stay readable (not noisy)
+* More expressive
+* Ideal for status messages and highlights
+* Designed to stay readable, not noisy
 
-Both can be used interchangeably depending on context.
+Choose based on context—both are first-class options.
+
+---
 
 ## Philosophy
 
-The CLI follows these principles:
+The CLI follows a few simple principles:
 
-- **No magic** — what you see is what you typed
-- **No persistence** — every command is stateless
-- **No surprises** — colors never change implicitly
-- **Readable first** — aesthetics never sacrifice clarity
+* **No magic** — what you see is exactly what you typed
+* **No persistence** — every command is stateless
+* **No surprises** — styles never change implicitly
+* **Readable first** — aesthetics never sacrifice clarity
+
+---
 
 ## When Not to Use It
 
 You may prefer the library API instead if:
 
-- You need structured logging
-- You are building a long-running application
-- You want programmatic control
+* You need structured or conditional logging
+* You’re building a long-running application
+* You want programmatic control over output
 
-In those cases, import and use the functions directly in TypeScript.
+In those cases, import and use the logging functions directly in TypeScript.

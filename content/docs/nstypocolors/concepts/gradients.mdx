@@ -3,29 +3,38 @@ title: Gradients
 description: Use expressive gradient presets for meaningful and aesthetic terminal output.
 ---
 
-# Gradients
-
 Gradients in **nstypocolors** are designed to be **intentional**, not decorative.
 
-They help convey meaning at a glance — success, failure, warnings, or important information — without overwhelming the terminal.
+They help convey meaning at a glance—such as success, failure, or progress—without overwhelming the terminal.
 
-Unlike rainbow spam, these gradients are:
+Unlike noisy rainbow effects, these gradients are:
 
 - Carefully curated
 - Readable on dark terminals
-- Safe for short and long messages
+- Suitable for both short and long messages
+
+<Callout type="info">
+Gradients are meant to highlight moments, not replace clear wording.
+</Callout>
 
 ## Basic Usage
 
-Import the gradient presets you need:
+---
+
+Import only the gradient presets you need and use them directly.
+
+<Tabs items={['TypeScript', 'JavaScript']}>
+<Tab>
 
 ```ts
-import { logSuccess, logError, logInfo, logWarn, logBuild } from 'nstypocolors'
-```
+import {
+  logSuccess,
+  logError,
+  logInfo,
+  logWarn,
+  logBuild,
+} from 'nstypocolors'
 
-Each function applies a smooth, multi-step gradient across the message.
-
-```ts
 logSuccess('Operation completed successfully')
 logError('Failed to connect to database')
 logInfo('Fetching user data...')
@@ -33,21 +42,59 @@ logWarn('Disk usage is high')
 logBuild('Building project...')
 ```
 
+</Tab>
+<Tab>
+
+```js
+const {
+  logSuccess,
+  logError,
+  logInfo,
+  logWarn,
+  logBuild,
+} = require('nstypocolors')
+
+logSuccess('Operation completed successfully')
+logError('Failed to connect to database')
+logInfo('Fetching user data...')
+logWarn('Disk usage is high')
+logBuild('Building project...')
+```
+
+</Tab>
+</Tabs>
+
+Each function applies a smooth, multi-step gradient across the entire message.
+
 ## Available Gradient Presets
+
+---
 
 ### Success
 
 A **green-blended success gradient**, ideal for confirmations and completed tasks.
 
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
+
 ```ts
 logSuccess('Deployment completed')
 ```
 
-Use for:
+</Tab>
+<Tab>
 
-- Successful operations
-- Completed tasks
-- Positive outcomes
+```js
+logSuccess('Deployment completed')
+```
+
+</Tab>
+</Tabs>
+
+**Recommended for:**
+
+* Successful operations
+* Completed tasks
+* Positive outcomes
 
 ---
 
@@ -55,47 +102,83 @@ Use for:
 
 A **red → orange gradient** for failures and critical issues.
 
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
+
 ```ts
 logError('Runtime error occurred')
 ```
 
-Use for:
+</Tab>
+<Tab>
 
-- Errors
-- Crashes
-- Failed operations
+```js
+logError('Runtime error occurred')
+```
+
+</Tab>
+</Tabs>
+
+**Recommended for:**
+
+* Errors
+* Crashes
+* Failed operations
 
 ---
 
 ### Info
 
-A **blue → cyan gradient** for neutral informational messages.
+A **blue → cyan gradient** for neutral, informational messages.
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 logInfo('Connecting to server...')
 ```
 
-Use for:
+</Tab>
+<Tab>
 
-- Status updates
-- Background operations
-- Informational logs
+```js
+logInfo('Connecting to server...')
+```
+
+</Tab>
+</Tabs>
+
+**Recommended for:**
+
+* Status updates
+* Background operations
+* Informational logs
 
 ---
 
 ### Warn
 
-A **yellow → orange gradient** to indicate caution or potential problems.
+A **yellow → orange gradient** to indicate caution or potential issues.
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 logWarn('Deprecated API usage detected')
 ```
 
-Use for:
+</Tab>
+<Tab>
 
-- Warnings
-- Non-fatal issues
-- Attention-required messages
+```js
+logWarn('Deprecated API usage detected')
+```
+
+</Tab>
+</Tabs>
+
+**Recommended for:**
+
+* Warnings
+* Non-fatal issues
+* Attention-required messages
 
 ---
 
@@ -103,21 +186,61 @@ Use for:
 
 A **purple-based gradient**, designed for build systems and developer workflows.
 
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
+
 ```ts
 logBuild('Compiling source files...')
 ```
 
-Use for:
+</Tab>
+<Tab>
 
-- Build steps
-- Tooling output
-- CI / CD logs
+```js
+logBuild('Compiling source files...')
+```
+
+</Tab>
+</Tabs>
 
 ---
 
-## Small Messages Work Too
+### Default
 
-Gradients are safe for very short strings:
+A **red-blended default gradient**.
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
+
+```ts
+logDefault('Deployment completed')
+```
+
+</Tab>
+<Tab>
+
+```js
+logDefault('Deployment completed')
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+Use `logDefault` when no specific semantic gradient fits your message.
+</Callout>
+
+**Recommended for:**
+
+* Build steps
+* Tooling output
+* CI / CD logs
+
+## Short Messages & Edge Cases
+
+---
+
+Gradients safely adapt to very short messages.
+
+<Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
 ```ts
 logSuccess('OK')
@@ -126,12 +249,33 @@ logWarn('!')
 logBuild('Hi')
 ```
 
-The color mapping automatically adapts to message length.
+</Tab>
+<Tab>
+
+```js
+logSuccess('OK')
+logError('No')
+logWarn('!')
+logBuild('Hi')
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="idea">
+Short messages rely more on wording than color intensity—this is expected behavior.
+</Callout>
 
 ## When to Use Gradients
 
-- Use **colors** for simple, predictable output
-- Use **gradients** for expressive, high-signal logs
-- Avoid mixing multiple gradients in the same block
+---
 
-Gradients should enhance clarity, not distract.
+* Use **colors** for simple, predictable output
+* Use **gradients** for expressive, high-signal moments
+* Avoid stacking or mixing multiple gradients in a single block
+
+<Callout type="warning">
+Overusing gradients reduces clarity. Treat them as visual anchors, not decoration.
+</Callout>
+
+Gradients should enhance understanding—not distract from it.

@@ -3,21 +3,17 @@ title: CLI Usage
 description: Use nstypocolors directly from the terminal with the nstc command-line interface.
 ---
 
-# CLI Usage
+**nstypocolors** ships with a lightweight CLI called **`nstc`**, allowing you to print colored and gradient text directly from the terminal.
 
-**nstypocolors** includes a lightweight CLI called **`nstc`**, allowing you to print colored and gradient text directly from your terminal.
+It is intentionally minimal, fast, and requires **no configuration**.
 
-This is useful for:
-
-- Scripts
-- Build logs
-- CI output
-- Local tooling
-- Quick experiments
-
-The CLI is intentionally simple and requires no configuration.
+<Callout type="info">
+The CLI is ideal for scripts, build logs, CI output, local tooling, and quick experiments.
+</Callout>
 
 ## Installation
+
+---
 
 If installed globally:
 
@@ -25,30 +21,36 @@ If installed globally:
 npm install -g nstypocolors
 ```
 
-Or use it directly with `npx`:
+Or run it without installing using `npx`:
 
 ```bash
 npx nstypocolors "Hello World" --green
 ```
 
+Both approaches provide access to the `nstc` command.
+
 ## Basic Syntax
+
+---
 
 ```bash
 nstc "<message>" <option>
 ```
 
-- `<message>` — Text you want to print
-- `<option>` — Color or gradient flag
+* `<message>` — The text you want to print
+* `<option>` — A color or gradient flag
 
-If no option is provided, the default gradient is used.
+If no option is provided, a default gradient is applied.
 
 ```bash
 nstc "nstypocolors CLI running successfully!"
 ```
 
-## Color Examples
+## Solid Color Examples
 
-### Solid Colors
+---
+
+Use solid colors for simple, predictable output.
 
 ```bash
 nstc "Success message" --green
@@ -57,7 +59,13 @@ nstc "Info message" --blue
 nstc "Warning message" --yellow
 ```
 
-### Bright Colors
+These map directly to the color utilities available in the library API.
+
+## Bright Colors
+
+---
+
+Bright variants provide stronger emphasis and should be used sparingly.
 
 ```bash
 nstc "Bright success" --bright-green
@@ -65,7 +73,15 @@ nstc "Bright warning" --bright-yellow
 nstc "Bright error" --bright-red
 ```
 
-### Pastel Colors
+<Callout type="tip">
+Bright colors are best reserved for high-signal messages such as failures or completions.
+</Callout>
+
+## Pastel Colors
+
+---
+
+Pastel colors offer a softer, UI-like appearance.
 
 ```bash
 nstc "Soft UI message" --pastel-blue
@@ -73,16 +89,26 @@ nstc "Aesthetic output" --pastel-lavender
 nstc "Friendly notice" --pastel-mint
 ```
 
-### Background Pastel Colors
+These are especially useful for help menus and developer tools.
+
+## Background Pastel Colors
+
+---
+
+Background-highlighted output works well for labels or short status indicators.
 
 ```bash
 nstc "Highlighted warning" --back-pastel-yellow
 nstc "Important notice" --back-pastel-red
 ```
 
+Use these for one-word or short emphasis only.
+
 ## Gradient Presets
 
-Gradients are available directly from the CLI.
+---
+
+Semantic gradients are available directly from the CLI.
 
 ```bash
 nstc "Build completed successfully" --success
@@ -92,30 +118,46 @@ nstc "Fatal error occurred" --error
 nstc "Compiling project..." --build
 ```
 
-### Rainbow Output
+<Callout type="info">
+Gradient presets follow the same intent-based philosophy as the library API.
+</Callout>
+
+## Rainbow Output
+
+---
+
+A rainbow mode is also available:
 
 ```bash
 nstc "VIBGIOUR" --rainbow
 ```
 
-Best used sparingly.
+<Callout type="warning">
+Rainbow output is intentionally loud — use it sparingly and avoid it in production logs.
+</Callout>
 
 ## Help Menu
 
-To view all available flags:
+---
+
+To view all supported flags and options:
 
 ```bash
 nstc --help
 ```
 
-This displays:
+This includes:
 
-- All color options
-- Gradient presets
-- Usage examples
+* All color flags
+* Gradient presets
+* Usage examples
 
 ## Notes
 
-- The CLI works offline after installation
-- ANSI colors require a compatible terminal
-- Windows Terminal, PowerShell, and Linux shells are supported
+---
+
+* The CLI works fully offline after installation
+* ANSI colors require a compatible terminal
+* Windows Terminal, PowerShell, and modern Linux shells are supported
+
+If colors do not appear, verify that your terminal supports ANSI escape codes.

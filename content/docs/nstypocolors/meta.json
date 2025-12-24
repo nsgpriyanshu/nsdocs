@@ -4,16 +4,14 @@
   "icon": "Package",
   "root": true,
   "pages": [
+    "faq",
     "index",
     "installation",
     "quick-start",
-    "---Concepts---",
+    "---Getting Started---",
     "concepts",
-    "---CLI---",
-    "cli",
-    "---Guides---",
     "guides",
-    "---Other---",
-    "faq"
+    "---Advanced---",
+    "cli"
   ]
 }
