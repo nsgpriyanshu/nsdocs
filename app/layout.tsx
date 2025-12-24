@@ -2,7 +2,7 @@ import { RootProvider } from 'fumadocs-ui/provider/next'
 import type { Viewport } from 'next'
 import type { PropsWithChildren } from 'react'
 import { Geist } from 'next/font/google'
-
+import { generateMetadata } from '@/lib/metadata'
 import './global.css'
 import { Body } from './layout.client'
 
@@ -18,6 +18,8 @@ const geist = Geist({
   variable: '--font-sans',
   subsets: ['latin'],
 })
+
+export const metadata = generateMetadata()
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
