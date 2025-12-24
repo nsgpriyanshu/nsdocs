@@ -4,7 +4,6 @@
   "icon": "Package",
   "root": true,
   "pages": [
-    "---Introduction---",
     "index",
     "installation",
     "quick-start",
