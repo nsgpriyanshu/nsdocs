@@ -38,7 +38,7 @@ logRed('Failed to connect to database')
 Each function prints immediately with clean, readable output—no setup required.
 
 <Callout type="info">
-All logging functions are side-effect based. You don’t need to wrap or return anything.
+  All logging functions are side-effect based. You don’t need to wrap or return anything.
 </Callout>
 
 ## Gradient Presets
@@ -62,12 +62,7 @@ logError('Unhandled exception occurred')
 <Tab>
 
 ```js
-const {
-  logSuccess,
-  logInfo,
-  logWarn,
-  logError,
-} = require('nstypocolors')
+const { logSuccess, logInfo, logWarn, logError } = require('nstypocolors')
 
 logSuccess('Build completed successfully')
 logInfo('Fetching user data...')
@@ -98,13 +93,13 @@ logSuccess(`Connected as ${client.user?.tag}`)
 No `tsconfig` changes. No extra packages.
 Works seamlessly in:
 
-* Node.js scripts
-* CLI tools
-* Discord bots
-* Backend services
+- Node.js scripts
+- CLI tools
+- Discord bots
+- Backend services
 
 <Callout type="success">
-If you’re using TypeScript, you’re already fully supported—nothing else to configure.
+  If you’re using TypeScript, you’re already fully supported—nothing else to configure.
 </Callout>
 
 ## CLI Usage
@@ -122,8 +117,8 @@ nstc "Process failed" --error
 
 This is ideal for:
 
-* Shell scripts
-* Quick debugging output
+- Shell scripts
+- Quick debugging output
 
 ## Next Steps
 
@@ -131,8 +126,8 @@ This is ideal for:
 
 From here, you can:
 
-* Explore available **colors and gradients**
-* Learn about **CLI commands**
-* See **real-world usage examples**
+- Explore available **colors and gradients**
+- Learn about **CLI commands**
+- See **real-world usage examples**
 
 nstypocolors stays minimal by design—use only what you need, when you need it.

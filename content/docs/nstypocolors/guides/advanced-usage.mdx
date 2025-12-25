@@ -44,7 +44,8 @@ if (isVerbose) {
 This keeps default output clean while still allowing richer feedback when needed.
 
 <Callout type="info">
-Prefer explicit flags like <code>--verbose</code> or <code>--debug</code> over always-on colored logs.
+  Prefer explicit flags like <code>--verbose</code> or <code>--debug</code> over always-on colored
+  logs.
 </Callout>
 
 ## Environment-Based Logging
@@ -108,7 +109,7 @@ console.log('Uploading assets...')
 This pattern significantly improves readability in long-running tasks.
 
 <Callout type="warning">
-Overusing gradients reduces their impact. Use them to mark transitions, not every step.
+  Overusing gradients reduces their impact. Use them to mark transitions, not every step.
 </Callout>
 
 ## Layered Output Strategy
@@ -205,9 +206,9 @@ Short messages work best for confirmations or alerts—not explanations.
 
 If you’re building a library for others to consume:
 
-* Avoid logging by default
-* Expose an option to enable colored output
-* Respect user preferences
+- Avoid logging by default
+- Expose an option to enable colored output
+- Respect user preferences
 
 <Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
@@ -233,9 +234,7 @@ module.exports.run = function ({ silent = false }) {
 </Tab>
 </Tabs>
 
-<Callout type="tip">
-Libraries should empower users to control logging, not force it.
-</Callout>
+<Callout type="tip">Libraries should empower users to control logging, not force it.</Callout>
 
 ## CLI Flags Integration
 
@@ -243,9 +242,9 @@ Libraries should empower users to control logging, not force it.
 
 Combine nstypocolors with common CLI flags:
 
-* <code>--quiet</code>
-* <code>--verbose</code>
-* <code>--no-color</code>
+- <code>--quiet</code>
+- <code>--verbose</code>
+- <code>--no-color</code>
 
 <Tabs items={['TypeScript', 'JavaScript']}> <Tab>
 
@@ -281,9 +280,9 @@ nstypocolors uses ANSI escape codes, which work in most modern terminals.
 
 **Best practices:**
 
-* Test on Windows Terminal
-* Avoid assuming fixed-width fonts
-* Don’t rely on color alone to convey meaning
+- Test on Windows Terminal
+- Avoid assuming fixed-width fonts
+- Don’t rely on color alone to convey meaning
 
 Pair color with clear wording every time.
 
@@ -293,9 +292,9 @@ Pair color with clear wording every time.
 
 Design logs so they still make sense when:
 
-* Colors are disabled
-* Output is redirected to a file
-* The terminal doesn’t support gradients
+- Colors are disabled
+- Output is redirected to a file
+- The terminal doesn’t support gradients
 
 Well-written text matters more than styling.
 

@@ -8,7 +8,7 @@ This guide explains how to use **nstypocolors** in real-world scenarios to produ
 The goal is not to color everything — but to make important information stand out **intentionally**.
 
 <Callout type="info">
-Color is a signal, not decoration. Use it to guide attention, not to overwhelm.
+  Color is a signal, not decoration. Use it to guide attention, not to overwhelm.
 </Callout>
 
 ## Core Principle
@@ -17,16 +17,16 @@ Color is a signal, not decoration. Use it to guide attention, not to overwhelm.
 
 Use color to:
 
-- Highlight success or failure  
-- Separate informational output  
-- Improve scan-ability  
-- Reduce cognitive load  
+- Highlight success or failure
+- Separate informational output
+- Improve scan-ability
+- Reduce cognitive load
 
 Avoid:
 
-- Coloring every log line  
-- Overusing gradients  
-- Mixing too many styles together  
+- Coloring every log line
+- Overusing gradients
+- Mixing too many styles together
 
 ## Basic Logging
 
@@ -59,9 +59,9 @@ logRed('Failed to connect to database')
 
 This approach is ideal when:
 
-* Logs are short
-* Meaning is obvious
-* Consistency matters
+- Logs are short
+- Meaning is obvious
+- Consistency matters
 
 ## Status-Based Logging (Recommended)
 
@@ -95,16 +95,14 @@ logError('Unhandled exception occurred')
 </Tab>
 </Tabs>
 
-<Callout type="tip">
-Semantic presets scale better than manual colors as projects grow.
-</Callout>
+<Callout type="tip">Semantic presets scale better than manual colors as projects grow.</Callout>
 
 ### Why This Works
 
-* Each state has a visual identity
-* Messages remain readable
-* No need to remember color codes
-* Easy to maintain over time
+- Each state has a visual identity
+- Messages remain readable
+- No need to remember color codes
+- Easy to maintain over time
 
 ## Short vs Long Messages
 
@@ -132,7 +130,7 @@ logSuccess('Deployment completed successfully')
 
 Both short confirmations and longer messages remain visually balanced.
 
-{/* ## CLI Logging
+## CLI Logging
 
 ---
 
@@ -147,9 +145,9 @@ nstc "Process crashed" --error
 
 Use the CLI when:
 
-* Writing shell scripts
-* Automating workflows
-* Testing output quickly */}
+- Writing shell scripts
+- Automating workflows
+- Testing output quickly \*/}
 
 ## Combining with Plain Logs
 
@@ -183,9 +181,7 @@ This keeps neutral information neutral while highlighting key states.
 
 ---
 
-<Callout type="warning">
-Avoid using color or gradients without intent.
-</Callout>
+<Callout type="warning">Avoid using color or gradients without intent.</Callout>
 
 - Coloring every line
 - Mixing multiple styles in one message
@@ -217,8 +213,8 @@ logRainbow('Line')
 
 Good logs should:
 
-* Be readable at a glance
-* Communicate state clearly
-* Remain consistent over time
+- Be readable at a glance
+- Communicate state clearly
+- Remain consistent over time
 
 **nstypocolors** helps you achieve this with zero configuration, minimal API surface, and intentional design.

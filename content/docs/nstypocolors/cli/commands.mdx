@@ -8,7 +8,7 @@ description: Use nstypocolors directly from the terminal with the nstc command-l
 It is intentionally minimal, fast, and requires **no configuration**.
 
 <Callout type="info">
-The CLI is ideal for scripts, build logs, CI output, local tooling, and quick experiments.
+  The CLI is ideal for scripts, build logs, CI output, local tooling, and quick experiments.
 </Callout>
 
 ## Installation
@@ -37,8 +37,8 @@ Both approaches provide access to the `nstc` command.
 nstc "<message>" <option>
 ```
 
-* `<message>` — The text you want to print
-* `<option>` — A color or gradient flag
+- `<message>` — The text you want to print
+- `<option>` — A color or gradient flag
 
 If no option is provided, a default gradient is applied.
 
@@ -74,7 +74,7 @@ nstc "Bright error" --bright-red
 ```
 
 <Callout type="tip">
-Bright colors are best reserved for high-signal messages such as failures or completions.
+  Bright colors are best reserved for high-signal messages such as failures or completions.
 </Callout>
 
 ## Pastel Colors
@@ -119,7 +119,7 @@ nstc "Compiling project..." --build
 ```
 
 <Callout type="info">
-Gradient presets follow the same intent-based philosophy as the library API.
+  Gradient presets follow the same intent-based philosophy as the library API.
 </Callout>
 
 ## Rainbow Output
@@ -133,7 +133,7 @@ nstc "VIBGIOUR" --rainbow
 ```
 
 <Callout type="warning">
-Rainbow output is intentionally loud — use it sparingly and avoid it in production logs.
+  Rainbow output is intentionally loud — use it sparingly and avoid it in production logs.
 </Callout>
 
 ## Help Menu
@@ -148,16 +148,16 @@ nstc --help
 
 This includes:
 
-* All color flags
-* Gradient presets
-* Usage examples
+- All color flags
+- Gradient presets
+- Usage examples
 
 ## Notes
 
 ---
 
-* The CLI works fully offline after installation
-* ANSI colors require a compatible terminal
-* Windows Terminal, PowerShell, and modern Linux shells are supported
+- The CLI works fully offline after installation
+- ANSI colors require a compatible terminal
+- Windows Terminal, PowerShell, and modern Linux shells are supported
 
 If colors do not appear, verify that your terminal supports ANSI escape codes.

@@ -13,9 +13,7 @@ Unlike noisy rainbow effects, these gradients are:
 - Readable on dark terminals
 - Suitable for both short and long messages
 
-<Callout type="info">
-Gradients are meant to highlight moments, not replace clear wording.
-</Callout>
+<Callout type="info">Gradients are meant to highlight moments, not replace clear wording.</Callout>
 
 ## Basic Usage
 
@@ -27,13 +25,7 @@ Import only the gradient presets you need and use them directly.
 <Tab>
 
 ```ts
-import {
-  logSuccess,
-  logError,
-  logInfo,
-  logWarn,
-  logBuild,
-} from 'nstypocolors'
+import { logSuccess, logError, logInfo, logWarn, logBuild } from 'nstypocolors'
 
 logSuccess('Operation completed successfully')
 logError('Failed to connect to database')
@@ -46,13 +38,7 @@ logBuild('Building project...')
 <Tab>
 
 ```js
-const {
-  logSuccess,
-  logError,
-  logInfo,
-  logWarn,
-  logBuild,
-} = require('nstypocolors')
+const { logSuccess, logError, logInfo, logWarn, logBuild } = require('nstypocolors')
 
 logSuccess('Operation completed successfully')
 logError('Failed to connect to database')
@@ -92,9 +78,9 @@ logSuccess('Deployment completed')
 
 **Recommended for:**
 
-* Successful operations
-* Completed tasks
-* Positive outcomes
+- Successful operations
+- Completed tasks
+- Positive outcomes
 
 ---
 
@@ -120,9 +106,9 @@ logError('Runtime error occurred')
 
 **Recommended for:**
 
-* Errors
-* Crashes
-* Failed operations
+- Errors
+- Crashes
+- Failed operations
 
 ---
 
@@ -148,9 +134,9 @@ logInfo('Connecting to server...')
 
 **Recommended for:**
 
-* Status updates
-* Background operations
-* Informational logs
+- Status updates
+- Background operations
+- Informational logs
 
 ---
 
@@ -176,9 +162,9 @@ logWarn('Deprecated API usage detected')
 
 **Recommended for:**
 
-* Warnings
-* Non-fatal issues
-* Attention-required messages
+- Warnings
+- Non-fatal issues
+- Attention-required messages
 
 ---
 
@@ -225,14 +211,14 @@ logDefault('Deployment completed')
 </Tabs>
 
 <Callout type="info">
-Use `logDefault` when no specific semantic gradient fits your message.
+  Use `logDefault` when no specific semantic gradient fits your message.
 </Callout>
 
 **Recommended for:**
 
-* Build steps
-* Tooling output
-* CI / CD logs
+- Build steps
+- Tooling output
+- CI / CD logs
 
 ## Short Messages & Edge Cases
 
@@ -263,19 +249,19 @@ logBuild('Hi')
 </Tabs>
 
 <Callout type="idea">
-Short messages rely more on wording than color intensity—this is expected behavior.
+  Short messages rely more on wording than color intensity—this is expected behavior.
 </Callout>
 
 ## When to Use Gradients
 
 ---
 
-* Use **colors** for simple, predictable output
-* Use **gradients** for expressive, high-signal moments
-* Avoid stacking or mixing multiple gradients in a single block
+- Use **colors** for simple, predictable output
+- Use **gradients** for expressive, high-signal moments
+- Avoid stacking or mixing multiple gradients in a single block
 
 <Callout type="warning">
-Overusing gradients reduces clarity. Treat them as visual anchors, not decoration.
+  Overusing gradients reduces clarity. Treat them as visual anchors, not decoration.
 </Callout>
 
 Gradients should enhance understanding—not distract from it.
