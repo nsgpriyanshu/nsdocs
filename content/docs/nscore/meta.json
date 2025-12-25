@@ -3,5 +3,12 @@
   "description": "Documentation for nsCore bot developed by using TypeScript and Discord.js v14",
   "icon": "Book",
   "root": true,
-  "pages": ["---Introduction---", "index", "---Development Journey---", "getting-started"]
+  "pages": [
+    "---Introduction---",
+    "index",
+    "---Basics---",
+    "getting-started",
+    "---Advanced---",
+    "interfaces"
+  ]
 }

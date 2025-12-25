@@ -1,0 +1,275 @@
+---
+title: Command Interfaces
+description: Understand how SlashCommand, MessageCommand, and the Command union work in nsCore.
+---
+
+## Introduction
+
+Commands are the **core building blocks** of nsCore.  
+This module defines how both **slash commands** and **prefix-based message commands** are structured and executed.
+
+By using TypeScript interfaces, nsCore ensures:
+
+- Strong type safety
+- Consistent command structure
+- Easy onboarding for new contributors
+
+---
+
+## SlashCommand Interface
+
+The `SlashCommand` interface represents a **Discord slash command** (`/command`).
+
+It is used when handling `interactionCreate` events.
+
+### Interface Definition
+
+```ts
+import { ChatInputCommandInteraction, PermissionResolvable, SlashCommandBuilder } from 'discord.js'
+import { ExtendedClient } from './ExtendedClient'
+
+export interface SlashCommand {
+  name: string
+  description?: string
+  data: SlashCommandBuilder
+  executeSlash: (interaction: ChatInputCommandInteraction, client: ExtendedClient) => Promise<void>
+  userPermissions?: PermissionResolvable[]
+  botPermissions?: PermissionResolvable[]
+  devOnly?: boolean
+}
+```
+
+---
+
+### Required Properties
+
+#### `name`
+
+```ts
+name: string
+```
+
+The internal name of the command.
+
+- Used for command registration
+- Must match the slash command name in Discord
+
+---
+
+#### `data`
+
+```ts
+data: SlashCommandBuilder
+```
+
+Defines the slash command structure:
+
+- Name
+- Description
+- Options
+- Subcommands
+
+This is what Discord uses to register the command.
+
+<Callout type="idea">Without `data`, the command cannot be registered as a slash command.</Callout>
+
+---
+
+#### `executeSlash`
+
+```ts
+executeSlash: (interaction: ChatInputCommandInteraction, client: ExtendedClient) => Promise<void>
+```
+
+The function that runs when the command is executed.
+
+- Receives the interaction
+- Has full access to the `ExtendedClient`
+
+---
+
+### Optional Properties
+
+#### `userPermissions`
+
+```ts
+userPermissions?: PermissionResolvable[]
+```
+
+Permissions required by the **user** to run the command.
+
+Example:
+
+```ts
+userPermissions: ['ManageGuild']
+```
+
+---
+
+#### `botPermissions`
+
+```ts
+botPermissions?: PermissionResolvable[]
+```
+
+Permissions required by the **bot** itself.
+
+Example:
+
+```ts
+botPermissions: ['SendMessages']
+```
+
+---
+
+#### `devOnly`
+
+```ts
+devOnly?: boolean
+```
+
+Marks the command as **developer-only**.
+
+<Callout type="info">Useful for testing, admin tools, or experimental commands.</Callout>
+
+---
+
+## MessageCommand Interface
+
+The `MessageCommand` interface represents **prefix-based commands**, such as:
+
+```
+ns.help
+ns.weather
+```
+
+These commands are triggered via the `messageCreate` event.
+
+---
+
+### Interface Definition
+
+```ts
+import { Message, PermissionResolvable } from 'discord.js'
+import { ExtendedClient } from './ExtendedClient'
+
+export interface MessageCommand {
+  name: string
+  description?: string
+  executeMessage: (message: Message, args: string[], client: ExtendedClient) => Promise<void>
+  userPermissions?: PermissionResolvable[]
+  botPermissions?: PermissionResolvable[]
+  devOnly?: boolean
+}
+```
+
+---
+
+### Required Properties
+
+#### `name`
+
+```ts
+name: string
+```
+
+The command name without prefix.
+
+Example:
+
+```
+ns.help → name: "help"
+```
+
+---
+
+#### `executeMessage`
+
+```ts
+executeMessage: (message: Message, args: string[], client: ExtendedClient) => Promise<void>
+```
+
+Runs when the command is triggered.
+
+- `args` contains arguments split from the message
+- `client` gives access to commands, events, and bot state
+
+---
+
+### Optional Properties
+
+The following behave **exactly the same** as in `SlashCommand`:
+
+- `userPermissions`
+- `botPermissions`
+- `devOnly`
+
+This keeps both command systems consistent.
+
+<Callout type="idea">
+  Consistency makes switching between slash and message commands easier.
+</Callout>
+
+---
+
+## Command Union (IMPORTANT)
+
+The `Command` type is a **union** of both command types.
+
+### Definition
+
+```ts
+export type Command = SlashCommand | MessageCommand
+```
+
+---
+
+### Why This Matters
+
+The union allows:
+
+- Unified command loaders
+- Shared validation logic
+- Cleaner architecture
+
+Example use case:
+
+```ts
+function registerCommand(command: Command) {
+  if ('data' in command) {
+    // SlashCommand
+  } else {
+    // MessageCommand
+  }
+}
+```
+
+<Callout type="info">This union is essential for scalable command systems.</Callout>
+
+---
+
+## Design Philosophy
+
+nsCore separates commands by **how they are triggered**, not by logic.
+
+- Slash commands → Interactions
+- Message commands → Messages
+- Shared permission + dev logic
+
+This keeps the system:
+
+- Clean
+- Predictable
+- Easy to extend
+
+---
+
+## Summary
+
+- `SlashCommand` → Modern Discord interactions
+- `MessageCommand` → Traditional prefix commands
+- `Command` → Unified abstraction
+
+Together, these interfaces form the **command foundation** of nsCore.
+
+Next, you’ll learn how these commands are **loaded, registered, and executed** using the `ExtendedClient`.

@@ -1,0 +1,5 @@
+{
+  "title": "Interfaces",
+  "description": "Core TypeScript interfaces that power nsCore’s command and client architecture.",
+  "pages": ["index", "extended-client", "commands"]
+}

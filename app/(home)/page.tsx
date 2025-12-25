@@ -39,7 +39,7 @@ export default function HomePage() {
                 <Link
                   href="/docs/nscore"
                   className="relative font-medium text-[#ff382e]
-                    after:absolute after:left-0 after:-bottom-1 after:h-[2px]
+                    after:absolute after:left-0 after:-bottom-1 after:h-0.5
                     after:w-full after:bg-[#ff382e] after:scale-x-0
                     after:origin-left after:transition-transform
                     hover:after:scale-x-100"
@@ -69,7 +69,7 @@ export default function HomePage() {
                 <Link
                   href="/docs/nstypocolors"
                   className="relative font-medium text-[#ff00ba]
-                    after:absolute after:left-0 after:-bottom-1 after:h-[2px]
+                    after:absolute after:left-0 after:-bottom-1 after:h-0.5
                     after:w-full after:bg-[#ff00ba] after:scale-x-0
                     after:origin-left after:transition-transform
                     hover:after:scale-x-100"
@@ -91,7 +91,7 @@ export default function HomePage() {
               </div>
             </div>
             <Link
-              href="https://github.com/nsgpriyanshu"
+              href="https://github.com/nsgpriyanshu/nsdocs"
               target="_blank"
               className="
     inline-flex items-center gap-2
@@ -116,12 +116,20 @@ export default function HomePage() {
           <div className="relative w-full max-w-xl lg:max-w-4xl">
             {/* Gradient Glow */}
             <div className="absolute inset-0 -z-10 blur-3xl opacity-40">
+              {/* <div
+                className="
+    h-full w-full rounded-full
+    bg-linear-to-tr
+    from-[#ff382e]/40 via-[#ff00ba]/40 to-[#6a5cff]/40
+    dark:from-[#ff382e]/60 dark:via-[#ff00ba]/60 dark:to-[#6a5cff]/60
+    dark:blur-[120px]
+  "
+              /> */}
               <div
                 className="
     h-full w-full rounded-full
-    bg-gradient-to-tr
-    from-[#ff382e]/40 via-[#ff00ba]/40 to-[#6a5cff]/40
-    dark:from-[#ff382e]/60 dark:via-[#ff00ba]/60 dark:to-[#6a5cff]/60
+    bg-linear-to-tr
+    from-[#ff3b30] via-[#ff00ba] to-[#6556ff]
     dark:blur-[120px]
   "
               />
@@ -131,8 +139,8 @@ export default function HomePage() {
             <Image
               src="/hero-light.png"
               alt="nsDocs preview"
-              width={1600}
-              height={1200}
+              width={1400}
+              height={1000}
               className="rounded-xl block dark:hidden"
               priority
             />
@@ -141,8 +149,8 @@ export default function HomePage() {
             <Image
               src="/hero-dark.png"
               alt="nsDocs preview"
-              width={1600}
-              height={1200}
+              width={1400}
+              height={1000}
               className="rounded-xl hidden dark:block"
               priority
             />

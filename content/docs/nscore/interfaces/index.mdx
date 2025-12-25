@@ -1,0 +1,57 @@
+---
+title: Overview
+description: A high-level introduction to the core TypeScript interfaces used in nsCore.
+---
+
+## Introduction
+
+Interfaces are the foundation of **nsCore’s architecture**. They define how commands, permissions, and the client itself are structured, ensuring consistency and scalability across the entire codebase.
+
+If you are new to nsCore, understanding these interfaces will help you write **cleaner, safer, and more predictable** Discord bot code.
+
+---
+
+## What Problem Do Interfaces Solve?
+
+In a growing Discord bot, you often deal with:
+
+- Multiple command types (slash & prefix)
+- Permission checks
+- Shared client state
+- Reusable handlers
+
+Interfaces act as **contracts** that your code must follow, preventing runtime errors and improving developer experience.
+
+<Callout type="info">
+  Interfaces do not exist at runtime. They are purely a **TypeScript feature** that helps during
+  development.
+</Callout>
+
+---
+
+## Interfaces Used in nsCore
+
+nsCore currently defines interfaces for:
+
+- **Slash Commands** – Application commands (`/weather`, `/ping`)
+- **Message Commands** – Prefix-based commands (`ns.help`)
+- **Command Union** – A shared type for handling both command systems
+- **Extended Client** – A custom Discord client with command & event collections
+
+Each interface has a **single responsibility**, making the system modular and easy to understand.
+
+---
+
+## Why This Design Matters
+
+This interface-driven approach allows nsCore to:
+
+- Support multiple command systems seamlessly
+- Enforce consistent command structure
+- Improve auto-completion and type safety
+- Scale without turning into spaghetti code
+
+<Callout type="info">
+  This is the same architectural pattern used by popular Discord frameworks and large production
+  bots.
+</Callout>

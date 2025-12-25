@@ -1,0 +1,158 @@
+---
+title: Extended Client
+description: Learn how nsCore extends the default Discord.js Client with commands and events.
+---
+
+## Introduction
+
+`ExtendedClient` is a custom interface that **extends Discord.js’s `Client`** to include additional properties required by nsCore.
+
+Instead of scattering command and event state across files, nsCore centralizes everything inside a single, strongly-typed client instance.
+
+---
+
+## Why Extend the Client?
+
+By default, the Discord.js `Client` does **not** store:
+
+- Loaded commands
+- Registered events
+- Custom application state
+
+Extending the client allows us to:
+
+- Access commands from anywhere
+- Keep command handling type-safe
+- Build a scalable architecture
+
+<Callout type="info">
+  This pattern is widely used in large Discord bots and frameworks to avoid global variables.
+</Callout>
+
+---
+
+## Interface Definition
+
+```ts
+import { Client, Collection } from 'discord.js'
+import { MessageCommand, SlashCommand } from './Command'
+
+export interface ExtendedClient extends Client {
+  events: Collection<string, (...args: any[]) => void>
+  slashCommands: Collection<string, SlashCommand>
+  messageCommands: Collection<string, MessageCommand>
+}
+```
+
+---
+
+## Property Breakdown
+
+### `events`
+
+```ts
+events: Collection<string, (...args: any[]) => void>
+```
+
+Stores all registered Discord events (e.g. `ready`, `interactionCreate`).
+
+- **Key** → Event name
+- **Value** → Event handler function
+
+This allows dynamic event loading instead of hardcoding listeners.
+
+<Callout type="idea">Event handlers are usually loaded once during startup.</Callout>
+
+---
+
+### `slashCommands`
+
+```ts
+slashCommands: Collection<string, SlashCommand>
+```
+
+Stores all **slash commands** registered in the bot.
+
+- Used during `interactionCreate`
+- Enables fast lookup by command name
+- Fully type-safe via the `SlashCommand` interface
+
+Example access:
+
+```ts
+client.slashCommands.get(interaction.commandName)
+```
+
+---
+
+### `messageCommands`
+
+```ts
+messageCommands: Collection<string, MessageCommand>
+```
+
+Stores all **prefix-based commands**.
+
+- Used during `messageCreate`
+- Supports traditional commands like `ns.help`
+- Shares the same permission and dev-only logic
+
+Example access:
+
+```ts
+client.messageCommands.get(commandName)
+```
+
+---
+
+## How ExtendedClient Is Used
+
+During bot startup, the client is usually initialized like this:
+
+```ts
+const client = new Client({
+  intents: [...]
+}) as ExtendedClient
+
+client.slashCommands = new Collection()
+client.messageCommands = new Collection()
+client.events = new Collection()
+```
+
+This ensures the client is fully typed and ready before loading commands and events.
+
+---
+
+## Benefits of This Approach
+
+Using `ExtendedClient` gives you:
+
+- Centralized command management
+- Clean separation of concerns
+- Strong TypeScript inference
+- Easier debugging and maintenance
+
+<Callout type="warning">
+  Without extending the client, you would need unsafe type casting or global variables.
+</Callout>
+
+---
+
+## When Should You Modify This Interface?
+
+You may extend `ExtendedClient` further if you want to add:
+
+- Database connections
+- Cache layers
+- API clients
+- Custom bot state
+
+Just remember: **keep it minimal and intentional**.
+
+---
+
+## Summary
+
+`ExtendedClient` acts as the **backbone of nsCore**, connecting Discord.js with your commands and events in a clean, scalable way.
+
+In the next section, we’ll explore how **SlashCommand** and **MessageCommand** interfaces build on top of this client.
