@@ -1,45 +1,55 @@
-# .
+<div align="center">
 
-This is a Next.js application generated with
-[Create Fumadocs](https://github.com/fuma-nama/fumadocs).
+# <img src="public/logo-dark.png" alt="nsDocs" width="30" height="30"/> nsDocs
 
-Run development server:
+![Version](https://img.shields.io/github/package-json/v/nsgpriyanshu/nsdocs?color=ffffff)
+[![Discord](https://img.shields.io/discord/855781247480496130.svg?color=5865F2&logo=discord&logoColor=white)](https://discord.gg/7SAcEv7MDd)
+[![GitHub contributors](https://img.shields.io/github/contributors/nsgpriyanshu/nsdocs.svg?color=ff3b30)](https://github.com/nsgpriyanshu/nsdocs/graphs/contributors)
+![Last Commit](https://img.shields.io/github/last-commit/nsgpriyanshu/nsdocs.svg)
+[![Production Deployment](https://github.com/nsgpriyanshu/nsdocs/actions/workflows/deployment.yml/badge.svg)](https://github.com/nsgpriyanshu/nsdocs/actions/workflows/deployment.yml)
+[![CodeQL](https://github.com/nsgpriyanshu/nsdocs/actions/workflows/codeql.yml/badge.svg)](https://github.com/nsgpriyanshu/nsdocs/actions/workflows/codeql.yml)
 
-```bash
-npm run dev
-# or
-pnpm dev
-# or
-yarn dev
-```
+</div>
 
-Open http://localhost:3000 with your browser to see the result.
+---
 
-## Explore
+## About nsDocs
 
-In the project, you can see:
+// add about 
 
-- `lib/source.ts`: Code for content source adapter, [`loader()`](https://fumadocs.dev/docs/headless/source-api) provides the interface to access your content.
-- `lib/layout.shared.tsx`: Shared options for layouts, optional but preferred to keep.
+<div align="center">
+<img src="public/hero-light.png" alt="nsgpriyanshu" width="80%" height="80%"/>
+</div>
 
-| Route                     | Description                                            |
-| ------------------------- | ------------------------------------------------------ |
-| `app/(home)`              | The route group for your landing page and other pages. |
-| `app/docs`                | The documentation layout and pages.                    |
-| `app/api/search/route.ts` | The Route Handler for search.                          |
+---
 
-### Fumadocs MDX
+## Features
 
-A `source.config.ts` config file has been included, you can customise different options like frontmatter schema.
+// add feats
 
-Read the [Introduction](https://fumadocs.dev/docs/mdx) for further details.
+---
 
-## Learn More
+## Technologies Used
 
-To learn more about Next.js and Fumadocs, take a look at the following
-resources:
+- **Fumadocs UI**: A design system tailored for professional documentation.  
+- **Next.js**: React framework enabling SSR and static site generation.  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
-  features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [Fumadocs](https://fumadocs.dev) - learn about Fumadocs
+---
+
+## Community & Support
+
+Have questions or need guidance? Join our **active support community**:
+
+[![Join Discord](https://img.shields.io/discord/855781247480496130.svg?color=5865F2\&logo=discord\&logoColor=white)](https://discord.gg/7SAcEv7MDd)
+
+Get help with:
+
+* Understanding the documentation
+* Troubleshooting bot issues
+* Discussing best practices
+
+---
+
+## Contributors
+
+[![nsgpriyanshu](https://img.shields.io/badge/Developer-nsgpriyanshu-author.svg?color=f10a0a)](https://nsgpriyanshu.github.io)
