@@ -1,0 +1,135 @@
+---
+title: Commands Overview
+description: A high-level overview of the command system architecture, explaining how commands are organized, loaded, and executed.
+---
+
+## Introduction
+
+Commands are the primary way users interact with your Discord bot.
+
+Your bot supports **multiple command types**, each designed for different interaction styles while sharing the same core architecture.
+
+<Callout type="info">
+  This page focuses on how the command system works conceptually. Implementation details are covered
+  in later sections.
+</Callout>
+
+---
+
+## Command System Philosophy
+
+The command system is built with the following goals:
+
+- Clear separation of concerns
+- Easy scalability
+- Safe production usage
+- Minimal boilerplate for new commands
+
+Commands are designed to be:
+
+- Self-contained
+- Category-based
+- Dynamically loaded
+- Centrally validated
+
+This approach ensures your bot remains maintainable as it grows.
+
+---
+
+## Supported Command Types
+
+The command system currently supports:
+
+### Message Commands
+
+Prefix-based commands triggered by normal Discord messages.
+
+These commands are flexible and allow custom parsing logic, making them ideal for legacy support and advanced text-based workflows.
+
+---
+
+### Slash Commands
+
+Interaction-based commands powered by Discord’s native slash command system.
+
+They provide better user experience through auto-complete, validation, and discoverability.
+
+<Callout type="success">
+  Both command types coexist and follow the same architectural principles.
+</Callout>
+
+---
+
+## Command Organization
+
+Commands are organized using a **folder-based category system**.
+
+This allows:
+
+- Logical grouping of commands
+- Automatic discovery
+- Dynamic help generation
+- Clean project structure
+
+Categories such as `general`, `info`, and `moderation` help keep commands intuitive and easy to manage.
+
+---
+
+## Command Loading Strategy
+
+Commands are not manually registered one by one.
+
+Instead, the system:
+
+1. Scans command directories
+2. Dynamically imports command files
+3. Stores commands in memory
+4. Resolves them at runtime
+
+This enables:
+
+- Zero-config command additions
+- Automatic help menu updates
+- Reduced maintenance overhead
+
+<Callout type="idea">Adding a new command requires no changes to existing handlers.</Callout>
+
+---
+
+## Shared Command Metadata
+
+All commands share a common metadata model, including:
+
+- Command name and description
+- User permission requirements
+- Bot permission requirements
+- Developer-only flags
+
+This metadata allows handlers to enforce rules consistently and safely.
+
+---
+
+## Execution Flow (Conceptual)
+
+At a high level, command execution follows this flow:
+
+1. A command trigger is detected
+2. The command is resolved from memory
+3. Permissions are validated
+4. Command logic is executed
+5. Errors are handled gracefully
+
+This flow ensures predictable behavior across all command types.
+
+---
+
+## Why This Architecture Matters
+
+This command system provides:
+
+- Clean abstractions
+- Easy extensibility
+- Safe error boundaries
+- Production-ready stability
+
+It scales well from small bots to large, feature-rich applications.

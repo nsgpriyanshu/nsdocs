@@ -1,0 +1,5 @@
+{
+  "title": "Commands",
+  "description": "Everything you need to know about the command system, including architecture, message commands, and slash commands.",
+  "pages": ["overview", "message-commands", "slash-commands"]
+}

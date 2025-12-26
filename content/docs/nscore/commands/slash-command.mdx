@@ -1,0 +1,320 @@
+---
+title: Slash Commands
+description: Learn how Discord slash commands work, including registration, execution, embeds, buttons, and interaction collectors.
+---
+
+## Introduction
+
+Slash commands are **interaction-based commands** provided natively by Discord.
+
+They are triggered using the `/` menu and provide:
+
+- Auto-complete
+- Built-in validation
+- Cleaner UX
+- Structured command input
+
+This page explains **how your slash command system works**, using the real `help.ts` slash command from your project.
+
+<Callout type="info">
+  Slash commands use Discord interactions, not message events. This makes their execution flow
+  different from message commands.
+</Callout>
+
+---
+
+## What Is a Slash Command?
+
+A slash command:
+
+- Is registered with Discord
+- Uses `SlashCommandBuilder`
+- Executes via interaction events
+- Responds using `interaction.reply()`
+
+Slash commands are ideal for:
+
+- Public-facing bots
+- Production environments
+- Structured input workflows
+
+---
+
+Full `help.ts` Slash Command
+
+Below is the **complete slash command file**, exactly as used in your project.
+
+```ts
+import {
+  ChatInputCommandInteraction,
+  EmbedBuilder,
+  ButtonBuilder,
+  ActionRowBuilder,
+  ButtonStyle,
+  ComponentType,
+  MessageComponentInteraction,
+  SlashCommandBuilder,
+} from 'discord.js'
+import { SlashCommand } from '../../../interfaces/Command'
+import { COLORS, EMOJIS } from '../../../constants/botConst'
+import fs from 'fs'
+import path from 'path'
+
+/* ────────────────────────────────────────────── */
+/* Helper: Load message commands from directory */
+/* ────────────────────────────────────────────── */
+const loadCommandsFromDirectory = (dir: string) => {
+  return fs
+    .readdirSync(dir)
+    .filter(file => file.endsWith('.js') || file.endsWith('.ts'))
+    .map(file => require(path.join(dir, file)).default)
+}
+
+/* ────────────────────────────────────────────── */
+/* Slash Command */
+/* ────────────────────────────────────────────── */
+const help: SlashCommand = {
+  name: 'help',
+  description: 'Lists all available commands.',
+
+  data: new SlashCommandBuilder().setName('help').setDescription('Lists all available commands.'),
+
+  async executeSlash(interaction: ChatInputCommandInteraction) {
+    /* ────────────────────────────────────────────── */
+    /* Load Commands */
+    /* ────────────────────────────────────────────── */
+    const basePath = path.join(__dirname, '../../../commands/messageCommands')
+
+    const generalCommands = loadCommandsFromDirectory(path.join(basePath, 'general'))
+    const infoCommands = loadCommandsFromDirectory(path.join(basePath, 'info'))
+    const moderationCommands = loadCommandsFromDirectory(path.join(basePath, 'moderation'))
+
+    /* ────────────────────────────────────────────── */
+    /* Embed Generator */
+    /* ────────────────────────────────────────────── */
+    const generateEmbed = (category: string, commands: any[]) => {
+      const description =
+        commands
+          .map(cmd => `\`${cmd.name.padEnd(10)}\`     ${cmd.description || 'No description'}`)
+          .join('\n') || 'No commands found.'
+
+      return new EmbedBuilder()
+        .setTitle(`${EMOJIS.home} Help - ${category} Commands`)
+        .setDescription(description)
+        .addFields({
+          name: `${EMOJIS.leaf} Resources`,
+          value:
+            '[Docs](https://nsgpriyanshu.github.io/nscore/)\n[Support Server](https://discord.gg/QhDM7s6Aps)',
+          inline: true,
+        })
+    }
+
+    const generalEmbed = generateEmbed('General', generalCommands)
+    const infoEmbed = generateEmbed('Info', infoCommands)
+    const moderationEmbed = generateEmbed('Moderation', moderationCommands)
+
+    /* ────────────────────────────────────────────── */
+    /* Buttons */
+    /* ────────────────────────────────────────────── */
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
+        .setCustomId('general')
+        .setLabel('General')
+        .setEmoji(EMOJIS.ar)
+        .setStyle(ButtonStyle.Secondary),
+
+      new ButtonBuilder()
+        .setCustomId('info')
+        .setLabel('Info')
+        .setEmoji(EMOJIS.ar)
+        .setStyle(ButtonStyle.Secondary),
+
+      new ButtonBuilder()
+        .setCustomId('moderation')
+        .setLabel('Moderation')
+        .setEmoji(EMOJIS.ar)
+        .setStyle(ButtonStyle.Secondary),
+    )
+
+    /* ────────────────────────────────────────────── */
+    /* Initial Reply */
+    /* ────────────────────────────────────────────── */
+    await interaction.reply({
+      embeds: [generalEmbed],
+      components: [row],
+    })
+
+    const sentMessage = await interaction.fetchReply()
+
+    /* ────────────────────────────────────────────── */
+    /* Collector */
+    /* ────────────────────────────────────────────── */
+    const collector = sentMessage.createMessageComponentCollector({
+      componentType: ComponentType.Button,
+      time: 120000, // 2 minutes
+      filter: (i: MessageComponentInteraction) => i.user.id === interaction.user.id,
+    })
+
+    collector.on('collect', async i => {
+      if (i.customId === 'general') {
+        await i.update({ embeds: [generalEmbed] })
+      }
+
+      if (i.customId === 'info') {
+        await i.update({ embeds: [infoEmbed] })
+      }
+
+      if (i.customId === 'moderation') {
+        await i.update({ embeds: [moderationEmbed] })
+      }
+    })
+
+    collector.on('end', async () => {
+      await sentMessage.edit({ components: [] })
+    })
+  },
+
+  userPermissions: ['SendMessages'],
+  botPermissions: ['SendMessages'],
+  devOnly: false,
+}
+
+export default help
+```
+
+---
+
+## Explanation (Step by Step)
+
+### 1. SlashCommandBuilder
+
+```ts
+data: new SlashCommandBuilder()
+```
+
+This registers the command with Discord.
+
+It defines:
+
+- Command name
+- Description
+- Options (if any)
+
+Without this, the command **will not appear** in Discord’s `/` menu.
+
+---
+
+### 2. `executeSlash()`
+
+```ts
+async executeSlash(interaction)
+```
+
+This function is executed **when the user runs `/help`**.
+
+Unlike message commands:
+
+- You must reply using `interaction.reply()`
+- You have **3 seconds** to respond
+- Responses can be ephemeral or public
+
+---
+
+### 3. Loading Message Commands for Help
+
+The slash help command reads **message commands** from disk.
+
+Why?
+
+- Single source of truth
+- No duplication
+- Same help output for both systems
+
+<Callout type="idea">This keeps slash and message help perfectly in sync.</Callout>
+
+---
+
+### 4. Embed Generator Logic
+
+The embed generator:
+
+- Formats command names consistently
+- Handles missing descriptions
+- Adds documentation and support links
+
+This keeps the UI clean and readable.
+
+---
+
+### 5. Buttons & Pagination
+
+Buttons allow category switching **without rerunning the command**.
+
+Each button:
+
+- Uses a unique `customId`
+- Updates the existing interaction
+- Preserves the original reply
+
+This is the recommended UX for large command lists.
+
+---
+
+### 6. Interaction Collector
+
+Collectors listen for component interactions.
+
+Key features here:
+
+- Filters interactions to the command author
+- Automatically stops after 2 minutes
+- Prevents other users from hijacking the UI
+
+<Callout type="warning">Always restrict button interactions in public channels.</Callout>
+
+---
+
+### 7. Cleanup on Collector End
+
+```ts
+sentMessage.edit({ components: [] })
+```
+
+This removes buttons when the collector expires.
+
+Why this matters:
+
+- Prevents broken interactions
+- Keeps the UI clean
+- Avoids Discord API warnings
+
+---
+
+### 8. Permissions & Flags
+
+```ts
+userPermissions
+botPermissions
+devOnly
+```
+
+These are validated **before execution** by your command handler.
+
+This ensures:
+
+- Safe execution
+- No permission-related crashes
+- Controlled dev-only access
+
+---
+
+## Why This Slash Command Is Production-Ready
+
+This command demonstrates:
+
+- Proper slash command registration
+- Clean interaction handling
+- Shared logic with message commands
+- Safe collector lifecycle management
+
+It is suitable for **real production bots**.

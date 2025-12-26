@@ -1,0 +1,264 @@
+---
+title: Core Entry Point
+description: The main index.ts file that initializes the Discord client, registers handlers, and boots the bot.
+---
+
+# Introduction
+
+The **core entry point** (`index.ts`) is the heart of your Discord bot.
+
+This file is responsible for:
+
+- Creating the Discord client
+- Registering command handlers
+- Registering event handlers
+- Attaching the global error handler
+- Logging the bot into Discord
+
+Every system in your bot ultimately starts here.
+
+<Callout type="info">Think of this file as the “bootloader” of your Discord bot.</Callout>
+
+---
+
+## What This File Controls
+
+At a high level, `index.ts` controls:
+
+- Client configuration
+- Internal collections
+- Handler initialization order
+- Application startup
+- Bot authentication
+
+A clean and minimal entry file makes your bot easier to maintain and scale.
+
+---
+
+## Full Core Entry File
+
+Below is the **complete implementation** of your `index.ts` file.
+
+```ts
+import { Client, Collection, GatewayIntentBits } from 'discord.js'
+import { ExtendedClient } from './interfaces/ExtendedClient'
+import { logBuild } from 'nstypocolors'
+import config from './configs/botConfig'
+
+import { commandHandler } from './handlers/commandHandler'
+import { eventHandlers } from './events/eventIndex'
+import errorHandler from './handlers/errorHandler'
+
+const timestamp = () => new Date().toLocaleTimeString()
+
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
+}) as ExtendedClient
+
+client.slashCommands = new Collection()
+client.messageCommands = new Collection()
+client.events = new Collection()
+
+commandHandler(client)
+eventHandlers(client)
+errorHandler(client)
+
+client
+  .login(config.BOT_TOKEN)
+  .then(() => logBuild(`[${timestamp()}] [OUTPUT] Discord Bot is Operational!`))
+  .catch((err: string) => console.error('Failed to login: ' + err))
+```
+
+---
+
+## File Breakdown
+
+Let’s walk through this file step by step.
+
+---
+
+## Client Imports
+
+```ts
+import { Client, Collection, GatewayIntentBits } from 'discord.js'
+```
+
+These imports provide:
+
+- `Client` — The Discord bot instance
+- `Collection` — Used for caching commands and events
+- `GatewayIntentBits` — Controls what data your bot can receive
+
+---
+
+## Extended Client Interface
+
+```ts
+import { ExtendedClient } from './interfaces/ExtendedClient'
+```
+
+The `ExtendedClient` interface extends Discord’s default `Client` to include:
+
+- `slashCommands`
+- `messageCommands`
+- `events`
+
+This allows TypeScript-safe access to internal collections.
+
+<Callout type="idea">
+  Extending the client is the cleanest way to share state across handlers.
+</Callout>
+
+---
+
+## Configuration Import
+
+```ts
+import config from './configs/botConfig'
+```
+
+This loads environment-based configuration such as:
+
+- `BOT_TOKEN`
+- `BOT_ID`
+- Error channel IDs
+- Other runtime settings
+
+Separating config keeps secrets out of source code.
+
+---
+
+## Handler Imports
+
+```ts
+import { commandHandler } from './handlers/commandHandler'
+import { eventHandlers } from './events/eventIndex'
+import errorHandler from './handlers/errorHandler'
+```
+
+Each handler has a single responsibility:
+
+- **Command Handler** — Loads slash & message commands
+- **Event Handler** — Registers Discord events
+- **Error Handler** — Catches global runtime errors
+
+This separation follows clean architecture principles.
+
+---
+
+## Timestamp Utility
+
+```ts
+const timestamp = () => new Date().toLocaleTimeString()
+```
+
+Used only for startup logging, ensuring readable timestamps in output logs.
+
+---
+
+## Creating the Discord Client
+
+```ts
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
+}) as ExtendedClient
+```
+
+### Why These Intents?
+
+- `Guilds` — Required for basic bot functionality
+- `GuildMessages` — Needed for message-based commands
+- `MessageContent` — Required to read message content
+
+Casting to `ExtendedClient` allows access to custom properties.
+
+<Callout type="warning">Only enable intents you actually need to reduce memory usage.</Callout>
+
+---
+
+## Initializing Internal Collections
+
+```ts
+client.slashCommands = new Collection()
+client.messageCommands = new Collection()
+client.events = new Collection()
+```
+
+These collections store:
+
+- Slash commands
+- Message commands
+- Registered events
+
+They act as an in-memory command/event registry.
+
+---
+
+## Registering Handlers
+
+```ts
+commandHandler(client)
+eventHandlers(client)
+errorHandler(client)
+```
+
+Order matters here:
+
+1. Commands are loaded
+2. Events are registered
+3. Error handling is attached
+
+By the time the bot logs in, **all systems are ready**.
+
+---
+
+## Logging In the Bot
+
+```ts
+client
+  .login(config.BOT_TOKEN)
+  .then(() => logBuild(`[${timestamp()}] [OUTPUT] Discord Bot is Operational!`))
+  .catch((err: string) => console.error('Failed to login: ' + err))
+```
+
+This step:
+
+- Authenticates the bot with Discord
+- Starts the WebSocket connection
+- Confirms successful startup via logs
+
+If login fails, the error is immediately surfaced.
+
+<Callout type="success">A successful login confirms your entire bot pipeline is working.</Callout>
+
+---
+
+## Why This Architecture Works
+
+This core setup is:
+
+- Modular
+- Scalable
+- Easy to debug
+- Production-ready
+- Type-safe
+
+Each system is isolated, making future changes safe and predictable.
+
+---
+
+## Best Practices
+
+- Keep `index.ts` minimal
+- Avoid logic inside the entry file
+- Register handlers before login
+- Never hardcode tokens
+- Log startup success clearly

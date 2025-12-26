@@ -11,6 +11,9 @@
     "---Advanced---",
     "interfaces",
     "events",
-    "handlers"
+    "handlers",
+    "commands",
+    "utility",
+    "core"
   ]
 }

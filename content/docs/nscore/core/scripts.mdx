@@ -1,0 +1,312 @@
+---
+title: Project Scripts
+description: A detailed explanation of all npm scripts used to build, test, format, deploy, and run the bot.
+---
+
+# Introduction
+
+The `scripts` section in `package.json` defines **repeatable commands** used to manage your bot’s lifecycle.
+
+These scripts handle tasks such as:
+
+- Building TypeScript
+- Running the bot
+- Formatting and linting code
+- Testing
+- Deploying slash commands
+- Preparing production releases
+
+Using scripts ensures consistency across development, CI, and production environments.
+
+<Callout type="info">
+  Scripts act as a single source of truth for how your project is built and executed.
+</Callout>
+
+---
+
+## Test Scripts
+
+### `test`
+
+```json
+"test": "npx jest"
+```
+
+Runs the Jest test suite.
+
+Use this to:
+
+- Validate business logic
+- Catch regressions early
+- Ensure code behaves as expected
+
+Typically used during development or CI pipelines.
+
+---
+
+### `test:coverage`
+
+```json
+"test:coverage": "npx jest --coverage"
+```
+
+Runs tests **with coverage reporting**.
+
+This shows:
+
+- Which files are tested
+- Which lines are not covered
+- Overall test health
+
+Useful for maintaining long-term code quality.
+
+---
+
+## Cleanup & Build Scripts
+
+### `clean`
+
+```json
+"clean": "rimraf dist types"
+```
+
+Deletes generated output directories:
+
+- `dist` — compiled JavaScript
+- `types` — generated declaration files (if enabled)
+
+This ensures a **fresh build** with no stale artifacts.
+
+<Callout type="warning">Always clean before production builds to avoid outdated files.</Callout>
+
+---
+
+### `build`
+
+```json
+"build": "npx tsc"
+```
+
+Compiles the TypeScript source code into JavaScript.
+
+This script:
+
+- Reads `tsconfig.json`
+- Outputs files to `dist`
+- Performs type checking
+
+Required before running the bot in production.
+
+---
+
+## Formatting Scripts
+
+### `format:check`
+
+```json
+"format:check": "npx prettier . --check"
+```
+
+Checks whether files follow Prettier formatting rules **without modifying them**.
+
+Commonly used in:
+
+- CI pipelines
+- Pre-commit checks
+
+---
+
+### `format:write`
+
+```json
+"format:write": "npx prettier . --write"
+```
+
+Formats all files automatically using Prettier.
+
+Use this before committing code to maintain a consistent style across the project.
+
+<Callout type="success">
+  Consistent formatting improves readability and reduces review friction.
+</Callout>
+
+---
+
+## Deployment Script
+
+### `deploy`
+
+```json
+"deploy": "node dist/utils/deployCommands.js"
+```
+
+Registers slash commands with Discord.
+
+This script:
+
+- Loads compiled slash command definitions
+- Converts them to JSON
+- Sends them to Discord via the REST API
+
+<Callout type="warning">Must be run **after building** the project.</Callout>
+
+Typically used when:
+
+- Adding new slash commands
+- Updating command options
+- Preparing for a new release
+
+---
+
+## Runtime Scripts
+
+### `start`
+
+```json
+"start": "node dist/index.js"
+```
+
+Starts the bot using compiled JavaScript.
+
+This is the **production runtime command**.
+
+It assumes:
+
+- The project is already built
+- Environment variables are configured
+
+---
+
+## Combined Workflow Scripts
+
+### `execute`
+
+```json
+"execute": "npm run clean && npm run build && npm run format:write && npm run start"
+```
+
+A full workflow script that:
+
+1. Cleans old output
+2. Builds the project
+3. Formats code
+4. Starts the bot
+
+Best suited for **local development** or fresh runs.
+
+---
+
+### `cleanStart`
+
+```json
+"cleanStart": "npm run clean && npm run build && npm run start"
+```
+
+Similar to `execute`, but skips formatting.
+
+Useful when:
+
+- Code is already formatted
+- You want faster startup
+
+---
+
+### `noCleanStart`
+
+```json
+"noCleanStart": "npm run build && npm run start"
+```
+
+Builds and starts without cleaning.
+
+Fastest startup option, ideal for quick testing iterations.
+
+---
+
+## Linting Scripts
+
+### `lint`
+
+```json
+"lint": "eslint 'src/**/*.{ts,tsx}'"
+```
+
+Checks code for:
+
+- Syntax errors
+- Bad practices
+- Style violations
+
+Does not modify files.
+
+---
+
+### `lint:fix`
+
+```json
+"lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix"
+```
+
+Automatically fixes **safe ESLint issues**.
+
+Use this before commits to maintain clean code.
+
+---
+
+## Release Script
+
+### `release`
+
+```json
+"release": "cliff-jumper"
+```
+
+Handles automated releases.
+
+Typically used to:
+
+- Generate changelogs
+- Bump versions
+- Publish releases
+
+This is part of your **release automation pipeline**.
+
+<Callout type="idea">Automated releases reduce human error and keep versioning consistent.</Callout>
+
+---
+
+## Recommended Usage Flow
+
+A common development flow looks like:
+
+1. `npm run execute` — local development
+2. `npm run lint` — verify code quality
+3. `npm run test` — run tests
+4. `npm run build` — production build
+5. `npm run deploy` — register slash commands
+6. `npm run start` — run in production
+
+---
+
+## Why This Script Setup Is Professional
+
+This script structure:
+
+- Separates concerns clearly
+- Supports CI/CD workflows
+- Encourages clean builds
+- Scales with project size
+- Matches industry standards
+
+---
+
+## What’s Next?
+
+Next useful documentation sections could be:
+
+- **Environment Variables**
+- **Deployment Workflow**
+- **CI/CD Setup**
+- **Production Best Practices**
+
+Tell me what you want to document next and I’ll continue in the same style.

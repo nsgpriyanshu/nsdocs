@@ -1,0 +1,5 @@
+{
+  "title": "Utilities",
+  "description": "Reusable utility functions that support core bot features such as slash command deployment, logging, and diagnostics.",
+  "pages": ["index", "deploy-slash-commands", "logger"]
+}

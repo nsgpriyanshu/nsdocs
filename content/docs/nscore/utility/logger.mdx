@@ -1,0 +1,274 @@
+---
+title: Logger Utility
+description: A centralized logging utility that provides structured, colored, and scoped logs across the entire bot.
+---
+
+## Introduction
+
+The **Logger utility** is a centralized logging system used throughout your bot to produce **consistent, readable, and informative logs**.
+
+Instead of using `console.log` directly, this logger provides:
+
+- Structured log levels
+- Colored output
+- Timestamps
+- Scoped messages
+- Performance timers
+
+<Callout type="info">
+  A centralized logger is essential for debugging, monitoring, and maintaining production bots.
+</Callout>
+
+---
+
+Why Not Use `console.log`?
+
+While `console.log` works for small scripts, it quickly becomes problematic in larger projects:
+
+- No log levels
+- Inconsistent formatting
+- Hard to filter messages
+- Poor readability in production
+
+This logger solves those issues by enforcing a single logging standard.
+
+---
+
+## What This Logger Provides
+
+The logger utility supports:
+
+- `info` — General informational logs
+- `success` — Successful operations
+- `warn` — Warnings and recoverable issues
+- `error` — Errors and failures
+- `debug` — Debug-level messages
+- `build` — Build, startup, and timing logs
+- `timer` — High-resolution performance measurement
+
+---
+
+## Full Logger Utility Code
+
+Below is the **complete implementation**, exactly as used in your project.
+
+```ts
+import { logInfo, logError, logSuccess, logWarn, logBuild } from 'nstypocolors'
+
+type LogLevel = 'INFO' | 'SUCCESS' | 'WARN' | 'ERROR' | 'BUILD' | 'DEBUG'
+
+const timestamp = () => new Date().toLocaleTimeString()
+
+const format = (level: LogLevel, scope: string, message: string) =>
+  `[${timestamp()}] [${level}] [${scope}] ${message}`
+
+export const logger = {
+  info(scope: string, message: string) {
+    logInfo(format('INFO', scope, message))
+  },
+  success(scope: string, message: string) {
+    logSuccess(format('SUCCESS', scope, message))
+  },
+  warn(scope: string, message: string) {
+    logWarn(format('WARN', scope, message))
+  },
+  error(scope: string, message: string) {
+    logError(format('ERROR', scope, message))
+  },
+  debug(scope: string, message: string) {
+    logInfo(format('DEBUG', scope, message))
+  },
+  build(scope: string, message: string) {
+    logBuild(format('BUILD', scope, message))
+  },
+
+  timer(label: string) {
+    const start = process.hrtime.bigint()
+    return () => {
+      const end = process.hrtime.bigint()
+      const ms = Number(end - start) / 1_000_000
+      logBuild(`[${timestamp()}] [TIMER] ${label} completed in ${ms.toFixed(2)}ms`)
+    }
+  },
+}
+```
+
+---
+
+Logger Design Breakdown
+
+### Timestamp Formatting
+
+```ts
+const timestamp = () => new Date().toLocaleTimeString()
+```
+
+Every log entry includes a timestamp, making it easier to:
+
+- Track execution order
+- Identify slow operations
+- Debug production issues
+
+---
+
+### Log Formatting
+
+```ts
+[HH:MM:SS] [LEVEL] [SCOPE] message
+```
+
+Each log follows the same structure:
+
+- **Timestamp** — When the log occurred
+- **Level** — Severity or type of log
+- **Scope** — Which system emitted the log
+- **Message** — Human-readable description
+
+This consistency is critical for debugging.
+
+---
+
+### Scoped Logging
+
+```ts
+logger.info('CommandLoader', 'Loaded 12 commands')
+```
+
+Scopes allow you to:
+
+- Identify the source of logs instantly
+- Separate logs from different systems
+- Avoid confusion in large codebases
+
+<Callout type="idea">
+  Always use meaningful scopes like `CommandHandler`, `DeployCommands`, or `EventLoader`.
+</Callout>
+
+---
+
+### Log Levels Explained
+
+#### `info`
+
+Used for normal operational messages.
+
+Examples:
+
+- Startup messages
+- Command loading
+- Status updates
+
+---
+
+#### `success`
+
+Used when an operation completes successfully.
+
+Examples:
+
+- Commands deployed
+- Bot logged in
+- Handlers initialized
+
+---
+
+#### `warn`
+
+Used for non-fatal issues.
+
+Examples:
+
+- Missing optional config
+- Deprecated usage
+- Recoverable failures
+
+---
+
+#### `error`
+
+Used for fatal or critical issues.
+
+Examples:
+
+- Failed API calls
+- Configuration errors
+- Deployment failures
+
+---
+
+#### `debug`
+
+Used for development and diagnostics.
+
+Examples:
+
+- Variable inspection
+- Flow tracing
+- Temporary logs
+
+<Callout type="warning">Avoid excessive debug logs in production.</Callout>
+
+---
+
+#### `build`
+
+Used for startup, build, and infrastructure-level logs.
+
+Examples:
+
+- Bot initialization
+- Command deployment
+- Performance metrics
+
+---
+
+### Performance Timer Utility
+
+```ts
+const stop = logger.timer('Command loading')
+```
+
+The timer utility:
+
+- Uses high-resolution timers
+- Measures execution time precisely
+- Logs duration automatically when stopped
+
+Usage pattern:
+
+1. Start timer
+2. Run operation
+3. Call returned function to stop timer
+
+This is ideal for measuring:
+
+- Command loading
+- Event registration
+- Startup performance
+
+<Callout type="success">
+  Timers provide real performance insights with almost zero overhead.
+</Callout>
+
+---
+
+## Why This Logger Is Production-Ready
+
+This logger:
+
+- Eliminates inconsistent logs
+- Improves debugging speed
+- Keeps output readable
+- Scales with project size
+- Works across commands, handlers, and utilities
+
+It is suitable for **both development and production environments**.
+
+---
+
+Best Practices
+
+- Always include a scope
+- Use correct log levels
+- Avoid logging sensitive data
+- Remove debug logs before production

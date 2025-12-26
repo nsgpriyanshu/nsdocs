@@ -1,0 +1,176 @@
+---
+title: Overview
+description: An overview of shared utility modules that support core bot functionality such as logging, diagnostics, and slash command deployment.
+---
+
+## Introduction
+
+Utilities are **shared helper modules** that support your bot’s core systems without being commands or handlers themselves.
+
+They provide reusable logic that can be used across:
+
+- Command handlers
+- Event handlers
+- Deployment scripts
+- Internal tooling
+
+<Callout type="info">
+  Utilities are not user-facing features. They exist to keep the internal architecture clean,
+  reliable, and maintainable.
+</Callout>
+
+---
+
+## Why Utilities Matter
+
+As a bot grows, repeating logic across files becomes a problem.
+
+Utilities solve this by:
+
+- Centralizing common functionality
+- Reducing duplication
+- Improving consistency
+- Making debugging easier
+
+Without utilities, your codebase becomes:
+
+- Harder to maintain
+- Error-prone
+- Difficult to scale
+
+---
+
+## What Belongs in Utilities?
+
+A utility module typically:
+
+- Does **one specific job**
+- Has **no Discord event listeners**
+- Does **not execute automatically on startup**
+- Can be safely imported anywhere
+
+Examples include:
+
+- Logging systems
+- Slash command deployment scripts
+- Formatters and validators
+- Performance timers
+- Configuration helpers
+
+---
+
+## Utility Design Philosophy
+
+Your utilities follow these principles:
+
+- **Stateless** – no hidden side effects
+- **Reusable** – usable across multiple systems
+- **Isolated** – not tightly coupled to commands or handlers
+- **Production-safe** – predictable behavior
+
+This keeps your architecture modular and easy to reason about.
+
+---
+
+## Current Utility Modules
+
+Your project currently includes utilities for:
+
+### Slash Command Deployment
+
+A deployment utility that:
+
+- Scans slash command folders
+- Converts commands to Discord-compatible JSON
+- Registers them using Discord’s REST API
+- Logs deployment status clearly
+
+This is typically run **manually or during CI/CD**, not during bot runtime.
+
+---
+
+### Logging System
+
+A centralized logger utility that:
+
+- Formats logs consistently
+- Adds timestamps and scopes
+- Supports multiple log levels
+- Integrates with `nstypocolors` for readable output
+
+This logger is used across:
+
+- Handlers
+- Commands
+- Deployment scripts
+- Diagnostics
+
+<Callout type="success">
+  A centralized logger makes production debugging significantly easier.
+</Callout>
+
+---
+
+## Why Utilities Are Separate from Handlers
+
+Handlers focus on **runtime behavior**:
+
+- Loading commands
+- Handling events
+- Managing execution flow
+
+Utilities focus on **supporting logic**:
+
+- Logging
+- Deployment
+- Formatting
+- Diagnostics
+
+Keeping them separate avoids tight coupling and keeps responsibilities clear.
+
+---
+
+## When to Create a New Utility
+
+Create a utility when:
+
+- The same logic is used in multiple places
+- The logic does not belong to a command or handler
+- The functionality is infrastructure-level
+
+Avoid utilities for:
+
+- Single-use logic
+- Command-specific behavior
+- Event-specific workflows
+
+---
+
+## How Utilities Are Used
+
+Utilities are imported directly where needed.
+
+They do not register themselves automatically and do not manage lifecycle state.
+
+This gives you:
+
+- Explicit control
+- Predictable execution
+- Easier testing
+
+---
+
+## Why This Structure Scales Well
+
+This utility architecture:
+
+- Keeps core systems lightweight
+- Prevents circular dependencies
+- Improves long-term maintainability
+- Supports professional-grade bots
+
+It works equally well for:
+
+- Small bots
+- Medium community bots
+- Large production bots

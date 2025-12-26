@@ -1,0 +1,280 @@
+---
+title: Production Best Practices
+description: Best practices to ensure your Discord bot is stable, secure, and reliable in a production environment.
+---
+
+# Introduction
+
+**Production Best Practices** are guidelines that help ensure your Discord bot runs **safely, reliably, and predictably** when deployed for real users.
+
+A bot in production is expected to:
+
+- Stay online 24/7
+- Handle unexpected errors gracefully
+- Protect sensitive credentials
+- Be easy to monitor and debug
+- Scale without breaking
+
+<Callout type="info">
+  Production is not about adding features — it’s about preventing failures.
+</Callout>
+
+---
+
+## What “Production” Means
+
+In your project, a production bot:
+
+- Runs compiled JavaScript from `dist/`
+- Uses environment variables for configuration
+- Registers slash commands separately
+- Logs activity clearly
+- Handles crashes globally
+
+This is different from local development, where experimentation is common.
+
+---
+
+## Configuration & Secrets Management
+
+### Use Environment Variables
+
+All sensitive values must come from environment variables:
+
+- Bot token
+- Application ID
+- Error reporting channel IDs
+- API keys
+
+<Callout type="success">Correct: ```env BOT_TOKEN=xxxx ERROR_CHANNEL=xxxx ```</Callout>
+
+<Callout type="error">
+Incorrect:
+
+```ts
+client.login('hardcoded-token')
+```
+
+</Callout>
+
+Why this matters:
+
+- Prevents token leaks
+- Enables multiple environments (dev, staging, prod)
+- Keeps repositories safe
+
+<Callout type="warning">Never commit `.env` files to version control.</Callout>
+
+---
+
+## Build Before Run
+
+Production bots should **never run TypeScript directly**.
+
+Correct workflow:
+
+1. Compile the project
+2. Run compiled output
+
+```bash
+npm run build
+npm run start
+```
+
+This ensures:
+
+- Faster startup
+- No runtime TypeScript errors
+- Predictable execution
+
+---
+
+## Separate Deployment from Runtime
+
+Slash command deployment should **not happen during startup**.
+
+Correct approach:
+
+```bash
+npm run deploy
+```
+
+Why:
+
+- Prevents Discord API rate limits
+- Avoids unnecessary REST calls
+- Keeps startup fast and safe
+
+Your deployment utility already follows this best practice.
+
+---
+
+## Global Error Handling Is Mandatory
+
+Production bots must handle errors outside commands, including:
+
+- Unhandled promise rejections
+- Runtime exceptions
+- Unexpected crashes
+
+Your global error handler ensures:
+
+- Errors are logged
+- Failures are reported to Discord
+- Crashes are visible, not silent
+
+<Callout type="success">
+  A bot that fails loudly is easier to fix than one that fails silently.
+</Callout>
+
+---
+
+## Structured Logging Over Console Logs
+
+Avoid using `console.log()` in production.
+
+Instead, use structured logging with:
+
+- Log levels
+- Scopes
+- Timestamps
+
+Your logger provides:
+
+- INFO — general activity
+- WARN — recoverable issues
+- ERROR — failures
+- SUCCESS — confirmations
+- BUILD — startup and lifecycle events
+- TIMER — performance metrics
+
+This makes debugging faster and cleaner.
+
+---
+
+## Keep the Entry File Minimal
+
+Your `index.ts` should only:
+
+- Create the client
+- Register handlers
+- Login the bot
+
+Avoid:
+
+- Business logic
+- Command logic
+- Utility logic
+
+This keeps startup predictable and maintainable.
+
+---
+
+## Enable Only Required Intents
+
+Only enable intents your bot actually needs.
+
+Example:
+
+```ts
+GatewayIntentBits.Guilds
+GatewayIntentBits.GuildMessages
+GatewayIntentBits.MessageContent
+```
+
+Why:
+
+- Lower memory usage
+- Reduced attack surface
+- Better performance
+
+<Callout type="warning">Excessive intents can cause performance and compliance issues.</Callout>
+
+---
+
+## Fail Fast on Critical Errors
+
+If critical configuration is missing:
+
+- Exit early
+- Log the error clearly
+
+This prevents undefined runtime behavior and partial startup states.
+
+---
+
+## Avoid Runtime File System Dependencies
+
+Production bots should:
+
+- Load commands at startup
+- Avoid frequent file system reads
+- Cache command data in memory
+
+This improves:
+
+- Performance
+- Stability
+- Predictability
+
+---
+
+## Use Clean Build Pipelines
+
+Recommended production flow:
+
+1. `npm run clean`
+2. `npm run build`
+3. `npm run deploy`
+4. `npm run start`
+
+This ensures:
+
+- No stale files
+- Correct slash command registration
+- Clean runtime execution
+
+---
+
+## Monitor Your Bot
+
+Production bots should be monitored via:
+
+- Logs
+- Discord error channels
+- Process managers (PM2, Docker, etc.)
+
+This helps detect issues **before users report them**.
+
+---
+
+## Security Best Practices
+
+- Never log tokens or secrets
+- Restrict bot permissions
+- Use least-privilege role permissions
+- Keep dependencies updated
+
+---
+
+## Why These Practices Matter
+
+Following production best practices results in a bot that is:
+
+- Stable under load
+- Easy to debug
+- Secure against leaks
+- Ready for growth
+- Professional-grade
+
+---
+
+## Final Thoughts
+
+You already follow many production best practices in this project.
+
+These guidelines ensure that as your bot grows, it remains:
+
+- Maintainable
+- Reliable
+- Safe to operate

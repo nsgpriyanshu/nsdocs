@@ -1,0 +1,5 @@
+{
+  "title": "Core",
+  "description": "Core architecture, startup flow, scripts, and production guidelines that power the bot.",
+  "pages": ["index", "scripts", "production-best-practices"]
+}

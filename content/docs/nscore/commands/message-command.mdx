@@ -1,0 +1,324 @@
+---
+title: Message Commands
+description: Learn how prefix-based message commands work, including structure, permissions, dynamic loading, embeds, buttons, and collectors.
+---
+
+## Introduction
+
+Message commands are **prefix-based commands** triggered by user messages, such as:
+
+```bash
+ns.help
+```
+
+They offer flexibility, full control over parsing, and compatibility with legacy Discord bots.
+
+This page explains **exactly how your message command system works**, using the real `help.ts` command as a reference.
+
+<Callout type="info">
+  Everything shown here is production-ready and already used by your bot.
+</Callout>
+
+---
+
+## What Is a Message Command?
+
+A message command is a command that:
+
+- Listens to regular messages
+- Matches a command name
+- Executes logic manually
+- Can use embeds, buttons, and collectors
+
+Message commands are ideal when you want:
+
+- Custom UX
+- Faster input
+- Advanced interaction control
+
+---
+
+## Full `help.ts` Message Command
+
+Below is the **complete command file**, exactly as used in your project.
+
+```ts
+import {
+  Message,
+  EmbedBuilder,
+  ButtonBuilder,
+  ActionRowBuilder,
+  ButtonStyle,
+  ComponentType,
+  MessageComponentInteraction,
+} from 'discord.js'
+import { MessageCommand } from '../../../interfaces/Command'
+import { COLORS, EMOJIS } from '../../../constants/botConst'
+import { ExtendedClient } from '../../../interfaces/ExtendedClient'
+import fs from 'fs'
+import path from 'path'
+
+// Helper function to load commands from a directory
+const loadCommandsFromDirectory = (dir: string): MessageCommand[] => {
+  const commands: MessageCommand[] = []
+  const commandFiles = fs
+    .readdirSync(dir)
+    .filter(file => file.endsWith('.js') || file.endsWith('.ts'))
+
+  for (const file of commandFiles) {
+    const command = require(path.join(dir, file)).default as MessageCommand
+    commands.push(command)
+  }
+
+  return commands
+}
+
+const help: MessageCommand = {
+  name: 'help',
+  description: 'Lists all available commands.',
+  async executeMessage(message: Message, args: string[], client: ExtendedClient) {
+    // Load commands from directories
+    const generalCommands = loadCommandsFromDirectory(
+      path.join(__dirname, '../../../commands/messageCommands/general'),
+    )
+    const infoCommands = loadCommandsFromDirectory(
+      path.join(__dirname, '../../../commands/messageCommands/info'),
+    )
+    const moderationCommands = loadCommandsFromDirectory(
+      path.join(__dirname, '../../../commands/messageCommands/moderation'),
+    )
+
+    // Function to generate embed for a specific category
+    const generateEmbed = (category: string, commands: MessageCommand[]): EmbedBuilder => {
+      const commandDescriptions = commands
+        .map(cmd => `\`${cmd.name.padEnd(10)}\`     ${cmd.description}`)
+        .join('\n')
+
+      return new EmbedBuilder()
+        .setTitle(`${EMOJIS.home} Help - ${category} Commands`)
+        .setDescription(commandDescriptions)
+        .addFields({
+          name: `${EMOJIS.leaf} Resources`,
+          value:
+            '[Docs](https://nsgpriyanshu.github.io/nscore/)\n[Support Server](https://discord.gg/QhDM7s6Aps)',
+          inline: true,
+        })
+    }
+
+    // Create initial embeds
+    const generalEmbed = generateEmbed('General', generalCommands)
+    const infoEmbed = generateEmbed('Info', infoCommands)
+    const moderationEmbed = generateEmbed('Info', moderationCommands)
+
+    // Create buttons for pagination
+    const hR = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
+        .setCustomId('general')
+        .setLabel('General')
+        .setEmoji(`${EMOJIS.ar}`)
+        .setStyle(ButtonStyle.Secondary),
+      new ButtonBuilder()
+        .setCustomId('info')
+        .setLabel('Info')
+        .setEmoji(`${EMOJIS.ar}`)
+        .setStyle(ButtonStyle.Secondary),
+      new ButtonBuilder()
+        .setCustomId('moderation')
+        .setLabel('Moderation')
+        .setEmoji(`${EMOJIS.ar}`)
+        .setStyle(ButtonStyle.Secondary),
+    )
+
+    // Send initial embed with buttons
+    const sentMessage = await message.reply({
+      embeds: [generalEmbed],
+      components: [hR],
+    })
+
+    // Create a filter for the button interaction
+    const filter = (interaction: MessageComponentInteraction) =>
+      interaction.user.id === message.author.id
+
+    // Create a collector to handle button interactions
+    const collector = sentMessage.createMessageComponentCollector({
+      filter,
+      componentType: ComponentType.Button,
+      time: 120000, // 2 minute
+    })
+
+    collector.on('collect', async (interaction: MessageComponentInteraction) => {
+      if (interaction.customId === 'general') {
+        await interaction.update({ embeds: [generalEmbed] })
+      } else if (interaction.customId === 'info') {
+        await interaction.update({ embeds: [infoEmbed] })
+      } else if (interaction.customId === 'moderation') {
+        await interaction.update({ embeds: [moderationEmbed] })
+      }
+    })
+
+    collector.on('end', async () => {
+      await sentMessage.edit({ components: [] })
+    })
+  },
+  userPermissions: ['SendMessages'],
+  botPermissions: ['SendMessages'],
+  devOnly: false,
+}
+
+export default help
+```
+
+---
+
+## Explanation (Step by Step)
+
+### 1. Imports
+
+This command imports:
+
+- Discord.js message and component utilities
+- Your custom `MessageCommand` interface
+- Constants for colors and emojis
+- Node.js `fs` and `path` for filesystem access
+
+This allows the command to dynamically load other commands and create interactive UI elements.
+
+---
+
+### 2. Dynamic Command Loader
+
+```ts
+const loadCommandsFromDirectory = (dir: string): MessageCommand[] => { ... }
+```
+
+This helper function:
+
+- Reads all `.ts` and `.js` files in a folder
+- Imports each command dynamically
+- Returns them as an array
+
+<Callout type="idea">
+  This is why your help command updates automatically when new commands are added.
+</Callout>
+
+---
+
+### 3. Command Metadata
+
+```ts
+name: 'help'
+description: 'Lists all available commands.'
+```
+
+These values are used by:
+
+- The command handler
+- Help menus
+- Permission systems
+
+---
+
+### 4. Command Execution
+
+```ts
+async executeMessage(message, args, client)
+```
+
+This function runs **only when the command is triggered**.
+
+It receives:
+
+- `message` → the Discord message
+- `args` → parsed arguments
+- `client` → extended Discord client
+
+---
+
+### 5. Category-Based Command Loading
+
+Commands are loaded from:
+
+- `general`
+- `info`
+- `moderation`
+
+Each category maps directly to a folder.
+
+This enforces a clean, scalable structure.
+
+---
+
+### 6. Embed Generator
+
+```ts
+const generateEmbed = (category, commands)
+```
+
+This function:
+
+- Formats command names and descriptions
+- Creates category-specific embeds
+- Adds useful resource links
+
+Using a generator avoids duplicate embed code.
+
+---
+
+### 7. Button Navigation
+
+Buttons allow users to switch categories without re-running the command.
+
+Each button:
+
+- Has a unique `customId`
+- Updates the embed dynamically
+- Improves UX dramatically
+
+---
+
+### 8. Interaction Collector
+
+```ts
+createMessageComponentCollector()
+```
+
+The collector:
+
+- Listens for button clicks
+- Restricts interaction to the command author
+- Automatically expires after 2 minutes
+
+When expired, buttons are removed to prevent stale interactions.
+
+<Callout type="warning">Always clean up components after collectors end.</Callout>
+
+---
+
+### 9. Permissions & Flags
+
+```ts
+userPermissions: ['SendMessages']
+botPermissions: ['SendMessages']
+devOnly: false
+```
+
+These values are validated by your command handler before execution.
+
+They prevent:
+
+- Permission-related crashes
+- Unauthorized usage
+- Dev-only commands leaking into production
+
+---
+
+## Why This Help Command Is Powerful
+
+This command demonstrates:
+
+- Dynamic filesystem loading
+- Interactive UI with buttons
+- Clean separation of logic
+- Production-safe interaction handling
+
+It scales automatically as your bot grows.
