@@ -1,0 +1,175 @@
+---
+title: Error
+description: Manages errors and logs them for debugging and maintenance.
+---
+
+## Introduction
+
+The **Error Handler** is a global safety net for your Discord bot.
+
+It listens to Node.js process-level errors and ensures that:
+
+- The bot does not silently crash
+- Errors are logged properly
+- Critical failures are reported to a Discord channel
+
+<Callout type="info">
+  This handler protects your bot from unexpected runtime crashes that normal try/catch blocks cannot
+  catch.
+</Callout>
+
+---
+
+## Why a Global Error Handler Is Important
+
+Some errors occur **outside** command execution, such as:
+
+- Unhandled promise rejections
+- Unexpected runtime exceptions
+- Internal Node.js failures
+
+Without a global error handler:
+
+- Your bot may crash silently
+- Errors may go unnoticed in production
+
+<Callout type="warning">
+  Never rely only on try/catch inside commands. Production bots must handle process-level errors.
+</Callout>
+
+---
+
+## How the Error Handler Works
+
+The handler listens to three Node.js process events:
+
+1. `unhandledRejection`
+2. `uncaughtException`
+3. `uncaughtExceptionMonitor`
+
+Each error:
+
+- Is logged to the console
+- Is sent as an embed to a configured Discord channel
+
+---
+
+## Requirements
+
+Before using this handler, ensure:
+
+- `ERROR_CHANNEL` is set in your config
+- The bot has permission to send messages in that channel
+
+```bash
+ERROR_CHANNEL=123456789012345678
+```
+
+---
+
+## Full Error Handler Code
+
+```ts
+import { Client, EmbedBuilder, TextChannel } from 'discord.js'
+import config from '../configs/botConfig'
+import { COLORS, EMOJIS } from '../constants/botConst'
+
+const errorHandler = (client: Client) => {
+  const errorChannelId = config.ERROR_CHANNEL
+
+  const sendErrorEmbed = async (title: string, description: string) => {
+    const errorChannel = client.channels.cache.get(errorChannelId) as TextChannel
+
+    if (!errorChannel) return
+
+    const errorEmbed = new EmbedBuilder()
+      .setTitle(title)
+      .setDescription(description)
+      .setColor(COLORS.red)
+      .setTimestamp()
+
+    await errorChannel.send({ embeds: [errorEmbed] })
+  }
+
+  /* ───────── Type 1: Unhandled Promise Rejection ───────── */
+  process.on('unhandledRejection', (reason, promise) => {
+    console.log('[ERROR-HANDLER] Unhandled Rejection')
+    console.log(reason, promise)
+
+    sendErrorEmbed(`${EMOJIS.failed} Unhandled Rejection`, `\`\`\`${String(reason)}\`\`\``)
+  })
+
+  /* ───────── Type 2: Uncaught Exception ───────── */
+  process.on('uncaughtException', (error, origin) => {
+    console.log('[ERROR-HANDLER] Uncaught Exception')
+    console.log(error, origin)
+
+    sendErrorEmbed(`${EMOJIS.failed} Uncaught Exception`, `\`\`\`${error}\n\n${origin}\`\`\``)
+  })
+
+  /* ───────── Type 3: Exception Monitor ───────── */
+  process.on('uncaughtExceptionMonitor', (error, origin) => {
+    console.log('[ERROR-HANDLER] Exception Monitor')
+    console.log(error, origin)
+
+    sendErrorEmbed(`${EMOJIS.failed} Exception Monitor`, `\`\`\`${error}\n\n${origin}\`\`\``)
+  })
+}
+
+export default errorHandler
+```
+
+---
+
+## Error Types Explained
+
+### 1. Unhandled Rejection
+
+Triggered when a promise fails without `.catch()`.
+
+```ts
+fetch(url) // no catch
+```
+
+<Callout type="idea">Most API-related crashes come from unhandled rejections.</Callout>
+
+---
+
+### 2. Uncaught Exception
+
+Triggered when synchronous code throws an error outside try/catch.
+
+```ts
+throw new Error('Crash')
+```
+
+---
+
+### 3. Exception Monitor
+
+Triggered **before** the process crashes.
+Useful for last-moment logging and alerts.
+
+---
+
+## Why Send Errors to Discord?
+
+Sending errors to a Discord channel allows you to:
+
+- Monitor production issues in real time
+- Debug without server access
+- Share error logs with your team
+
+<Callout type="success">This turns Discord into a live error dashboard.</Callout>
+
+---
+
+## Where to Register This Handler
+
+Call it **once**, right after client creation:
+
+```ts
+import errorHandler from './handlers/errorHandler'
+
+errorHandler(client)
+```

@@ -1,0 +1,229 @@
+---
+title: Command
+description: Handles loading and executing all bot commands efficiently.
+---
+
+## Introduction
+
+The **Command Handler** is responsible for **discovering, validating, and registering** all commands used by your bot.
+
+In nsCore, commands are split into two types:
+
+- **Slash Commands** (`/weather`)
+- **Message Commands** (`ns.help`)
+
+Instead of manually importing every command, the command handler **automatically scans directories**, validates command structure, and stores them in collections.
+
+<Callout type="info">
+  This system allows you to add new commands without touching the client or handler logic.
+</Callout>
+
+---
+
+## What the Command Handler Does
+
+The command handler performs four key tasks:
+
+1. Initializes command collections
+2. Recursively scans command folders
+3. Validates command interfaces
+4. Logs a clean summary for debugging
+
+---
+
+## Command Collections
+
+Before loading commands, the handler initializes two collections on the client:
+
+```ts
+client.slashCommands = new Collection()
+client.messageCommands = new Collection()
+```
+
+These collections are later used by:
+
+- `interactionCreate` event
+- `messageCreate` event
+
+<Callout type="success">
+  Using collections provides O(1) lookup time and clean separation between command types.
+</Callout>
+
+---
+
+## Folder Structure Requirement
+
+The handler expects the following structure:
+
+```txt
+src/
+├─ commands/
+│  ├─ slashCommands/
+│  │  └─ utility/
+│  │     └─ ping.ts
+│  └─ messageCommands/
+│     └─ general/
+│        └─ help.ts
+```
+
+Nested folders are supported.
+
+---
+
+## Full Command Handler Code
+
+```ts
+import { Collection } from 'discord.js'
+import { readdirSync, statSync } from 'fs'
+import { join } from 'path'
+import { Command } from '../interfaces/Command'
+import { ExtendedClient } from '../interfaces/ExtendedClient'
+import { logger } from '../utils/logger'
+
+export const commandHandler = (client: ExtendedClient) => {
+  const scope = 'CommandLoader'
+  const stopTimer = logger.timer('Command loading')
+
+  client.slashCommands = new Collection()
+  client.messageCommands = new Collection()
+
+  let slashCount = 0
+  let messageCount = 0
+  let warnCount = 0
+
+  /* ───────── Slash Commands Loader ───────── */
+  const loadSlashCommands = (dir: string) => {
+    for (const file of readdirSync(dir)) {
+      const filePath = join(dir, file)
+      const stat = statSync(filePath)
+
+      if (stat.isDirectory()) {
+        loadSlashCommands(filePath)
+        continue
+      }
+
+      if (!file.endsWith('.js') && !file.endsWith('.ts')) continue
+
+      try {
+        const command: Command = require(filePath).default
+
+        if (!('executeSlash' in command)) {
+          logger.warn(scope, `Invalid slash command → ${filePath}`)
+          warnCount++
+          continue
+        }
+
+        client.slashCommands.set(command.name, command)
+        slashCount++
+        logger.success(scope, `Slash loaded: ${command.name}`)
+      } catch {
+        logger.error(scope, `Failed to load slash command → ${filePath}`)
+        warnCount++
+      }
+    }
+  }
+
+  /* ───────── Message Commands Loader ───────── */
+  const loadMessageCommands = (dir: string) => {
+    for (const file of readdirSync(dir)) {
+      const filePath = join(dir, file)
+      const stat = statSync(filePath)
+
+      if (stat.isDirectory()) {
+        loadMessageCommands(filePath)
+        continue
+      }
+
+      if (!file.endsWith('.js') && !file.endsWith('.ts')) continue
+
+      try {
+        const command: Command = require(filePath).default
+
+        if (!('executeMessage' in command)) {
+          logger.warn(scope, `Invalid message command → ${filePath}`)
+          warnCount++
+          continue
+        }
+
+        client.messageCommands.set(command.name, command)
+        messageCount++
+        logger.success(scope, `Message loaded: ${command.name}`)
+      } catch {
+        logger.error(scope, `Failed to load message command → ${filePath}`)
+        warnCount++
+      }
+    }
+  }
+
+  /* ───────── Load All Commands ───────── */
+  loadSlashCommands(join(__dirname, '../commands/slashCommands'))
+  loadMessageCommands(join(__dirname, '../commands/messageCommands'))
+
+  /* ───────── Summary ───────── */
+  logger.build(scope, 'Command loading summary')
+  logger.build(scope, '+------------+-------+')
+  logger.build(scope, `| Slash      | ${slashCount.toString().padStart(5)} |`)
+  logger.build(scope, `| Message    | ${messageCount.toString().padStart(5)} |`)
+  logger.build(scope, '+------------+-------+')
+
+  if (warnCount > 0) {
+    logger.warn(scope, `Warnings during load: ${warnCount}`)
+  }
+
+  stopTimer()
+}
+```
+
+---
+
+## Validation Logic Explained
+
+### Slash Commands
+
+A file is treated as a **slash command** only if it exports:
+
+```ts
+executeSlash(interaction, client)
+```
+
+If missing, the file is skipped safely.
+
+### Message Commands
+
+A file is treated as a **message command** only if it exports:
+
+```ts
+executeMessage(message, args, client)
+```
+
+<Callout type="warning">
+  Invalid command files never crash the bot. They are logged and skipped safely.
+</Callout>
+
+---
+
+## Why Recursive Loading?
+
+Recursive loading allows you to:
+
+- Organize commands by category
+- Scale without changing the handler
+- Keep folders clean and readable
+
+Example:
+
+```txt
+slashCommands/
+├─ utility/
+├─ moderation/
+├─ fun/
+```
+
+---
+
+## How Events Use This Handler
+
+- `interactionCreate` → `client.slashCommands.get(name)`
+- `messageCreate` → `client.messageCommands.get(name)`
+
+The handler is the **single source of truth** for commands.

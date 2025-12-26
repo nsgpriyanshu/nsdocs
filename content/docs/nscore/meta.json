@@ -10,6 +10,7 @@
     "getting-started",
     "---Advanced---",
     "interfaces",
-    "events"
+    "events",
+    "handlers"
   ]
 }

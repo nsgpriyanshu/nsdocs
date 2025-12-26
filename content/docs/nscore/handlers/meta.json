@@ -1,0 +1,5 @@
+{
+  "title": "Handlers",
+  "description": "Core modules responsible for managing commands, errors, and client behavior in nsCore.",
+  "pages": ["index", "command-handler", "error-handler"]
+}

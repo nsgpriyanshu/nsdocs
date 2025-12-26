@@ -1,0 +1,128 @@
+---
+title: Overview
+description: Understanding the request-response lifecycle and handler registration in nsCore.
+---
+
+## Introduction
+
+Handlers are the **core glue** of your Discord bot architecture.
+They are responsible for **loading, registering, and managing logic** such as commands and global error handling — keeping your codebase clean, scalable, and predictable.
+
+In **nsCore**, handlers sit between your **client**, **commands**, and **events**, ensuring everything is wired correctly at runtime.
+
+<Callout type="info">
+  Handlers do not contain business logic. They only **load**, **validate**, and **connect** logic to
+  the Discord client.
+</Callout>
+
+---
+
+## What Are Handlers?
+
+A handler is a centralized system that:
+
+- Automatically loads files from folders
+- Registers them to the client
+- Validates structure and permissions
+- Handles failures safely
+
+This avoids:
+
+- Manual imports
+- Repetitive boilerplate
+- Runtime crashes due to invalid files
+
+---
+
+## Handler Types in nsCore
+
+### 1. Command Handler
+
+Responsible for:
+
+- Loading **slash commands**
+- Loading **message (prefix) commands**
+- Validating command interfaces
+- Registering commands into collections
+
+```ts
+client.slashCommands = new Collection()
+client.messageCommands = new Collection()
+```
+
+Commands are loaded recursively, so you can organize them into folders freely.
+
+<Callout type="success">
+  You can add new commands without touching any loader code. Just drop a file in the correct
+  directory.
+</Callout>
+
+---
+
+### 2. Error Handler
+
+Responsible for:
+
+- Catching **unhandled promise rejections**
+- Catching **uncaught exceptions**
+- Reporting errors to a Discord channel
+- Preventing silent crashes
+
+It listens directly to Node.js process-level events:
+
+```ts
+process.on('unhandledRejection', ...)
+process.on('uncaughtException', ...)
+process.on('uncaughtExceptionMonitor', ...)
+```
+
+<Callout type="warning">
+  Without an error handler, production bots may crash silently or lose important debugging context.
+</Callout>
+
+---
+
+## Why This Architecture?
+
+This handler-based system gives you:
+
+- **Scalability** – works for small & large bots
+- **Safety** – invalid files won’t crash the bot
+- **Maintainability** – logic stays separated
+- **Developer experience** – easy onboarding
+
+<Callout type="idea">
+  This pattern is inspired by production Discord bots and frameworks, but kept minimal and
+  transparent for learning purposes.
+</Callout>
+
+---
+
+## Folder Structure (Conceptual)
+
+```txt
+src/
+├─ handlers/
+│  ├─ commandHandler.ts
+│  ├─ errorHandler.ts
+│  └─ index.ts
+│
+├─ commands/
+│  ├─ slashCommands/
+│  └─ messageCommands/
+```
+
+Handlers **scan folders**, not files explicitly.
+
+---
+
+## What’s Next?
+
+Now that you understand the role of handlers, the next documents will deep-dive into:
+
+- `commandHandler.mdx` → How commands are discovered & loaded
+- `errorHandler.mdx` → How runtime errors are captured & reported
+
+<Callout type="success">
+  Once handlers are clear, commands and events become extremely easy to understand.
+</Callout>
