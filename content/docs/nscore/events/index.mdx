@@ -1,0 +1,151 @@
+---
+title: Overview
+description: Understanding client and server events in nsCore
+---
+
+## Introduction
+
+Events are the **heart of nsCore**.  
+They allow your bot to react to actions happening on Discord — from users running commands to servers changing their state.
+
+In nsCore, events are divided into **two clear categories**:
+
+- Client Events
+- Server (Guild) Events
+
+This separation keeps the codebase clean, predictable, and easy to scale.
+
+---
+
+## What Are Events?
+
+An event is something that happens on Discord, such as:
+
+- A user sending a message
+- A slash command being executed
+- The bot coming online
+- A member joining or leaving a server
+
+nsCore listens to these events and responds using structured handlers.
+
+---
+
+## Event Categories in nsCore
+
+### Client Events
+
+Client events are related to **the bot itself** and **direct user interactions**.
+
+These events answer questions like:
+
+- Is the bot ready?
+- Did someone run a command?
+- Did a user click a button?
+
+Common client events:
+
+- `ready`
+- `interactionCreate`
+- `messageCreate`
+
+<Callout type="idea">
+  Client events mostly deal with **commands, interactions, and lifecycle management**.
+</Callout>
+
+---
+
+### Server (Guild) Events
+
+Server events are related to **guild activity and changes**.
+
+These events answer questions like:
+
+- Did someone join or leave the server?
+- Did a role or channel change?
+- Did the server configuration update?
+
+Examples include:
+
+- `guildMemberAdd`
+- `guildMemberRemove`
+- `guildCreate`
+- `guildDelete`
+
+<Callout type="info">
+  Server events help you build features like welcome messages, moderation, and analytics.
+</Callout>
+
+---
+
+## Why nsCore Separates Events
+
+nsCore separates client and server events to:
+
+- Improve readability
+- Reduce complexity
+- Prevent accidental logic mixing
+- Make maintenance easier
+
+Each event handler has **one responsibility**.
+
+```txt
+Events
+ ├── Client Events  → Commands & Interactions
+ └── Server Events  → Guild Activity
+```
+
+---
+
+## How Events Are Handled
+
+Instead of writing logic everywhere, nsCore uses:
+
+- Dedicated event handler files
+- Centralized permission checks
+- Consistent logging
+- Safe error handling
+
+This ensures:
+
+- Fewer runtime crashes
+- Clear execution flow
+- Production-ready behavior
+
+---
+
+## High-Level Flow
+
+```txt
+Discord Gateway
+     ↓
+Event Fired
+     ↓
+Event Handler
+     ↓
+Validation & Permissions
+     ↓
+Business Logic
+     ↓
+Logging
+```
+
+---
+
+## Key Design Principles
+
+- Events should be **lightweight**
+- Commands contain actual logic
+- Permissions are enforced early
+- Errors never crash the bot
+
+---
+
+## What’s Next?
+
+Next, we’ll dive deeper into:
+
+- Client events (commands & interactions)
+- Server events (guild activity)
+- Best practices for writing custom events
+
+This will give you a solid mental model of how nsCore works internally.

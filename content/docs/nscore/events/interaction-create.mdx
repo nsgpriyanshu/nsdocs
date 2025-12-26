@@ -1,0 +1,207 @@
+---
+title: Interaction Create
+description: Handling slash command interactions in nsCore
+---
+
+## Overview
+
+The `interactionCreate` event is responsible for handling **all user interactions** in Discord, such as slash commands, buttons, modals, and select menus.
+
+In nsCore, this event is **strictly scoped to slash commands**, ensuring a clean and predictable command execution flow.
+
+<Callout type="info">This event is the backbone of the slash command system in nsCore.</Callout>
+
+---
+
+## What Is an Interaction?
+
+An interaction represents an action performed by a user, including:
+
+- Executing a slash command
+- Clicking a button
+- Submitting a modal
+- Selecting an option from a menu
+
+However, nsCore currently processes **only chat input commands** inside this event.
+
+---
+
+## When Is `interactionCreate` Triggered?
+
+This event fires **every time a user interacts** with your bot.
+
+In nsCore, the handler immediately exits if:
+
+- The interaction is not a slash command
+- The interaction is not from a guild
+
+```ts
+if (!interaction.isChatInputCommand() || !interaction.guildId) return
+```
+
+<Callout type="warning">
+  DM-based slash commands are intentionally ignored for safety and permission consistency.
+</Callout>
+
+---
+
+## Implementation
+
+```ts
+import {
+  ChatInputCommandInteraction,
+  PermissionsBitField,
+  Interaction,
+  EmbedBuilder,
+  GuildMember,
+} from 'discord.js'
+import { ExtendedClient } from '../../interfaces/ExtendedClient'
+import { logger } from '../../utils/logger'
+import config from '../../configs/botConfig'
+import { COLORS, EMOJIS } from '../../constants/botConst'
+
+export const eventHandlerInteraction = (client: ExtendedClient) => {
+  const scope = 'SlashCommand'
+
+  client.on('interactionCreate', async (interaction: Interaction) => {
+    if (!interaction.isChatInputCommand() || !interaction.guildId) return
+
+    const command = client.slashCommands.get(interaction.commandName)
+
+    if (!command || !('executeSlash' in command)) {
+      logger.warn(scope, `Command not found: ${interaction.commandName}`)
+      return
+    }
+```
+
+---
+
+## Command Resolution
+
+The handler retrieves the slash command using:
+
+```ts
+client.slashCommands.get(interaction.commandName)
+```
+
+If the command does not exist:
+
+- A warning is logged
+- Execution stops silently
+
+<Callout type="idea">Silent failures prevent command enumeration and reduce spam.</Callout>
+
+---
+
+## Permission Handling
+
+### User Permissions
+
+Before executing the command, the handler verifies user permissions.
+
+```ts
+PermissionsBitField.resolve(command.userPermissions)
+```
+
+If missing:
+
+- An ephemeral warning embed is sent
+- Execution stops
+
+<Callout type="warning">
+  Permission checks protect sensitive commands from unauthorized users.
+</Callout>
+
+---
+
+### Bot Permissions
+
+The bot’s permissions are validated against the guild member instance.
+
+```ts
+const botMember = interaction.guild?.members.cache.get(client.user!.id)
+```
+
+If missing:
+
+- The user is informed
+- Execution is cancelled
+
+<Callout type="error">
+  Commands failing due to missing bot permissions can cause silent feature breakdowns.
+</Callout>
+
+---
+
+## Developer-Only Commands
+
+Commands marked with `devOnly` are restricted:
+
+```ts
+if (command.devOnly && !config.DEVELOPER_IDS.includes(interaction.user.id))
+```
+
+Only whitelisted developer IDs can execute them.
+
+<Callout type="info">This is ideal for testing, debugging, or experimental commands.</Callout>
+
+---
+
+## Command Execution
+
+Once all validations pass, the command executes:
+
+```ts
+await command.executeSlash(interaction as ChatInputCommandInteraction, client)
+```
+
+On success:
+
+- Execution is logged
+
+On failure:
+
+- Error is logged
+- A safe ephemeral error message is shown
+
+<Callout type="success">
+  Centralized execution guarantees consistent behavior across all slash commands.
+</Callout>
+
+---
+
+## Error Handling
+
+All execution logic is wrapped in a `try/catch` block.
+
+This ensures:
+
+- The bot never crashes
+- Users always receive feedback
+- Errors are logged for debugging
+
+---
+
+## Best Practices
+
+- Keep slash command logic inside command files
+- Never block the interaction thread
+- Always respond or defer within 3 seconds
+- Use ephemeral replies for errors
+
+<Callout type="warning">
+  Failing to respond to an interaction causes Discord to invalidate it.
+</Callout>
+
+---
+
+## Summary
+
+The `interactionCreate` event:
+
+- Powers the slash command system
+- Enforces permissions and access control
+- Centralizes execution logic
+- Improves reliability and maintainability
+
+It is the **most critical client event after `ready`**.

@@ -1,0 +1,122 @@
+---
+title: Guild Create
+description: Triggered when the bot joins a new Discord server
+---
+
+## Overview
+
+The `guildCreate` event fires **when your bot is added to a new Discord server**.  
+This event is commonly used for logging, analytics, onboarding, and notifying bot developers about new guilds.
+
+In **nsCore**, this event logs server details and sends a join notification embed to a predefined gate channel.
+
+<Callout type="info">
+  This event is triggered automatically by Discord whenever the bot joins a guild.
+</Callout>
+
+---
+
+## When Does It Trigger?
+
+The `guildCreate` event runs when:
+
+- A server owner invites the bot
+- The bot accepts an OAuth2 invite
+- The bot is re-added after removal
+
+It **does not** trigger when the bot restarts.
+
+---
+
+## What Data Is Available?
+
+The event provides a `Guild` object containing:
+
+- Server name
+- Server ID
+- Member count
+- Channels, roles, and metadata
+
+<Callout type="idea">
+  You can store guild IDs here to track growth or enable premium features per server.
+</Callout>
+
+---
+
+## nsCore Implementation
+
+In nsCore, the `guildCreate` handler:
+
+- Logs server information
+- Creates an informational embed
+- Sends the embed to a secure **gate channel**
+- Handles missing channels safely
+
+```ts
+client.on('guildCreate', async (guild: Guild) => {
+  logger.info(
+    scope,
+    `Joined new guild: ${guild.name} (ID: ${guild.id}) | Members: ${guild.memberCount}`,
+  )
+})
+```
+
+---
+
+## Embed Notification
+
+When the bot joins a server, an embed is generated with:
+
+- Server name
+- Server ID
+- Total members
+- Timestamp
+
+This embed is sent to the **gate channel** defined in `botConfig`.
+
+<Callout type="success">
+  Gate channels are useful for monitoring bot growth across multiple servers.
+</Callout>
+
+---
+
+## Configuration Required
+
+Make sure the following configuration exists:
+
+- `GATE_CHANNEL` in `botConfig`
+- The bot has permission to send messages in that channel
+
+<Callout type="warning">
+  If the gate channel ID is invalid or missing, the event will log an error instead of crashing.
+</Callout>
+
+---
+
+## Common Use Cases
+
+- Bot join logging
+- Analytics dashboards
+- Welcome DMs to server owners
+- License or premium checks
+- Abuse or spam monitoring
+
+---
+
+## Best Practices
+
+- Never assume the gate channel exists
+- Avoid heavy database writes inside this event
+- Log useful metadata for debugging
+- Keep execution fast — this event runs globally
+
+<Callout type="error">Blocking operations inside `guildCreate` can delay bot readiness.</Callout>
+
+---
+
+## Summary
+
+The `guildCreate` event is the **first touchpoint** between your bot and a server.
+Handled properly, it enables monitoring, analytics, and onboarding without user interaction.
+
+This makes it one of the most important server-level events in nsCore.

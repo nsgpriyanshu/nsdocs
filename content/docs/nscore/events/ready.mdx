@@ -1,0 +1,149 @@
+---
+title: Ready Event
+description: Handling the client ready lifecycle in nsCore
+---
+
+## Overview
+
+The `ready` event is the **first and most important client event** in nsCore.  
+It fires once when the Discord client has successfully connected and is fully operational.
+
+This event confirms that:
+
+- The bot is authenticated
+- The WebSocket connection is stable
+- Commands and events can safely execute
+
+---
+
+## When Is `ready` Triggered?
+
+The `ready` event is emitted **once per session** when:
+
+- The bot logs in successfully
+- Discord finishes syncing data
+- The client cache is initialized
+
+<Callout type="success">
+  If your bot reaches the ready event, it means everything up to this point is working correctly.
+</Callout>
+
+---
+
+## Purpose in nsCore
+
+In nsCore, the ready event is used to:
+
+- Log successful startup
+- Display bot identity in logs
+- Set presence and activity
+- Confirm both message and slash systems are active
+
+This makes it the **ideal place for startup logic**.
+
+---
+
+## Implementation
+
+```ts
+import { logDefault } from 'nstypocolors'
+import { ExtendedClient } from '../../interfaces/ExtendedClient'
+import { ActivityType } from 'discord.js'
+import { BOT } from '../../configs/metadata'
+
+export const registerReadyEvent = (client: ExtendedClient) => {
+  client.once('ready', () => {
+    logDefault(`Successfully connected both Message & Slash clients ${client.user?.tag}!`)
+
+    client.user?.setPresence({
+      activities: [
+        {
+          name: `${BOT.PREFIX}help • ${client.user?.username}`,
+          type: ActivityType.Custom,
+        },
+      ],
+      status: 'online',
+    })
+  })
+}
+```
+
+---
+
+## Key Responsibilities Explained
+
+### One-Time Listener
+
+The event uses `client.once()` instead of `client.on()`.
+
+<Callout type="info">
+  Using <code>once</code> guarantees the ready logic runs only a single time per session.
+</Callout>
+
+---
+
+### Logging
+
+Startup logs help you:
+
+- Verify deployment success
+- Debug startup crashes
+- Confirm bot identity
+
+<Callout type="idea">
+  You can extend logging here to include shard count, environment, or version info.
+</Callout>
+
+---
+
+### Presence & Activity
+
+The ready event sets:
+
+- A custom activity showing the help command
+- Online status for visibility
+
+This improves:
+
+- User experience
+- Discoverability
+- Professional appearance
+
+<Callout type="success">
+  Setting presence inside the ready event ensures Discord accepts the update reliably.
+</Callout>
+
+---
+
+## Best Practices
+
+- Keep ready handlers lightweight
+- Avoid heavy API calls
+- Do not register commands here
+- Do not attach multiple listeners
+
+<Callout type="warning">
+  Long-running logic inside the ready event can delay startup and cause gateway timeouts.
+</Callout>
+
+---
+
+## Common Mistakes
+
+- Using `client.on('ready')` multiple times
+- Executing database migrations here
+- Registering slash commands on every restart
+
+<Callout type="error">The ready event is not meant for repeated or heavy operations.</Callout>
+
+---
+
+## Summary
+
+The `ready` event acts as:
+
+- A startup checkpoint
+- A health indicator
+- A user-facing signal that the bot is online
+
+It’s the foundation upon which all other client events depend.

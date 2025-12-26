@@ -1,0 +1,178 @@
+---
+title: Message Create
+description: Handling prefix-based message commands in nsCore
+---
+
+## Overview
+
+The `messageCreate` event enables **prefix-based commands** in nsCore.  
+This system exists alongside slash commands and is ideal for:
+
+- Legacy command support
+- Quick text-based interactions
+- Lightweight moderation or utility commands
+
+<Callout type="info">
+  Message commands coexist with slash commands and follow the same permission and safety rules.
+</Callout>
+
+---
+
+## When Is `messageCreate` Triggered?
+
+This event fires **every time a message is sent** in a guild where the bot is present.
+
+nsCore immediately ignores:
+
+- Messages from bots
+- Direct messages
+- Messages without the configured prefix
+
+```ts
+if (message.author.bot || !message.guild) return
+if (!message.content.startsWith(BOT.PREFIX)) return
+```
+
+<Callout type="warning">
+  Ignoring DMs prevents security issues and keeps command behavior consistent.
+</Callout>
+
+---
+
+## Prefix Parsing
+
+The command name and arguments are extracted using:
+
+```ts
+const args = message.content.slice(BOT.PREFIX.length).trim().split(/ +/g)
+
+const commandName = args.shift()?.toLowerCase()
+```
+
+This allows flexible spacing and natural argument input.
+
+<Callout type="idea">Using regex-based splitting avoids issues with extra spaces.</Callout>
+
+---
+
+## Command Resolution
+
+Commands are resolved from the message command collection:
+
+```ts
+client.messageCommands.get(commandName)
+```
+
+If the command does not exist:
+
+- A warning is logged
+- The user receives a friendly error embed
+
+<Callout type="error">Explicit feedback prevents user confusion when mistyping commands.</Callout>
+
+---
+
+## Permission Handling
+
+### User Permissions
+
+Before execution, the user’s permissions are validated.
+
+```ts
+PermissionsBitField.resolve(command.userPermissions)
+```
+
+If missing:
+
+- Execution stops
+- A warning embed is sent
+
+<Callout type="warning">Permission checks are essential for moderation and admin commands.</Callout>
+
+---
+
+### Bot Permissions
+
+The bot’s permissions are also verified.
+
+```ts
+message.guild.members.cache
+  .get(client.user.id)
+  ?.permissions.has(...)
+```
+
+If missing:
+
+- The user is notified
+- The command is not executed
+
+<Callout type="error">Missing bot permissions are one of the most common runtime failures.</Callout>
+
+---
+
+## Developer-Only Commands
+
+Commands marked as `devOnly` can only be used by registered developers.
+
+```ts
+config.DEVELOPER_IDS.includes(message.author.id)
+```
+
+<Callout type="info">Developer-only commands are ideal for testing and internal tooling.</Callout>
+
+---
+
+## Command Execution
+
+After all validations pass, the command executes:
+
+```ts
+await command.executeMessage(message, args, client)
+```
+
+On success:
+
+- Execution is logged
+
+On failure:
+
+- Errors are logged
+- A generic error embed is sent to the user
+
+<Callout type="success">
+  Centralized execution ensures predictable behavior across all message commands.
+</Callout>
+
+---
+
+## Error Handling Strategy
+
+The entire execution is wrapped in a `try/catch` block to:
+
+- Prevent crashes
+- Maintain uptime
+- Provide consistent user feedback
+
+<Callout type="warning">Never allow unhandled errors inside event listeners.</Callout>
+
+---
+
+## Best Practices
+
+- Prefer slash commands for complex interactions
+- Keep message commands simple and fast
+- Avoid heavy computations inside this event
+- Always validate permissions before execution
+
+---
+
+## Summary
+
+The `messageCreate` event:
+
+- Powers prefix-based commands
+- Supports legacy workflows
+- Shares permission and security logic with slash commands
+- Enhances flexibility without complexity
+
+It is a **supporting client event**, not a replacement for slash commands.

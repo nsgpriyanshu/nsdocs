@@ -1,0 +1,112 @@
+---
+title: Guild Delete
+description: Handling bot removal from servers in nsCore
+---
+
+## Overview
+
+The `guildDelete` event is triggered when the bot is **removed from a server** or the server itself becomes unavailable.
+
+This event is essential for:
+
+- Cleaning up stored data
+- Logging server removals
+- Tracking bot growth and churn
+- Preventing stale configurations
+
+<Callout type="info">
+  This event fires automatically when the bot leaves or is kicked from a guild.
+</Callout>
+
+---
+
+## When Is `guildDelete` Triggered?
+
+The event fires when:
+
+- A server owner removes the bot
+- The bot is kicked
+- The guild is deleted or becomes permanently unavailable
+
+```ts
+client.on('guildDelete', guild => {
+  // Triggered when the bot leaves a guild
+})
+```
+
+<Callout type="warning">This event does NOT fire when the bot is offline during removal.</Callout>
+
+---
+
+## Typical Use Cases
+
+Common tasks handled in `guildDelete` include:
+
+- Removing guild-specific configurations
+- Clearing database entries
+- Logging server departure details
+- Updating analytics dashboards
+
+<Callout type="idea">
+  Tracking guild removals helps you understand why servers stop using your bot.
+</Callout>
+
+---
+
+## Example Implementation
+
+Below is a basic `guildDelete` event handler structure:
+
+```ts
+import { ExtendedClient } from '../../interfaces/ExtendedClient'
+import { logger } from '../../utils/logger'
+
+export const registerGuildDeleteEvent = (client: ExtendedClient) => {
+  client.on('guildDelete', guild => {
+    logger.warn('Guild', `Removed from guild: ${guild.name} (${guild.id})`)
+  })
+}
+```
+
+<Callout type="success">Always log guild removals to keep operational visibility.</Callout>
+
+---
+
+## Handling Missing Data
+
+In some cases:
+
+- Guild name may be unavailable
+- Member count may be `null`
+
+Always write defensive code.
+
+```ts
+guild.name ?? 'Unknown Guild'
+```
+
+<Callout type="warning">Never assume guild properties are always present.</Callout>
+
+---
+
+## Best Practices
+
+- Avoid async-heavy logic inside this event
+- Never attempt to send messages to the guild
+- Immediately clean stored guild data
+- Keep this handler lightweight
+
+<Callout type="error">Attempting to message a deleted guild will always fail.</Callout>
+
+---
+
+## Summary
+
+The `guildDelete` event:
+
+- Detects when the bot leaves a server
+- Helps maintain clean state
+- Supports analytics and logging
+- Prevents orphaned data
+
+It is a **critical server lifecycle event** and should always be implemented.

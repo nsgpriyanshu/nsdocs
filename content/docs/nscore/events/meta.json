@@ -1,0 +1,14 @@
+{
+  "title": "Events",
+  "description": "Understand how nsCore listens to Discord events and executes logic through a structured event system.",
+  "pages": [
+    "index",
+    "---Client---",
+    "ready",
+    "interaction-create",
+    "message-create",
+    "---Server---",
+    "guild-create",
+    "guild-delete"
+  ]
+}

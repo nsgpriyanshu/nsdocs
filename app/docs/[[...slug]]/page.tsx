@@ -1,13 +1,30 @@
-import { getPageImage, source } from '@/lib/source'
-import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/layouts/docs/page'
-import { notFound } from 'next/navigation'
-import { getMDXComponents } from '@/mdx-components'
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+
+import { source, getPageImage } from '@/lib/source'
+
+import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/layouts/docs/page'
+
+import { getMDXComponents } from '@/mdx-components'
 import { createRelativeLink } from 'fumadocs-ui/mdx'
+
+/**
+ * Convert folder name → proper project display name
+ */
+function getProjectName(slug?: string[]) {
+  const map: Record<string, string> = {
+    nscore: 'nsCore',
+    nstypocolors: 'nsTypoColors',
+  }
+
+  const key = slug?.[0]
+  return (key && map[key]) || 'nsDocs'
+}
 
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   const params = await props.params
   const page = source.getPage(params.slug)
+
   if (!page) notFound()
 
   const MDX = page.data.body
@@ -19,7 +36,6 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
       <DocsBody>
         <MDX
           components={getMDXComponents({
-            // this allows you to link to other pages with relative file paths
             a: createRelativeLink(source, page),
           })}
         />
@@ -35,13 +51,42 @@ export async function generateStaticParams() {
 export async function generateMetadata(props: PageProps<'/docs/[[...slug]]'>): Promise<Metadata> {
   const params = await props.params
   const page = source.getPage(params.slug)
-  if (!page) notFound()
+
+  if (!page) {
+    return {
+      title: 'Not Found',
+      robots: { index: false, follow: false },
+    }
+  }
+
+  const project = getProjectName(page.slugs)
+
+  const description =
+    page.data.description ?? 'A centralized documentation for the projects made by nsgpriyanshu'
+
+  const image = {
+    url: getPageImage(page).url,
+    width: 1200,
+    height: 630,
+  }
+
+  const title = `${page.data.title} – ${project}`
 
   return {
-    title: page.data.title,
-    description: page.data.description,
+    title,
+    description,
     openGraph: {
-      images: getPageImage(page).url,
+      title,
+      description,
+      type: 'article',
+      url: `/docs/${page.slugs.join('/')}`,
+      images: [image],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [image],
     },
   }
 }
