@@ -15,7 +15,7 @@
 
 ## About
 
-**nsDocs** is a centralized documentation platform for open-source projects built and maintained by **nsgpriyanshu**.
+**nsDocs** is centralized documentation hub for all the open-source projects built and maintained by **nsgpriyanshu**
 
 - For **nsCore** documentation: https://nsdocs.vercel.app/docs/nscore
 - For **nsTypoColors** documentation: https://nsdocs.vercel.app/docs/nstypocolors
