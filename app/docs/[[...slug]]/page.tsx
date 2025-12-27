@@ -3,7 +3,17 @@ import { notFound } from 'next/navigation'
 
 import { source, getPageImage } from '@/lib/source'
 
-import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/layouts/docs/page'
+// Import PageLastUpdate along with other DocsPage components
+import {
+  DocsBody,
+  DocsDescription,
+  DocsPage,
+  DocsTitle,
+  PageLastUpdate,
+} from 'fumadocs-ui/layouts/docs/page'
+
+// Import the GitHub utility to get last edit time
+import { getGithubLastEdit } from 'fumadocs-core/content/github'
 
 import { getMDXComponents } from '@/mdx-components'
 import { createRelativeLink } from 'fumadocs-ui/mdx'
@@ -29,6 +39,12 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
 
   const MDX = page.data.body
 
+  const lastModifiedTime = await getGithubLastEdit({
+    owner: 'nsgpriyanshu',
+    repo: 'nsdocs',
+    path: `content/docs/${page.path}`,
+  })
+
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
       <DocsTitle>{page.data.title}</DocsTitle>
@@ -40,6 +56,8 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
           })}
         />
       </DocsBody>
+      {/* Display last updated timestamp */}
+      {lastModifiedTime && <PageLastUpdate date={lastModifiedTime} />}
     </DocsPage>
   )
 }

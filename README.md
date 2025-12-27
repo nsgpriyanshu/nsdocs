@@ -1,6 +1,6 @@
 <div align="center">
 
-# <img src="public/logo-dark.png" alt="nsDocs" width="30" height="30"/> nsDocs
+# <img src="public/logo-dark.png" alt="nsDocs" width="30" height="30" /> nsDocs
 
 ![Version](https://img.shields.io/github/package-json/v/nsgpriyanshu/nsdocs?color=ffffff)
 [![Discord](https://img.shields.io/discord/855781247480496130.svg?color=5865F2&logo=discord&logoColor=white)](https://discord.gg/7SAcEv7MDd)
@@ -13,43 +13,45 @@
 
 ---
 
-## About nsDocs
+## About
 
-// add about 
+**nsDocs** is a centralized documentation platform for open-source projects built and maintained by **nsgpriyanshu**.
+
+- For **nsCore** documentation: https://nsdocs.vercel.app/docs/nscore
+- For **nsTypoColors** documentation: https://nsdocs.vercel.app/docs/nstypocolors
 
 <div align="center">
-<img src="public/hero-light.png" alt="nsgpriyanshu" width="80%" height="80%"/>
+  <img src="public/hero-light.png" alt="nsDocs preview" width="80%" />
 </div>
 
 ---
 
-## Features
+## What You’ll Find
 
-// add feats
-
----
-
-## Technologies Used
-
-- **Fumadocs UI**: A design system tailored for professional documentation.  
-- **Next.js**: React framework enabling SSR and static site generation.  
+- Clean, minimal documentation UI
+- Structured guides and references
+- Practical examples and best practices
+- Beginner-friendly and production-ready content
 
 ---
 
-## Community & Support
+## Built With
 
-Have questions or need guidance? Join our **active support community**:
+- **[Next.js](https://nextjs.org/)** — React framework for performance and scalability
+- **[Fumadocs UI](https://www.fumadocs.dev/)** — Purpose-built documentation system
 
-[![Join Discord](https://img.shields.io/discord/855781247480496130.svg?color=5865F2\&logo=discord\&logoColor=white)](https://discord.gg/7SAcEv7MDd)
-
-Get help with:
-
-* Understanding the documentation
-* Troubleshooting bot issues
-* Discussing best practices
+<img src="https://raw.githubusercontent.com/fuma-nama/fumadocs/refs/heads/dev/documents/logo.png" width="25%" height="25%" alt="fumadocs"/>
 
 ---
 
-## Contributors
+## Contact
 
-[![nsgpriyanshu](https://img.shields.io/badge/Developer-nsgpriyanshu-author.svg?color=f10a0a)](https://nsgpriyanshu.github.io)
+Have ideas or questions? Join our [Discord community](https://discord.gg/7SAcEv7MDd) or reach out via [GitHub issues](https://github.com/nsgpriyanshu/creatorsworld/issues) to connect with us.
+
+---
+
+## Contributor
+
+<img src="https://img.shields.io/badge/Developer-nsgpriyanshu-author.svg?color=f10a0a" alt="nsgpriyanshu" />
+
+---
