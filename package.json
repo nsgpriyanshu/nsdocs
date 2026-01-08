@@ -1,6 +1,6 @@
 {
   "name": "nsdocs",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A centralized documentation hub for all the open-source projects built and maintained by nsgpriyanshu",
   "private": true,
   "scripts": {
