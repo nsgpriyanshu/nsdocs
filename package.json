@@ -11,7 +11,8 @@
     "format:write": "npx prettier . --write",
     "types:check": "fumadocs-mdx && next typegen && tsc --noEmit",
     "postinstall": "fumadocs-mdx",
-    "lint": "eslint"
+    "lint": "eslint",
+    "release": "cliff-jumper"
   },
   "keywords": [
     "nsCore",
