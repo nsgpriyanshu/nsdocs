@@ -46,14 +46,6 @@ All notable changes to this project will be documented in this file.
 - Buliding the ui ([9793230](https://github.com/nsgpriyanshu/nsdocs/commit/9793230615bf4b22c6f1d2bed31ee9453eadd578))
 - **v2:** Add some place holders ([b60d042](https://github.com/nsgpriyanshu/nsdocs/commit/b60d04233a833391c89a95a7c82c7fa42b5740c1))
 
-# Change Log
-
-All notable changes to this project will be documented in this file.
-
-## [Unreleased]
-
-- Initial release of the package
-
 ## [0.1.12] 2024-07-22
 
 ### Added
