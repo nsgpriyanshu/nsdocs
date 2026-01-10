@@ -54,28 +54,44 @@ is compiled into JavaScript.
 Below is a **clean, scalable, and professional** directory structure tailored for a
 TypeScript-based Discord bot.
 
-```txt
-project-root/
-├─ src/
-│  ├─ commands/
-│  │  ├─ messageCommands/
-│  │  │  └─ general/
-│  │  └─ slashCommands/
-│  │     └─ general/
-│  ├─ configs/
-│  ├─ constants/
-│  │  └─ images/
-│  ├─ events/
-│  │  ├─ client/
-│  │  └─ server/
-│  ├─ handlers/
-│  ├─ interfaces/
-│  └─ utils/
-├─ dist/
-├─ package.json
-├─ tsconfig.json
-└─ node_modules/
-```
+import { File, Folder, Files } from 'fumadocs-ui/components/files'
+
+<Files>
+  <Folder name="project-root" defaultOpen>
+    <Folder name="src" defaultOpen>
+      <Folder name="commands" defaultOpen>
+        <Folder name="messageCommands" defaultOpen>
+          <Folder name="general" defaultOpen />
+        </Folder>
+        <Folder name="slashCommands" defaultOpen>
+          <Folder name="general" defaultOpen />
+        </Folder>
+      </Folder>
+
+      <Folder name="configs" defaultOpen />
+
+      <Folder name="constants" defaultOpen>
+      </Folder>
+
+      <Folder name="events" defaultOpen>
+        <Folder name="client" defaultOpen />
+        <Folder name="server" defaultOpen />
+      </Folder>
+
+      <Folder name="handlers" defaultOpen />
+      <Folder name="interfaces" defaultOpen />
+      <Folder name="utils" defaultOpen />
+    </Folder>
+
+    <Folder name="dist" />
+
+    <File name="package.json" />
+    <File name="tsconfig.json" />
+
+    <Folder name="node_modules" />
+
+  </Folder>
+</Files>
 
 <Callout type="info">
 
