@@ -24,12 +24,18 @@ Inside `src/configs`, create the following files:
 - `botConfig.ts` – Handles environment-based configuration
 - `metadata.ts` – Stores static bot metadata such as name and prefix
 
-```txt
-src/
-└─ configs/
-   ├─ botConfig.ts
-   └─ metadata.ts
-```
+import { File, Folder, Files } from 'fumadocs-ui/components/files'
+
+<Files>
+  <Folder name="project-root" defaultOpen>
+    <Folder name="src" defaultOpen>
+      <Folder name="configs" defaultOpen>
+        <File name="botConfig.ts" />
+        <File name="metadata.ts" />
+      </Folder>
+    </Folder>
+  </Folder>
+</Files>
 
 ---
 
